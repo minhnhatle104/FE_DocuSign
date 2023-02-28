@@ -39,8 +39,11 @@ export default function LoginForm() {
             display="flex" flexDirection="column" alignItems="center"
         >
             <AppLogoCenter />
+            <Typography style={{ fontSize: 30, marginTop: 10, fontFamily: "Quicksand" }}>
+                    Login
+            </Typography>
             <form onSubmit={formik.handleSubmit}>
-                <FormControl sx={{ width: 500 }}>
+                <FormControl sx={{ width: 400 }}>
                     <FormLabel>Email</FormLabel>
                     <TextField
                         name="email"
@@ -99,7 +102,7 @@ export default function LoginForm() {
                         null}
                 </FormControl>
             </form>
-            <Box sx={{width:500}} style={{marginTop:10}}>
+            <Box sx={{width:400}} style={{marginTop:10}}>
                 <Link
                     component="button"
                     variant="body2"
@@ -110,14 +113,14 @@ export default function LoginForm() {
                     Forgot Password ?
                 </Link>
             </Box>
-            <FormControl sx={{ width: 500 }}>
+            <FormControl sx={{ width: 400 }}>
                 <Button
                     type="submit"
                     variant='contained'
                     style={{ marginTop: 15, fontSize: 16 }}
                     onClick={formik.handleSubmit}
                 >
-                    LOG IN
+                    LOGIN
                 </Button>
             </FormControl>
             <Box display="flex" style={{marginTop:10}}>

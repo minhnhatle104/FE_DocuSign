@@ -49,7 +49,7 @@ export default function RegisterForm() {
         }),
         onSubmit: (values) => {
             console.log(values)
-            navigate("/login")
+            navigate("/register/otp")
         }
     })
 
@@ -58,8 +58,11 @@ export default function RegisterForm() {
             display="flex" flexDirection="column" alignItems="center"
         >
             <AppLogoCenter />
+            <Typography style={{ fontSize: 30, marginTop: 10, fontFamily: "Quicksand" }}>
+                    Register
+            </Typography>
             <form onSubmit={formik.handleSubmit}>
-                <FormControl sx={{ width: 500 }}>
+                <FormControl sx={{ width: 400 }}>
                     <FormLabel>Full Name</FormLabel>
                     <TextField
                         name="full_name"
@@ -210,7 +213,7 @@ export default function RegisterForm() {
                         style={{ marginTop: 15, fontSize: 16 }}
                         onClick={formik.handleSubmit}
                     >
-                        LOG IN
+                        REGISTER
                     </Button>
                 </FormControl>
             </form>
