@@ -12,11 +12,11 @@ const ForgotPasswordMain = () => {
         <>
             <AppLogoCenter />
             <Box display="flex" flexDirection="column" alignItems="center" fontFamily="Roboto">
-                <Typography style={{ fontSize: 30, marginTop: 10 }}>
+                <Typography style={{ fontSize: 30, marginTop: 10, fontFamily: "Quicksand" }}>
                     Forgot Password
                 </Typography>
                 <Box>
-                    <Typography style={{ marginTop: 30 }}>
+                    <Typography style={{ marginTop: 20, marginBottom: 10, fontFamily: "Quicksand"  }}>
                         Updating your new password:
                     </Typography>
                     <Box display="flex" flexDirection="column">
@@ -25,6 +25,8 @@ const ForgotPasswordMain = () => {
                             label="New password"
                             size="small"
                             type="password"
+                            inputProps={{style: {fontFamily: "Quicksand"}}}
+                            InputLabelProps={{style: {fontFamily: "Quicksand"}}}
                         />
                         <TextField
                             sx={ {width: 400 }}
@@ -32,13 +34,15 @@ const ForgotPasswordMain = () => {
                             label="Confirm password"
                             size="small"
                             type="password"
+                            inputProps={{style: {fontFamily: "Quicksand"}}}
+                            InputLabelProps={{style: {fontFamily: "Quicksand"}}}
                         />
                     </Box>
                 </Box>
                 <Box>
                     <Button
                         sx={ {width: 400 } }
-                        style={{ marginTop: 10 }}
+                        style={{ marginTop: 10, fontFamily: "Quicksand" }}
                         variant="contained"
                         color="primary"
                         endIcon={<EastIcon />}

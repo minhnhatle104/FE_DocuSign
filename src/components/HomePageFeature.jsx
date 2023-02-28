@@ -8,14 +8,14 @@ import AddIcon from '@mui/icons-material/Add';
 const HomePageFeature = ({ imageSrc, featureTitle, featureDetails }) => {
     return (
         <Box display="flex" flexDirection="column" alignItems="center">
-            <Box width={150} height={150} borderRadius="50%" bgcolor="#2F80ED">
-                <Box>
+            <Box width={150} height={150} borderRadius="50%" bgcolor="transparent">
+                <Box alignItems="center">
                     <Image
                         src={imageSrc}
-                        width={80}
-                        height={80}
+                        width={150}
+                        height={150}
                         duration={0}
-                        style={{ marginTop: 70, marginLeft: 35 }}
+                        style={{ alignSelf: "center" }}
                     />
                 </Box>
             </Box>
@@ -23,6 +23,7 @@ const HomePageFeature = ({ imageSrc, featureTitle, featureDetails }) => {
                 fontWeight="bold"
                 fontSize={20}
                 marginTop={1}
+                style={{fontFamily: "Quicksand"}}
             >
                 {featureTitle}
             </Typography>
@@ -34,7 +35,7 @@ const HomePageFeature = ({ imageSrc, featureTitle, featureDetails }) => {
                                 <AddIcon />
                             </Avatar>
                         </ListItemAvatar>
-                        <ListItemText primary={feature} />
+                        <ListItemText primary={feature} primaryTypographyProps={{ style: {fontFamily: "Quicksand"} }}  />
                     </ListItem>
                 ))}
             </List>

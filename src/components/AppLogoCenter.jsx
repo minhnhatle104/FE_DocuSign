@@ -11,9 +11,6 @@ const AppLogoCenter = () => {
                 height={300}
                 duration={0}
             />
-            <Box fontFamily="Roboto" fontSize={40} color="#FFB800" fontWeight="bold">
-                SIGNTEXT
-            </Box>
         </Box>
     );
 }

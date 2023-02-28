@@ -40,21 +40,23 @@ const ForgotPasswordOtp = () => {
         <>
             <AppLogoCenter />
             <Box display="flex" flexDirection="column" alignItems="center" fontFamily="Roboto">
-                <Typography style={{ fontSize: 30, marginTop: 10 }}>
+                <Typography style={{ fontSize: 30, marginTop: 10, fontFamily: "Quicksand" }}>
                     Forgot Password
                 </Typography>
                 <Box>
-                    <Typography style={{ marginTop: 30 }}>
+                    <Typography style={{ marginTop: 20, marginBottom: 10, fontFamily: "Quicksand" }}>
                         Enter the OTP code which sent to your provided email:
                     </Typography>
                     <TextField
                         sx={ {width: 400 }}
                         label="OTP code"
                         size="small"
+                        inputProps={{style: {fontFamily: "Quicksand"}}}
+                        InputLabelProps={{style: {fontFamily: "Quicksand"}}}
                     />
                     <Box display="flex" alignItems="center" justifyContent="space-between">
                         {seconds > 0 || minutes > 0 ? (
-                            <p>
+                            <p style={{fontFamily: "Quicksand"}}>
                                 Time Remaining:
                                 <span style={{color: "#FFB800"}}>
                                     {minutes < 10 ? ` 0${minutes}` : minutes}:
@@ -65,12 +67,12 @@ const ForgotPasswordOtp = () => {
                             <Typography>Didn't receive code?</Typography>
                         )}
                         {seconds > 0 || minutes > 0 ? (
-                            <Box color="#DFE3E8">
-                                <Typography>Resend OTP?</Typography>
+                            <Box color="gray">
+                                <Typography style={{fontFamily: "Quicksand"}}>Resend OTP?</Typography>
                             </Box>
                         ) : (
                             <Box color="#000000">
-                                <Typography onClick={resendOtpClickedHandler}>Resend OTP?</Typography>
+                                <Typography style={{fontFamily: "Quicksand"}} onClick={resendOtpClickedHandler}>Resend OTP?</Typography>
                             </Box>
                         )}
                     </Box>
@@ -78,7 +80,7 @@ const ForgotPasswordOtp = () => {
                 <Box>
                     <Button
                         sx={ {width: 400 } }
-                        style={{ marginTop: 10 }}
+                        style={{ marginTop: 10, fontFamily: "Quicksand" }}
                         variant="contained"
                         color="primary"
                         endIcon={<EastIcon />}

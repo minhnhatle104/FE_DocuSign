@@ -30,9 +30,9 @@ const HomePage = () => {
                         noWrap
                         component="div"
                         sx={{ display: { xs: 'none', sm: 'block' } }}
-                        style={{ marginLeft: 10 }}
+                        style={{ marginLeft: 10, fontFamily: "Quicksand" }}
                     >
-                        SIGNTEXT
+                        SignaText
                     </Typography>
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
@@ -74,7 +74,7 @@ const HomePage = () => {
                 <Box display="flex" justifyContent="space-around">
                     <HomePageFeature
                         imageSrc="/src/assets/images/create_new_document.png"
-                        featureTitle="Create new document"
+                        featureTitle="Create New Document"
                         featureDetails={[
                             "Choose file",
                             "Insert your signature and information",
@@ -84,7 +84,7 @@ const HomePage = () => {
                     />
                     <HomePageFeature
                         imageSrc="/src/assets/images/document_management.png"
-                        featureTitle="Manage document"
+                        featureTitle="Manage Document"
                         featureDetails={[
                             "Category document",
                             "Support quickly",
@@ -92,7 +92,7 @@ const HomePage = () => {
                     />
                     <HomePageFeature
                         imageSrc="/src/assets/images/template_management.png"
-                        featureTitle="Manage template"
+                        featureTitle="Manage Template"
                         featureDetails={[
                             "Create, edit, delete your template",
                             "Support quickly",
