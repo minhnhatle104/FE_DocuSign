@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
-import { Box, Button, FormControl, FormLabel, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
+import { Box, Button, FormControl, FormLabel, IconButton, InputAdornment, Link, TextField, Typography } from '@mui/material';
 import { AccountCircle, Visibility, VisibilityOff } from '@mui/icons-material';
 import LockIcon from '@mui/icons-material/Lock';
-import AppLogoCenter from '../AppLogoCenter';
+import AppLogoCenter from '../components/AppLogoCenter';
 import { useFormik } from 'formik';
 import * as Yup from "yup";
+import { useNavigate } from 'react-router-dom';
 
 export default function LoginForm() {
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
+    const navigate = useNavigate();
 
     const formik = useFormik({
         enableReinitialize: true,
@@ -27,6 +30,7 @@ export default function LoginForm() {
         }),
         onSubmit: (values) => {
             console.log(values)
+            navigate("/")
         }
     })
 
@@ -93,16 +97,42 @@ export default function LoginForm() {
                         <Typography color="red">{formik.errors.password}</Typography>
                         :
                         null}
-                    <Button
-                        type="submit"
-                        variant='contained'
-                        style={{ marginTop: 15, fontSize: 16 }}
-                        onClick={formik.handleSubmit}
-                        >
-                        LOG IN
-                    </Button>
                 </FormControl>
             </form>
+            <Box sx={{width:500}} style={{marginTop:10}}>
+                <Link
+                    component="button"
+                    variant="body2"
+                    onClick={() => {
+                        navigate("/forgotPassword/email")
+                    }}
+                >
+                    Forgot Password ?
+                </Link>
+            </Box>
+            <FormControl sx={{ width: 500 }}>
+                <Button
+                    type="submit"
+                    variant='contained'
+                    style={{ marginTop: 15, fontSize: 16 }}
+                    onClick={formik.handleSubmit}
+                >
+                    LOG IN
+                </Button>
+            </FormControl>
+            <Box display="flex" style={{marginTop:10}}>
+                <Typography>Don't have an account? </Typography>
+                <Link
+                    style={{marginLeft:4}}
+                    component="button"
+                    variant="body2"
+                    onClick={() => {
+                        navigate("/register")
+                    }}
+                >
+                    Sign up
+                </Link>
+            </Box>
         </Box>
     )
 }
