@@ -22,10 +22,10 @@ export default function LoginForm() {
         },
         validationSchema: Yup.object({
             email: Yup.string()
-                .email("Invalid email format")
+                .email("Invalid email format!")
                 .required("Required!"),
             password: Yup.string()
-                .min(6, "Minimum 6 characters")
+                .min(6, "Minimum 6 characters!")
                 .required("Required!"),
         }),
         onSubmit: (values) => {
@@ -40,11 +40,10 @@ export default function LoginForm() {
         >
             <AppLogoCenter />
             <Typography style={{ fontSize: 30, marginTop: 10, fontFamily: "Quicksand" }}>
-                    Login
+                    LOGIN
             </Typography>
             <form onSubmit={formik.handleSubmit}>
                 <FormControl sx={{ width: 400 }}>
-                    <FormLabel>Email</FormLabel>
                     <TextField
                         name="email"
                         id="email"
@@ -56,20 +55,25 @@ export default function LoginForm() {
                             ),
                         }}
                         variant="outlined"
-                        placeholder='Enter your email'
+                        label="Email"
+                        placeholder='example@gmail.com'
                         style={{ marginTop: 5 }}
+                        inputProps={{style: {fontFamily: "Quicksand"}}}
+                        InputLabelProps={{style: {fontFamily: "Quicksand", fontWeight: "bold"}}}
                         size="small"
                         value={formik.values.email}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                     />
                     {formik.errors.email && formik.touched.email
-                        ? <Typography color="red">{formik.errors.email}</Typography> : null}
-                    <FormLabel style={{ marginTop: 15 }}>Password</FormLabel>
+                        ? <Typography style={{fontFamily: "Quicksand", color: "#e8e409", fontWeight: "bold"}}>{formik.errors.email}</Typography> : null}
                     <TextField
                         name="password"
                         id="password"
+                        label="Password"
                         type={showPassword ? "text" : "password"}
+                        inputProps={{style: {fontFamily: "Quicksand"}}}
+                        InputLabelProps={{style: {fontFamily: "Quicksand", fontWeight: "bold"}}}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -90,14 +94,14 @@ export default function LoginForm() {
                         }}
                         variant="outlined"
                         placeholder='Enter your password'
-                        style={{ marginTop: 5 }}
+                        style={{ marginTop: 20 }}
                         size="small"
                         value={formik.values.password}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                     />
                     {formik.errors.password && formik.touched.password ?
-                        <Typography color="red">{formik.errors.password}</Typography>
+                        <Typography style={{fontFamily: "Quicksand", color: "#e8e409", fontWeight: "bold"}}>{formik.errors.password}</Typography>
                         :
                         null}
                 </FormControl>
@@ -117,16 +121,16 @@ export default function LoginForm() {
                 <Button
                     type="submit"
                     variant='contained'
-                    style={{ marginTop: 15, fontSize: 16 }}
+                    style={{ marginTop: 15, fontSize: 16, fontFamily: "Quicksand", fontWeight: "bold" }}
                     onClick={formik.handleSubmit}
                 >
                     LOGIN
                 </Button>
             </FormControl>
             <Box display="flex" style={{marginTop:10}}>
-                <Typography>Don't have an account? </Typography>
+                <Typography style={{fontFamily: "Quicksand"}}>Don't have an account? </Typography>
                 <Link
-                    style={{marginLeft:4}}
+                    style={{marginLeft:5, fontFamily: "Quicksand", fontWeight: "bold"}}
                     component="button"
                     variant="body2"
                     onClick={() => {

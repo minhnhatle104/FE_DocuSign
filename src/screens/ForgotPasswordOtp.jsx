@@ -4,15 +4,42 @@ import AppLogoCenter from "../components/AppLogoCenter.jsx";
 import {Box, TextField, Typography} from "@mui/material";
 import EastIcon from "@mui/icons-material/East.js";
 import {useNavigate} from "react-router-dom";
+import { MuiOtpInput } from 'mui-one-time-password-input'
 
 const ForgotPasswordOtp = () => {
     const navigate = useNavigate();
     const [minutes, setMinutes] = useState(5);
     const [seconds, setSeconds] = useState(0);
+    const [value, setValue] = useState('')
+    const [isBackSpace,setIsBackSpace] = useState(false);
+
 
     const resendOtpClickedHandler = function() {
         setMinutes(4);
         setSeconds(59);
+    }
+
+    const handleKeyDown = event => {
+        // console.log('User pressed: ', event.key);
+        // console.log(message);
+        if (event.key === 'Backspace') {
+            // 👇️ your logic here
+            // console.log('Backspace key pressed ✅');
+            setIsBackSpace(true)
+        }else{
+            setIsBackSpace(false)
+        }
+    };
+    const handleChange = (newValue) => {
+        setValue(newValue)
+    }
+    const matchIsNumeric = (text,isBackSpace) => {
+        const isNumber = typeof text === 'number'
+        const isString = typeof text === 'string' || text instanceof String
+        return (isNumber || (isString && text !== '')) && !isNaN(Number(text)) || (isBackSpace)
+    }
+    const validateChar = (value, index) => {
+        return matchIsNumeric(value,isBackSpace)
     }
 
     useEffect(() => {
@@ -41,19 +68,16 @@ const ForgotPasswordOtp = () => {
             <AppLogoCenter />
             <Box display="flex" flexDirection="column" alignItems="center" fontFamily="Roboto">
                 <Typography style={{ fontSize: 30, marginTop: 10, fontFamily: "Quicksand" }}>
-                    Forgot Password
+                    FORGOT PASSWORD
                 </Typography>
                 <Box>
                     <Typography style={{ marginTop: 20, marginBottom: 10, fontFamily: "Quicksand" }}>
                         Enter the OTP code which sent to your provided email:
                     </Typography>
-                    <TextField
-                        sx={ {width: 400 }}
-                        label="OTP code"
-                        size="small"
-                        inputProps={{style: {fontFamily: "Quicksand"}}}
-                        InputLabelProps={{style: {fontFamily: "Quicksand"}}}
-                    />
+                    <MuiOtpInput length={6} sx={{ width: 400 }}
+                                 style={{ fontFamily: "Quicksand" }}
+                                 onKeyDown={handleKeyDown}
+                                 value={value} onChange={handleChange} validateChar={validateChar} />
                     <Box display="flex" alignItems="center" justifyContent="space-between">
                         {seconds > 0 || minutes > 0 ? (
                             <p style={{fontFamily: "Quicksand"}}>
@@ -80,7 +104,7 @@ const ForgotPasswordOtp = () => {
                 <Box>
                     <Button
                         sx={ {width: 400 } }
-                        style={{ marginTop: 10, fontFamily: "Quicksand" }}
+                        style={{ marginTop: 10, fontFamily: "Quicksand", fontWeight: "bold" }}
                         variant="contained"
                         color="primary"
                         endIcon={<EastIcon />}

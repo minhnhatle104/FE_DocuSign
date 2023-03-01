@@ -7,8 +7,8 @@ const AppLogoCenter = () => {
         <Box display="flex" flexDirection="column" alignItems="center">
             <Image
                 src="/src/assets/images/app_logo.png"
-                width={300}
-                height={300}
+                width={250}
+                height={250}
                 duration={0}
             />
         </Box>

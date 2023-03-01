@@ -13,7 +13,7 @@ const ForgotPasswordEmail = () => {
             <AppLogoCenter />
             <Box display="flex" flexDirection="column" alignItems="center">
                 <Typography style={{ fontSize: 30, marginTop: 10, fontFamily: "Quicksand" }}>
-                    Forgot Password
+                    FORGOT PASSWORD
                 </Typography>
                 <Box>
                     <Typography style={{ marginTop: 30, fontFamily: "Quicksand" }}>

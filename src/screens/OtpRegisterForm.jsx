@@ -105,7 +105,7 @@ export default function OtpRegisterForm() {
             <Box>
                 <Button
                     sx={{ width: 400 }}
-                    style={{ marginTop: 10, fontFamily: "Quicksand" }}
+                    style={{ marginTop: 10, fontFamily: "Quicksand", fontWeight: "bold" }}
                     variant="contained"
                     color="primary"
                     endIcon={<EastIcon />}

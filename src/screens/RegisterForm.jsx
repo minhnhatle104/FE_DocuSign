@@ -63,8 +63,10 @@ export default function RegisterForm() {
             </Typography>
             <form onSubmit={formik.handleSubmit}>
                 <FormControl sx={{ width: 400 }}>
-                    <FormLabel>Full Name</FormLabel>
                     <TextField
+                        inputProps={{style: {fontFamily: "Quicksand"}}}
+                        InputLabelProps={{style: {fontFamily: "Quicksand", fontWeight: "bold"}}}
+                        label="Fullname"
                         name="full_name"
                         id="full_name"
                         InputProps={{
@@ -76,19 +78,21 @@ export default function RegisterForm() {
                         }}
                         variant="outlined"
                         placeholder='Enter your name'
-                        style={{ marginTop: 5 }}
+                        style={{ marginTop: 15 }}
                         size="small"
                         value={formik.values.full_name}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                     />
                     {formik.errors.full_name && formik.touched.full_name ?
-                        <Typography color="red">{formik.errors.full_name}</Typography>
+                        <Typography style={{fontFamily: "Quicksand", color: "#e8e409", fontWeight: "bold"}}>{formik.errors.full_name}</Typography>
                         :
                         null
                     }
-                    <FormLabel>Email</FormLabel>
                     <TextField
+                        inputProps={{style: {fontFamily: "Quicksand"}}}
+                        InputLabelProps={{style: {fontFamily: "Quicksand", fontWeight: "bold"}}}
+                        label="Email"
                         name="email"
                         id="email"
                         InputProps={{
@@ -99,20 +103,22 @@ export default function RegisterForm() {
                             ),
                         }}
                         variant="outlined"
-                        placeholder='Enter your email'
-                        style={{ marginTop: 5 }}
+                        placeholder='example@gmail.com'
+                        style={{ marginTop: 15 }}
                         size="small"
                         value={formik.values.email}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                     />
                     {formik.errors.email && formik.touched.email ?
-                        <Typography color="red">{formik.errors.email}</Typography>
+                        <Typography style={{fontFamily: "Quicksand", color: "#e8e409", fontWeight: "bold"}}>{formik.errors.email}</Typography>
                         :
                         null
                     }
-                    <FormLabel>Phone</FormLabel>
                     <TextField
+                        inputProps={{style: {fontFamily: "Quicksand"}}}
+                        InputLabelProps={{style: {fontFamily: "Quicksand", fontWeight: "bold"}}}
+                        label="Phone Number"
                         name="phone"
                         id="phone"
                         InputProps={{
@@ -124,19 +130,21 @@ export default function RegisterForm() {
                         }}
                         variant="outlined"
                         placeholder='Enter your phone'
-                        style={{ marginTop: 5 }}
+                        style={{ marginTop: 15 }}
                         size="small"
                         value={formik.values.phone}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                     />
                     {formik.errors.phone && formik.touched.phone ?
-                        <Typography color="red">{formik.errors.phone}</Typography>
+                        <Typography style={{fontFamily: "Quicksand", color: "#e8e409", fontWeight: "bold"}}>{formik.errors.phone}</Typography>
                         :
                         null
                     }
-                    <FormLabel style={{ marginTop: 15 }}>Password</FormLabel>
                     <TextField
+                        inputProps={{style: {fontFamily: "Quicksand"}}}
+                        InputLabelProps={{style: {fontFamily: "Quicksand", fontWeight: "bold"}}}
+                        label="Password"
                         name="password"
                         id="password"
                         type={showPassword ? "text" : "password"}
@@ -160,19 +168,21 @@ export default function RegisterForm() {
                         }}
                         variant="outlined"
                         placeholder='Enter your password'
-                        style={{ marginTop: 5 }}
+                        style={{ marginTop: 15 }}
                         size="small"
                         value={formik.values.password}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                     />
                     {formik.errors.password && formik.touched.password ?
-                        <Typography color="red">{formik.errors.password}</Typography>
+                        <Typography style={{fontFamily: "Quicksand", color: "#e8e409", fontWeight: "bold"}}>{formik.errors.password}</Typography>
                         :
                         null
                     }
-                    <FormLabel style={{ marginTop: 15 }}>Confirm Password</FormLabel>
                     <TextField
+                        inputProps={{style: {fontFamily: "Quicksand"}}}
+                        InputLabelProps={{style: {fontFamily: "Quicksand", fontWeight: "bold"}}}
+                        label="Confirm Password"
                         name="confirm_password"
                         id="confirm_password"
                         type={showConPassword ? "text" : "password"}
@@ -196,21 +206,21 @@ export default function RegisterForm() {
                         }}
                         variant="outlined"
                         placeholder='Confirm your password'
-                        style={{ marginTop: 5 }}
+                        style={{ marginTop: 15 }}
                         size="small"
                         value={formik.values.confirm_password}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                     />
                     {formik.errors.confirm_password && formik.touched.confirm_password ?
-                        <Typography color="red">{formik.errors.confirm_password}</Typography>
+                        <Typography style={{fontFamily: "Quicksand", color: "#e8e409", fontWeight: "bold"}}>{formik.errors.confirm_password}</Typography>
                         :
                         null
                     }
                     <Button
                         type="submit"
                         variant='contained'
-                        style={{ marginTop: 15, fontSize: 16 }}
+                        style={{ marginTop: 15, fontSize: 16 , fontFamily: "Quicksand", fontWeight: "bold"}}
                         onClick={formik.handleSubmit}
                     >
                         REGISTER
@@ -218,9 +228,9 @@ export default function RegisterForm() {
                 </FormControl>
             </form>
             <Box display="flex" style={{marginTop:10}}>
-                <Typography>Already have an account? </Typography>
+                <Typography style={{fontFamily: "Quicksand"}}>Already have an account? </Typography>
                 <Link
-                    style={{marginLeft:4}}
+                    style={{marginLeft:5, fontFamily: "Quicksand", fontWeight: "bold"}}
                     component="button"
                     variant="body2"
                     onClick={() => {
