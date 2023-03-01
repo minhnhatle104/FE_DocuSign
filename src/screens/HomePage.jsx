@@ -86,7 +86,7 @@ const HomePage = () => {
                         imageSrc="/src/assets/images/document_management.png"
                         featureTitle="Manage Document"
                         featureDetails={[
-                            "Category document",
+                            "Classify document",
                             "Support quickly",
                         ]}
                     />

@@ -113,6 +113,7 @@ export default function LoginForm() {
                     onClick={() => {
                         navigate("/forgotPassword/email")
                     }}
+                    style={{fontFamily: "Quicksand"}}
                 >
                     Forgot Password ?
                 </Link>

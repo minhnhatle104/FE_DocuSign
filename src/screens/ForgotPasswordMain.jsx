@@ -26,7 +26,7 @@ const ForgotPasswordMain = () => {
                             size="small"
                             type="password"
                             inputProps={{style: {fontFamily: "Quicksand"}}}
-                            InputLabelProps={{style: {fontFamily: "Quicksand", fontWeight: "bold"}}}
+                            InputLabelProps={{style: {fontFamily: "Quicksand"}}}
                         />
                         <TextField
                             sx={ {width: 400 }}
@@ -35,7 +35,7 @@ const ForgotPasswordMain = () => {
                             size="small"
                             type="password"
                             inputProps={{style: {fontFamily: "Quicksand"}}}
-                            InputLabelProps={{style: {fontFamily: "Quicksand", fontWeight: "bold"}}}
+                            InputLabelProps={{style: {fontFamily: "Quicksand"}}}
                         />
                     </Box>
                 </Box>
