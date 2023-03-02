@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "eslint": "eslint src --ext .js,.jsx",
+    "lint": "eslint src --ext .js,.jsx --fix"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
@@ -15,9 +17,11 @@
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.11",
     "@mui/styled-engine-sc": "^5.11.11",
+    "eslint": "^8.35.0",
     "formik": "^2.2.9",
     "mui-image": "^1.0.7",
     "mui-one-time-password-input": "^1.0.4",
+    "prettier": "^2.8.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.2",
@@ -28,6 +32,11 @@
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@vitejs/plugin-react": "^3.1.0",
+    "babel-eslint": "^10.1.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.2",
     "vite": "^4.1.0"
   }
 }
