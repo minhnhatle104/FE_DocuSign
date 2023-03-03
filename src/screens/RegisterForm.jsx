@@ -234,7 +234,7 @@ export default function RegisterForm() {
                     component="button"
                     variant="body2"
                     onClick={() => {
-                        navigate("/login")
+                        navigate("/")
                     }}
                 >
                     Log in

@@ -13,13 +13,13 @@ import OtpRegisterForm from "./screens/OtpRegisterForm.jsx";
 ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
         <Routes>
-            <Route path="/login" element={<LoginForm/>} />
+            <Route path="/" element={<LoginForm/>} />
             <Route path="/register" element={<RegisterForm/>}/>
             <Route path="/register/otp" element={<OtpRegisterForm/>}/>
             <Route path="/forgotPassword/email" element={<ForgotPasswordEmail />} />
             <Route path="/forgotPassword/otp" element={<ForgotPasswordOtp />} />
             <Route path="/forgotPassword/confirm" element={<ForgotPasswordMain />} />
-            <Route path="/" element={<HomePage />} />
+            <Route path="/home" element={<HomePage />} />
         </Routes>
     </BrowserRouter>
 );

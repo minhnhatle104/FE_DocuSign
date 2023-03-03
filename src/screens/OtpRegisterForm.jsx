@@ -38,7 +38,7 @@ export default function OtpRegisterForm() {
         if (event.key === 'Backspace') {
             // 👇️ your logic here
             // console.log('Backspace key pressed ✅');
-            setIsBackSpace(true)  
+            setIsBackSpace(true)
         }else{
             setIsBackSpace(false)
         }
@@ -109,7 +109,7 @@ export default function OtpRegisterForm() {
                     variant="contained"
                     color="primary"
                     endIcon={<EastIcon />}
-                    onClick={() => navigate("/login")}
+                    onClick={() => navigate("/")}
                 >
                     Verify OTP
                 </Button>

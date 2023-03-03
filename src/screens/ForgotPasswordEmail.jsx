@@ -41,7 +41,7 @@ const ForgotPasswordEmail = () => {
                 </Box>
                 <Box marginTop={10}>
                     <Link
-                        to='/login'
+                        to='/'
                         style={{ color: "#000000", textDecoration: "underline", fontFamily: "Quicksand" }}
                     >
                         Back to login

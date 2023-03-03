@@ -46,7 +46,7 @@ const ForgotPasswordMain = () => {
                         variant="contained"
                         color="primary"
                         endIcon={<EastIcon />}
-                        onClick={() => navigate("/login")}
+                        onClick={() => navigate("/")}
                     >
                         Confirm
                     </Button>

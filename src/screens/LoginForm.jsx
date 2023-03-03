@@ -30,7 +30,7 @@ export default function LoginForm() {
         }),
         onSubmit: (values) => {
             console.log(values)
-            navigate("/")
+            navigate("/home")
         }
     })
 
