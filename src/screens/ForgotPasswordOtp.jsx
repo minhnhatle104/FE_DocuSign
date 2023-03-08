@@ -74,25 +74,29 @@ const ForgotPasswordOtp = () => {
                     <Typography style={{ marginTop: 20, marginBottom: 10, fontFamily: "Quicksand" }}>
                         Enter the OTP code which sent to your provided email:
                     </Typography>
-                    <MuiOtpInput length={6} sx={{ width: 400 }}
-                                 style={{ fontFamily: "Quicksand" }}
-                                 onKeyDown={handleKeyDown}
-                                 value={value} onChange={handleChange} validateChar={validateChar} />
+                    <MuiOtpInput
+                        length={6}
+                        sx={{ width: 400 }}
+                        TextFieldsProps={{label: '-'}}
+                        title = "Enter OTP Code"
+                        onKeyDown={handleKeyDown}
+                        inputStyle = {{fontFamily: "Quicksand"}}
+                        value={value} onChange={handleChange} validateChar={validateChar} />
                     <Box display="flex" alignItems="center" justifyContent="space-between">
                         {seconds > 0 || minutes > 0 ? (
                             <p style={{fontFamily: "Quicksand"}}>
                                 Time Remaining:
-                                <span style={{color: "#FFB800"}}>
+                                <span style={{color: "#b84d0f", fontWeight: "bold"}}>
                                     {minutes < 10 ? ` 0${minutes}` : minutes}:
                                     {seconds < 10 ? `0${seconds}` : seconds}
                                 </span>
                             </p>
                         ) : (
-                            <Typography>Didn't receive code?</Typography>
+                            <Typography style={{fontFamily: "Quicksand", fontWeight: "bold", marginTop: 10}} >Didn't receive code?</Typography>
                         )}
                         {seconds > 0 || minutes > 0 ? (
-                            <Box color="gray">
-                                <Typography style={{fontFamily: "Quicksand"}}>Resend OTP?</Typography>
+                            <Box color="#61605f">
+                                <Typography style={{fontFamily: "Quicksand", fontWeight: "bold"}}>Resend OTP?</Typography>
                             </Box>
                         ) : (
                             <Box color="#000000">

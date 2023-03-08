@@ -1,0 +1,57 @@
+.MuiStepLabel-label{
+    font-family: Jost;
+}
+.pdf-container {
+    width: 100%;
+    height: 1077px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.rpv-core__icon {
+    font-size: 12px;
+    width: 15px !important;
+    height: 15px !important;
+}
+
+.btnPress {
+    font-size: 12px;
+    border-radius: 3px;
+    width: fit-content;
+    cursor: pointer;
+    outline: 0 !important;
+    color: #fff;
+    background-color: #a29ded;
+    border: none;
+}
+/* Adding styles on 'active' state */
+
+.btnPress:active {
+    width: fit-content;
+    border: none;
+    outline: 0 !important;
+    transform: translateY(2px);
+}
+
+.btnViewPdf {
+    background-color: #183db8;
+    color: white
+}
+
+.btnViewPdf:hover {
+    background-color: #677cc2;
+    color: white
+}
+
+#rpv-default-layout__sidebar-tab-2{
+    display: none;
+}
+#rpv-default-layout__sidebar-tab-1{
+    display: none;
+}
+#rpv-default-layout__sidebar-tab-0{
+    display: none;
+}
+
