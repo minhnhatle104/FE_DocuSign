@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
@@ -10,10 +10,18 @@ import Image from 'mui-image'
 import SettingsIcon from '@mui/icons-material/Settings'
 import LanguageIcon from '@mui/icons-material/Language'
 import HomePageFeature from '../components/HomePageFeature.jsx'
+import { Navigate } from 'react-router-dom'
+import { Button } from '@mui/material'
+import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react'
+import Loading from '../components/Loading/Loading.jsx'
 
 const HomePage = () => {
   const menuId = 'primary-search-account-menu'
   const mobileMenuId = 'primary-search-account-menu-mobile'
+
+  const { loginWithRedirect, user, isAuthenticated, isLoading, logout } = useAuth0();
+
+  console.log(isAuthenticated)
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -60,6 +68,7 @@ const HomePage = () => {
             >
               <AccountCircle />
             </IconButton>
+            <Button style={{color:"white"}} onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>Log Out</Button>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -105,4 +114,6 @@ const HomePage = () => {
   )
 }
 
-export default HomePage
+export default withAuthenticationRequired(HomePage, {
+  onRedirecting: () => <Loading/>,
+});
