@@ -8,13 +8,11 @@
     "plugin:react/recommended",
     "plugin:prettier/recommended"
   ],
-  "plugins": [
-    "prettier",
-    "react"
-  ],
+  "plugins": ["prettier", "react", "react-hooks"],
   "rules": {
     "prettier/prettier": "error",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "react-hooks/exhaustive-deps": "warn"
   },
   "settings": {
     "react": {
