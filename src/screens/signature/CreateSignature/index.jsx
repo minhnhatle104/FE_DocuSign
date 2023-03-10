@@ -61,7 +61,7 @@ const CreateSignature = ({ open, handleClose }) => {
 
   return (
     <StyledDialog open={open} onClose={handleClose}>
-      <DialogTitle>Tạo chữ ký</DialogTitle>
+      <DialogTitle>Create signature</DialogTitle>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs
           value={value}
