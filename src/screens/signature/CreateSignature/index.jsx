@@ -23,7 +23,7 @@ const CreateSignature = ({ open, handleClose }) => {
     setValue(newValue)
   }, [])
 
-  const handleAddSignature = useCallback(async () => {
+  const handleAddSignature = useCallback(() => {
     let mainSignatureFile, shortSignatureFile
     if (value === 0) {
       mainSignatureFile =
@@ -53,7 +53,7 @@ const CreateSignature = ({ open, handleClose }) => {
     formData.append('shortFile', payload.shortFile)
 
     // TODO: Integrate with BE
-    await axios.post('http://localhost:4040/api/signature', formData).then(
+    axios.post('http://localhost:4040/api/signature', formData).then(
       (response) => {
         console.log(response)
       },
