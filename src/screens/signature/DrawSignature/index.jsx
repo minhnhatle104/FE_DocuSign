@@ -2,7 +2,8 @@ import { Box, Typography } from '@mui/material'
 import React, { forwardRef } from 'react'
 import CanvasDraw from 'react-canvas-draw'
 
-const DrawSignature = ({ mainCanvasRef, shortCanvasRef }) => {
+const DrawSignature = (props, ref) => {
+  const { mainCanvasRef, shortCanvasRef } = ref
   return (
     <Box display="flex" justifyContent="space-between">
       <Box>
