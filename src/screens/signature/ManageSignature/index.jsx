@@ -33,7 +33,7 @@ const ManageSignature = () => {
     setSignatureList([
       {
         id: 1,
-        src: 'src/assets/images/app_logo.png',
+        src: '/img/app_logo.png',
       },
     ])
 

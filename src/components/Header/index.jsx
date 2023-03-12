@@ -32,7 +32,7 @@ const Header = () => {
             alignItems="center"
           >
             <Image
-              src="/src/assets/images/app_logo.png"
+              src="/img/app_logo.png"
               width={50}
               height={50}
               duration={0}

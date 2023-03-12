@@ -2,6 +2,8 @@ import React from 'react'
 import Box from '@mui/material/Box'
 import HomePageFeature from '../components/HomePageFeature.jsx'
 import Layout from '../components/Layout/index.jsx'
+import Loading from '../components/Loading/Loading.jsx'
+import { withAuthenticationRequired } from '@auth0/auth0-react'
 
 const HomePage = () => {
   return (
@@ -9,7 +11,7 @@ const HomePage = () => {
       <Box marginTop={20} fontFamily="Roboto">
         <Box display="flex" justifyContent="space-around">
           <HomePageFeature
-            imageSrc="/src/assets/images/create_new_document.png"
+            imageSrc="/img/create_new_document.png"
             featureTitle="Create New Document"
             featureDetails={[
               'Choose file',
@@ -19,12 +21,12 @@ const HomePage = () => {
             ]}
           />
           <HomePageFeature
-            imageSrc="/src/assets/images/document_management.png"
+            imageSrc="/img/document_management.png"
             featureTitle="Manage Document"
             featureDetails={['Classify document', 'Support quickly']}
           />
           <HomePageFeature
-            imageSrc="/src/assets/images/template_management.png"
+            imageSrc="/img/template_management.png"
             featureTitle="Manage Template"
             featureDetails={[
               'Create, edit, delete your template',
@@ -37,8 +39,6 @@ const HomePage = () => {
   )
 }
 
-export default HomePage
-
-// export default withAuthenticationRequired(HomePage, {
-//   onRedirecting: () => <Loading/>,
-// });
+export default withAuthenticationRequired(HomePage, {
+  onRedirecting: () => <Loading />,
+})
