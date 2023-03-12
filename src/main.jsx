@@ -13,6 +13,7 @@ import OtpRegisterForm from './screens/OtpRegisterForm.jsx'
 import UploadFile from './screens/document/UploadFile.jsx'
 import RecipientInfo from './screens/document/RecipientInfo.jsx'
 import ViewPdf_Sign from './screens/document/ViewPdf_Sign'
+import ListDocs from "./screens/document/ListDocs.jsx";
 import ManageSignature from './screens/signature/ManageSignature/index.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -40,6 +41,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path="upload" element={<UploadFile />} />
           <Route path="recipientInfo" element={<RecipientInfo />} />
           <Route path="signPDF" element={<ViewPdf_Sign />} />
+          <Route path="list" element={<ListDocs />} />
         </Route>
         <Route path="/signature-management" element={<ManageSignature />} />
       </Routes>
