@@ -12,51 +12,55 @@ import axios from 'axios'
 import TabPanel from '../../../components/TabPanel'
 import DrawSignature from '../DrawSignature'
 import { StyledDialog } from './styles'
+import UploadSignature from '../UploadSignature'
 
 const CreateSignature = ({ open, handleClose }) => {
   const [value, setValue] = useState(0)
-  const mainCanvasRef = useRef(null)
-  const shortCanvasRef = useRef(null)
+  const mainSignatureRef = useRef(null)
+  const shortSignatureRef = useRef(null)
 
   const handleChange = useCallback((event, newValue) => {
     setValue(newValue)
   }, [])
 
-  const handleAddSignature = useCallback(async () => {
+  const handleAddSignature = useCallback(() => {
+    let mainSignatureFile, shortSignatureFile
     if (value === 0) {
-      const mainSignatureData =
-        mainCanvasRef.current.canvasContainer.childNodes[1].toDataURL()
-      const shortSignatureData =
-        shortCanvasRef.current.canvasContainer.childNodes[1].toDataURL()
+      mainSignatureFile =
+        mainSignatureRef.current.canvasContainer.childNodes[1].toDataURL()
+      shortSignatureFile =
+        shortSignatureRef.current.canvasContainer.childNodes[1].toDataURL()
 
       // Save images to local
       //   const mainFileName = 'user_1_main.jpg'
       //   const shortFileName = 'user_1_short.jpg'
       //   saveAs(mainSignatureData, mainFileName)
       //   saveAs(shortSignatureData, shortFileName)
-
-      const payload = Object.assign(
-        {},
-        { userId: '123' },
-        mainSignatureData && { mainFile: mainSignatureData },
-        shortSignatureData && { shortFile: shortSignatureData }
-      )
-
-      const formData = new FormData()
-      formData.append('userId', payload.userId)
-      formData.append('mainFile', payload.mainFile)
-      formData.append('shortFile', payload.shortFile)
-
-      // TODO: Integrate with BE
-      await axios.post('http://localhost:4040/api/signature', formData).then(
-        (response) => {
-          console.log(response)
-        },
-        (error) => {
-          console.log(error)
-        }
-      )
+    } else {
+      mainSignatureFile = mainSignatureRef.current.getFiles()[0].file
+      shortSignatureFile = shortSignatureRef.current.getFiles()[0].file
     }
+    const payload = Object.assign(
+      {},
+      { userId: '123' },
+      mainSignatureFile && { mainFile: mainSignatureFile },
+      shortSignatureFile && { shortFile: shortSignatureFile }
+    )
+
+    const formData = new FormData()
+    formData.append('userId', payload.userId)
+    formData.append('mainFile', payload.mainFile)
+    formData.append('shortFile', payload.shortFile)
+
+    // TODO: Integrate with BE
+    axios.post('http://localhost:4040/api/signature', formData).then(
+      (response) => {
+        console.log(response)
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
   }, [value])
 
   return (
@@ -74,12 +78,19 @@ const CreateSignature = ({ open, handleClose }) => {
       </Box>
       <TabPanel value={value} index={0}>
         <DrawSignature
-          mainCanvasRef={mainCanvasRef}
-          shortCanvasRef={shortCanvasRef}
+          ref={{
+            mainCanvasRef: mainSignatureRef,
+            shortCanvasRef: shortSignatureRef,
+          }}
         />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Upload
+        <UploadSignature
+          ref={{
+            mainFileRef: mainSignatureRef,
+            shortFileRef: shortSignatureRef,
+          }}
+        />
       </TabPanel>
       <DialogActions>
         <Button variant="outlined" color="primary" onClick={handleClose}>
