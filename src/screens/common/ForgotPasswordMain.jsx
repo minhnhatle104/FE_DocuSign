@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from '@mui/material/Button'
-import AppLogoCenter from '../components/AppLogoCenter.jsx'
+import AppLogoCenter from '../../components/AppLogoCenter.jsx'
 import { Box, TextField, Typography } from '@mui/material'
 import EastIcon from '@mui/icons-material/East.js'
 import { useNavigate } from 'react-router-dom'

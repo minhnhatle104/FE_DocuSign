@@ -3,17 +3,16 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Auth0Provider } from '@auth0/auth0-react'
 
-import ForgotPasswordEmail from './screens/ForgotPasswordEmail.jsx'
-import ForgotPasswordOtp from './screens/ForgotPasswordOtp.jsx'
-import ForgotPasswordMain from './screens/ForgotPasswordMain.jsx'
-import HomePage from './screens/HomePage.jsx'
-import LoginForm from './screens/LoginForm'
-import RegisterForm from './screens/RegisterForm.jsx'
-import OtpRegisterForm from './screens/OtpRegisterForm.jsx'
+import ForgotPasswordEmail from './screens/common/ForgotPasswordEmail.jsx'
+import ForgotPasswordOtp from './screens/common/ForgotPasswordOtp.jsx'
+import ForgotPasswordMain from './screens/common/ForgotPasswordMain.jsx'
+import HomePage from './screens/common/HomePage.jsx'
+import RegisterForm from './screens/common/RegisterForm.jsx'
+import OtpRegisterForm from './screens/common/OtpRegisterForm.jsx'
 import UploadFile from './screens/document/UploadFile.jsx'
 import RecipientInfo from './screens/document/RecipientInfo.jsx'
 import ViewPdf_Sign from './screens/document/ViewPdf_Sign'
-import ListDocs from "./screens/document/ListDocs.jsx";
+import ListDocs from "./screens/document/ListDocs.jsx"
 import ManageSignature from './screens/signature/ManageSignature/index.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(

@@ -11,7 +11,7 @@ import Image from 'mui-image'
 import SettingsIcon from '@mui/icons-material/Settings'
 import LanguageIcon from '@mui/icons-material/Language'
 import AutoGraphIcon from '@mui/icons-material/AutoGraph'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 
 const Header = () => {
@@ -22,6 +22,10 @@ const Header = () => {
   const { loginWithRedirect, user, isAuthenticated, isLoading, logout } =
     useAuth0()
 
+  const navigateToHomepage = () => {
+    navigate('/')
+  }
+
   return (
     <AppBar>
       <Toolbar>
@@ -30,6 +34,8 @@ const Header = () => {
             display="flex"
             justifyContent="space-between"
             alignItems="center"
+            className='app-logo'
+            onClick={navigateToHomepage}
           >
             <Image
               src="/img/app_logo.png"

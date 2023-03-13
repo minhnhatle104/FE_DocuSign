@@ -1,3 +1,11 @@
 .MuiStepLabel-label{
     font-family: Jost;
 }
+
+.app-logo {
+    cursor: pointer;
+}
+
+.step-header-container {
+    cursor: pointer;
+}

@@ -1,11 +1,18 @@
 import React from 'react'
 import Box from '@mui/material/Box'
-import HomePageFeature from '../components/HomePageFeature.jsx'
-import Layout from '../components/Layout/index.jsx'
-import Loading from '../components/Loading/Loading.jsx'
+import HomePageFeature from '../../components/HomePageFeature.jsx'
+import Layout from '../../components/Layout/index.jsx'
+import Loading from '../../components/Loading/Loading.jsx'
 import { withAuthenticationRequired } from '@auth0/auth0-react'
+import {useNavigate} from "react-router-dom";
 
 const HomePage = () => {
+  const navigate = useNavigate()
+
+  const navigateToCreateNewDocument = () => {
+    navigate('/document/upload')
+  }
+
   return (
     <Layout>
       <Box marginTop={20} fontFamily="Roboto">
@@ -19,6 +26,7 @@ const HomePage = () => {
               'Add recipient',
               'Verify and send document',
             ]}
+            navigate={navigateToCreateNewDocument}
           />
           <HomePageFeature
             imageSrc="/img/document_management.png"

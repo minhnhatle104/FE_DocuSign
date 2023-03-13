@@ -12,7 +12,7 @@ import {
 } from '@mui/material'
 import { AccountCircle, Visibility, VisibilityOff } from '@mui/icons-material'
 import LockIcon from '@mui/icons-material/Lock'
-import AppLogoCenter from '../components/AppLogoCenter'
+import AppLogoCenter from '../../components/AppLogoCenter.jsx'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useNavigate } from 'react-router-dom'

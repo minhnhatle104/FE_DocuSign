@@ -3,7 +3,7 @@ import { Box, Button, TextField, Typography } from '@mui/material'
 import EastIcon from '@mui/icons-material/East'
 import { Link, useNavigate } from 'react-router-dom'
 
-import AppLogoCenter from '../components/AppLogoCenter.jsx'
+import AppLogoCenter from '../../components/AppLogoCenter.jsx'
 
 const ForgotPasswordEmail = () => {
   const navigate = useNavigate()

@@ -2,7 +2,7 @@ import { Box, Button, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import EastIcon from '@mui/icons-material/East.js'
-import AppLogoCenter from '../components/AppLogoCenter'
+import AppLogoCenter from '../../components/AppLogoCenter.jsx'
 import { MuiOtpInput } from 'mui-one-time-password-input'
 
 export default function OtpRegisterForm() {

@@ -11,17 +11,18 @@ import {
 } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 
-const HomePageFeature = ({ imageSrc, featureTitle, featureDetails }) => {
+const HomePageFeature = ({ imageSrc, featureTitle, featureDetails, navigate }) => {
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
       <Box width={150} height={150} borderRadius="50%" bgcolor="transparent">
-        <Box alignItems="center">
+        <Box alignItems="center" onClick={navigate}>
           <Image
             src={imageSrc}
             width={150}
             height={150}
             duration={0}
             style={{ alignSelf: 'center' }}
+            className='step-header-container'
           />
         </Box>
       </Box>
@@ -30,6 +31,8 @@ const HomePageFeature = ({ imageSrc, featureTitle, featureDetails }) => {
         fontSize={20}
         marginTop={1}
         style={{ fontFamily: 'Quicksand' }}
+        className='step-header-container'
+        onClick={navigate}
       >
         {featureTitle}
       </Typography>
