@@ -12,6 +12,9 @@ const HomePage = () => {
   const navigateToCreateNewDocument = () => {
     navigate('/document/upload')
   }
+  const navigateToManageDocument = ()=>{
+      navigate('/document/list')
+  }
 
   return (
     <Layout>
@@ -32,6 +35,7 @@ const HomePage = () => {
             imageSrc="/img/document_management.png"
             featureTitle="Manage Document"
             featureDetails={['Classify document', 'Support quickly']}
+            navigate={navigateToManageDocument}
           />
           <HomePageFeature
             imageSrc="/img/template_management.png"
@@ -40,6 +44,7 @@ const HomePage = () => {
               'Create, edit, delete your template',
               'Support quickly',
             ]}
+
           />
         </Box>
       </Box>
