@@ -3,7 +3,6 @@ import Box from '@mui/material/Box'
 import HomePageFeature from '../../components/HomePageFeature.jsx'
 import Layout from '../../components/Layout/index.jsx'
 import Loading from '../../components/Loading/Loading.jsx'
-import { withAuthenticationRequired } from '@auth0/auth0-react'
 import {useNavigate} from "react-router-dom";
 
 const HomePage = () => {
@@ -52,6 +51,4 @@ const HomePage = () => {
   )
 }
 
-export default withAuthenticationRequired(HomePage, {
-  onRedirecting: () => <Loading />,
-})
+export default HomePage

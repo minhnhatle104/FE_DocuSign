@@ -19,6 +19,8 @@ import VerifiedUserIcon from '@mui/icons-material/VerifiedUser'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { signUpApi } from '../../../redux/thunk/authThunk.js'
 
 export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false)
@@ -26,10 +28,11 @@ export default function RegisterForm() {
   const handleMouseDownPassword = () => setShowPassword(!showPassword)
 
   const [showConPassword, setShowConPassword] = useState(false)
-  const handleClickShowConPassword = () => setShowConPassword(!showPassword)
-  const handleMouseDownConPassword = () => setShowConPassword(!showPassword)
+  const handleClickShowConPassword = () => setShowConPassword(!showConPassword)
+  const handleMouseDownConPassword = () => setShowConPassword(!showConPassword)
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
@@ -39,7 +42,7 @@ export default function RegisterForm() {
     initialValues: {
       full_name: '',
       email: '',
-      phone: '',
+      phone_number: '',
       password: '',
       confirm_password: '',
     },
@@ -48,7 +51,7 @@ export default function RegisterForm() {
         .min(6, 'Minimum 6 characters')
         .required('Required!'),
       email: Yup.string().email('Invalid email format').required('Required!'),
-      phone: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
+      phone_number: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
       password: Yup.string()
         .min(6, 'Minimum 6 characters')
         .required('Required!'),
@@ -56,9 +59,9 @@ export default function RegisterForm() {
         .oneOf([Yup.ref('password')], "Password's not match")
         .required('Required!'),
     }),
-    onSubmit: (values) => {
-      console.log(values)
-      navigate('/register/otp')
+    onSubmit: async (values) => {
+      await dispatch(signUpApi(values))
+      navigate("/")
     },
   })
 
@@ -146,8 +149,8 @@ export default function RegisterForm() {
               style: { fontFamily: 'Quicksand', fontWeight: 'bold' },
             }}
             label="Phone Number"
-            name="phone"
-            id="phone"
+            name="phone_number"
+            id="phone_number"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -163,7 +166,7 @@ export default function RegisterForm() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          {formik.errors.phone && formik.touched.phone ? (
+          {formik.errors.phone_number && formik.touched.phone_number ? (
             <Typography
               style={{
                 fontFamily: 'Quicksand',
@@ -171,7 +174,7 @@ export default function RegisterForm() {
                 fontWeight: 'bold',
               }}
             >
-              {formik.errors.phone}
+              {formik.errors.phone_number}
             </Typography>
           ) : null}
           <TextField

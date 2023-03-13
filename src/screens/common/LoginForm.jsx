@@ -16,6 +16,8 @@ import AppLogoCenter from '../../components/AppLogoCenter.jsx'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { signInApi } from '../../../redux/thunk/authThunk.js'
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
@@ -23,6 +25,7 @@ export default function LoginForm() {
   const handleMouseDownPassword = () => setShowPassword(!showPassword)
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -36,9 +39,9 @@ export default function LoginForm() {
         .min(6, 'Minimum 6 characters!')
         .required('Required!'),
     }),
-    onSubmit: (values) => {
-      console.log(values)
-      navigate('/home')
+    onSubmit: async (values) => {
+      await dispatch(signInApi(values))
+      navigate('/')
     },
   })
 

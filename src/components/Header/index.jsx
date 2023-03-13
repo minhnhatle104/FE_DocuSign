@@ -12,15 +12,13 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import LanguageIcon from '@mui/icons-material/Language'
 import AutoGraphIcon from '@mui/icons-material/AutoGraph'
 import { useNavigate } from 'react-router-dom'
-import { useAuth0 } from '@auth0/auth0-react'
+import AccountMenu from '../AccountMenu/AccountMenu'
 
 const Header = () => {
   const menuId = 'primary-search-account-menu'
   const mobileMenuId = 'primary-search-account-menu-mobile'
 
   const navigate = useNavigate()
-  const { loginWithRedirect, user, isAuthenticated, isLoading, logout } =
-    useAuth0()
 
   const navigateToHomepage = () => {
     navigate('/')
@@ -92,14 +90,7 @@ const Header = () => {
           >
             <AccountCircle />
           </IconButton>
-          <Button
-            style={{ color: 'white' }}
-            onClick={() =>
-              logout({ logoutParams: { returnTo: window.location.origin } })
-            }
-          >
-            Log Out
-          </Button>
+          <AccountMenu/>
         </Box>
         <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
           <IconButton
