@@ -165,7 +165,9 @@ function ListDocs(){
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {documentList.map((document) => (
+                                    {documentList
+                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                        .map((document) => (
                                         <TableRow key={document.id}>
                                             <TableCell component="th" scope="row">
                                                 {document.id}
@@ -224,7 +226,9 @@ function ListDocs(){
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {documentList.map((document) => (
+                                    {documentList
+                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                        .map((document) => (
                                         <TableRow key={document.id}>
                                             <TableCell component="th" scope="row">
                                                 {document.id}
