@@ -247,7 +247,7 @@ function ListDocs(){
                                                     <DownloadIcon fontSize="inherit" color="success" />
                                                 </StyledIconButton>
                                                 <StyledIconButton
-                                                    size="medium"
+                                                    size="small"
                                                     onClick={() => {
                                                         setDeleteId(document.id)
                                                         setOpenDeleteModal(true)
