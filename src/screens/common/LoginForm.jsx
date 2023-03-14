@@ -15,7 +15,7 @@ import LockIcon from '@mui/icons-material/Lock'
 import AppLogoCenter from '../../components/AppLogoCenter.jsx'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { useNavigate } from 'react-router-dom'
+import {useLocation, useNavigate} from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { signInApi } from '../../../redux/thunk/authThunk.js'
 
@@ -26,6 +26,7 @@ export default function LoginForm() {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const location = useLocation()
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -41,7 +42,8 @@ export default function LoginForm() {
     }),
     onSubmit: async (values) => {
       await dispatch(signInApi(values))
-      navigate('/')
+      const retUrl = location.state?.from?.pathname || '/'
+      navigate(retUrl)
     },
   })
 

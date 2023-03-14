@@ -67,10 +67,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 )
 
 function RequiredAuth({ children }) {
-  const location = useLocation();
+  const location = useLocation()
 
   if (!localStorage.signaText_accessToken || localStorage.signaText_accessToken === "undefined") {
     return <Navigate to='/login' state={{ from: location }} />
   }
-  return children;
+
+  return children
 }
