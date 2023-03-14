@@ -18,6 +18,7 @@ import Layout from '../../components/Layout/index.jsx'
 import {useNavigate} from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete.js";
 import DownloadIcon from '@mui/icons-material/Download';
+import RemoveRedEyeRoundedIcon from '@mui/icons-material/RemoveRedEyeRounded';
 import {StyledIconButton, StyledTablePagination} from "../signature/ManageSignature/styles.js";
 import DeleteDocument from "./DeleteDocument/index.jsx";
 import {StyledTableCell} from "./css/style.js"
@@ -101,6 +102,9 @@ function ListDocs(){
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+    const navigateToViewPdf = ()=>{
+        navigate('/document/signPDF')
+    }
     const navigateToCreateNewDocument = () => {
         navigate('/document/upload')
     }
@@ -187,6 +191,12 @@ function ListDocs(){
                                                 </ThemeProvider>
                                             </TableCell>
                                             <TableCell align="right">
+                                                <StyledIconButton
+                                                    size="small"
+                                                    onClick={navigateToViewPdf}
+                                                >
+                                                    <RemoveRedEyeRoundedIcon fontSize="inherit" color="#dfdfdf" />
+                                                </StyledIconButton>
                                                 <StyledIconButton size="small">
                                                     <DownloadIcon fontSize="inherit" color="success" />
                                                 </StyledIconButton>
@@ -247,6 +257,9 @@ function ListDocs(){
                                                 </ThemeProvider>
                                             </TableCell>
                                             <TableCell align="right">
+                                                <StyledIconButton size="small" onClick={navigateToViewPdf}>
+                                                    <RemoveRedEyeRoundedIcon fontSize="inherit" color="#dfdfdf" />
+                                                </StyledIconButton>
                                                 <StyledIconButton size="small">
                                                     <DownloadIcon fontSize="inherit" color="success" />
                                                 </StyledIconButton>
