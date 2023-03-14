@@ -3,7 +3,7 @@ import {
   Viewer,
   Worker,
   SpecialZoomLevel,
-  ScrollMode,
+  ScrollMode,PdfLoader
 } from '@react-pdf-viewer/core'
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout'
 import '@react-pdf-viewer/core/lib/styles/index.css'
@@ -12,7 +12,7 @@ import './css/pdf.viewer.css'
 import axios from 'axios'
 function PdfViewer() {
     const [currentPage, setCurrentPage] = useState(0)
-    const [pdfFile, setPDFFile] = useState(null)
+    const [pdfFile, setPDFFile] = useState(false)
     const [viewPDF, setViewPDF] = useState(null)
 
     const [pdfFrameWidth, setFrameWidth] = useState(0)
@@ -34,16 +34,17 @@ function PdfViewer() {
     }
     useEffect(()=>{
         const data = {
-          fileName: './assets/test/07.pdf',
+          fileName: 'https://firebasestorage.googleapis.com/v0/b/signatext.appspot.com/o/user%2FjGzIwPIXM7RGcvvbDpJ10JYewUw1%2Fdocuments%2F07.pdf?alt=media&token=535a60f3-93fb-4e9f-801c-2551c36eae62',
           imageName: './assets/test/khuong.png',
         }
         axios.post('http://localhost:4040/api/document/fileDimension', data).then(
             (response) => {
-              console.log(response)
+                console.log(response)
                 setFileHeight(response.data.fileHeight+ 50)
                 setFileWdith(response.data.fileWidth + 30)
                 setIMGHeight(response.data.imageHeight)
                 setIMGWidth(response.data.signatureImageWidth)
+                setPDFFile(true)
             },
             (error) => {
               console.log(error)
@@ -56,28 +57,7 @@ function PdfViewer() {
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber.currentPage)
     }
-    const handleChangeFile = (e) => {
-        let selectedFile = e.target.files[0]
-            if (selectedFile) {
-                if (selectedFile && fileType.includes(selectedFile.type)) {
-                    let reader = new FileReader()
-                    reader.readAsDataURL(selectedFile)
-                    reader.onload = (e) => {
-                      setPDFFile(e.target.result)
-                    }
-                } else {
-                    setPDFFile(null)
-                }
-            }
-    }
 
-    function handleSubmit() {
-        if (pdfFile !== null) {
-            setViewPDF(pdfFile)
-        } else {
-            setViewPDF(null)
-        }
-    }
 
     const newplugin = defaultLayoutPlugin()
 
@@ -187,42 +167,25 @@ function PdfViewer() {
                 ref={fullRef}
                 className="col-lg-8"
                 style={{ fontSize: '12px', fontFamily: 'Jost' }} >
-                <div className="row">
-                      <div className="d-flex justify-content-between">
-                            <input
-                                accept="application/pdf"
-                                type="file"
-                                className="form-control-file"
-                                onChange={handleChangeFile}
-                            />
-                            <button
-                                style={{ fontSize: '12px' }}
-                                onClick={() => handleSubmit()}
-                                className="btnPress btn"
-                            >
-                            View
-                          </button>
-                      </div>
-                </div>
-                <div
-                    className="pdf-container"
-                    style={{ fontSize: '12px', height: fileHeight +"px", width: fileWidth+"px"}}
-                    ref={viewerContainerRef}>
-                        <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-                              {viewPDF && (
-                                  <>
-                                      <Viewer
-                                          defaultScale={SpecialZoomLevel.PageWidth}
-                                          scrollMode={ScrollMode.Page}
-                                          onPageChange={handlePageChange}
-                                          onDocumentLoad={handleViewerLoad}
-                                          fileUrl={viewPDF}
-                                          plugins={[newplugin]}
-                                      />
-                                  </>
-                              )}
-                        </Worker>
-                    </div>
+                    {pdfFile == true && (
+                        <div
+                            className="pdf-container"
+                            style={{ fontSize: '12px', height: fileHeight +"px", width: fileWidth+"px"}}
+                            ref={viewerContainerRef}>
+                            <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
+                                <>
+                                    <Viewer
+                                        defaultScale={SpecialZoomLevel.PageWidth}
+                                        scrollMode={ScrollMode.Page}
+                                        onPageChange={handlePageChange}
+                                        onDocumentLoad={handleViewerLoad}
+                                        fileUrl="https://firebasestorage.googleapis.com/v0/b/signatext.appspot.com/o/user%2FjGzIwPIXM7RGcvvbDpJ10JYewUw1%2Fdocuments%2F07.pdf?alt=media&token=535a60f3-93fb-4e9f-801c-2551c36eae62"
+                                        plugins={[newplugin]}
+                                    />
+                                </>
+                            </Worker>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

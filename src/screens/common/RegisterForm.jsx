@@ -66,7 +66,7 @@ export default function RegisterForm() {
   })
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center">
+    <Box display="flex" flexDirection="column" alignItems="center" marginBottom={10}>
       <AppLogoCenter />
       <Typography
         style={{ fontSize: 30, marginTop: 10, fontFamily: 'Quicksand' }}

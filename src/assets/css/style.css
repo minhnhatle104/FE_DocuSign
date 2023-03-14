@@ -1,5 +1,8 @@
 .MuiStepLabel-label{
-    font-family: Jost;
+    font-family: Quicksand;
+}
+.MuiTypography-root {
+    font-family: Quicksand;
 }
 
 .app-logo {
