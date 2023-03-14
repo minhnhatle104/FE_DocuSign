@@ -15,11 +15,9 @@ import Image from 'mui-image'
 import React, { useCallback, useEffect, useState } from 'react'
 import Layout from '../../../components/Layout'
 import CreateSignature from '../CreateSignature'
-import { StyledDialog } from '../CreateSignature/styles'
-import { StyledIconButton, StyledTablePagination } from './styles'
+import { StyledDialog, StyledIconButton, StyledTablePagination } from './styles'
 import DeleteSignature from '../DeleteSignature'
 import axios from 'axios'
-// import axios from 'axios'
 
 const ManageSignature = () => {
   const [signatureList, setSignatureList] = useState([])
@@ -30,22 +28,15 @@ const ManageSignature = () => {
   const [url, setUrl] = useState('')
 
   useEffect(() => {
-    setSignatureList([
-      {
-        id: 1,
-        src: '/img/app_logo.png',
+    axios.get('http://localhost:3001/files').then(
+      (response) => {
+        console.log(response)
+        setSignatureList(response.data)
       },
-    ])
-
-    // TODO: Integrate with BE
-    // axios.get('http://localhost:4040/api/signature').then(
-    //   (response) => {
-    //     console.log(response)
-    //   },
-    //   (error) => {
-    //     console.log(error)
-    //   }
-    // )
+      (error) => {
+        console.log(error)
+      }
+    )
   }, [])
 
   const handleChangePage = useCallback((event, newPage) => {
@@ -96,15 +87,15 @@ const ManageSignature = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {signatureList.map((signature) => (
-              <TableRow key={signature.id}>
-                <TableCell>{signature.id}</TableCell>
+            {signatureList.map((signature, index) => (
+              <TableRow key={signature.fileName}>
+                <TableCell>{index + 1}</TableCell>
                 <TableCell
                   sx={{ cursor: 'pointer' }}
-                  onClick={() => setUrl(signature.src)}
+                  onClick={() => setUrl(signature.url)}
                 >
                   <Image
-                    src={signature.src}
+                    src={signature.url}
                     width={100}
                     height={100}
                     duration={0}

@@ -18,7 +18,7 @@ import AppLogoCenter from '../../components/AppLogoCenter.jsx'
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { signUpApi } from '../../../redux/thunk/authThunk.js'
 
@@ -33,6 +33,7 @@ export default function RegisterForm() {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const location = useLocation()
 
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
@@ -51,7 +52,10 @@ export default function RegisterForm() {
         .min(6, 'Minimum 6 characters')
         .required('Required!'),
       email: Yup.string().email('Invalid email format').required('Required!'),
-      phone_number: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
+      phone_number: Yup.string().matches(
+        phoneRegExp,
+        'Phone number is not valid'
+      ),
       password: Yup.string()
         .min(6, 'Minimum 6 characters')
         .required('Required!'),
@@ -61,12 +65,18 @@ export default function RegisterForm() {
     }),
     onSubmit: async (values) => {
       await dispatch(signUpApi(values))
-      navigate("/")
+      const retUrl = location.state?.from?.pathname || '/'
+      navigate(retUrl)
     },
   })
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" marginBottom={10}>
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      marginBottom={10}
+    >
       <AppLogoCenter />
       <Typography
         style={{ fontSize: 30, marginTop: 10, fontFamily: 'Quicksand' }}

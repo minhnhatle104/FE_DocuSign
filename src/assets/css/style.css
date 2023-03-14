@@ -1,14 +1,14 @@
-.MuiStepLabel-label{
-    font-family: Quicksand;
+.MuiStepLabel-label {
+  font-family: Quicksand;
 }
 .MuiTypography-root {
-    font-family: Quicksand;
+  font-family: Quicksand;
 }
 
 .app-logo {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .step-header-container {
-    cursor: pointer;
+  cursor: pointer;
 }

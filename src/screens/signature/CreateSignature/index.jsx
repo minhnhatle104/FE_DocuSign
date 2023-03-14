@@ -8,7 +8,7 @@ import {
 } from '@mui/material'
 import React, { useCallback, useRef, useState } from 'react'
 import axios from 'axios'
-// import { saveAs } from 'file-saver'
+import { v4 as uuidv4 } from 'uuid'
 import TabPanel from '../../../components/TabPanel'
 import DrawSignature from '../DrawSignature'
 import { StyledDialog } from './styles'
@@ -16,44 +16,44 @@ import UploadSignature from '../UploadSignature'
 
 const CreateSignature = ({ open, handleClose }) => {
   const [value, setValue] = useState(0)
-  const mainSignatureRef = useRef(null)
-  const shortSignatureRef = useRef(null)
+  const canvasSignatureRef = useRef(null)
+  const fileSignatureRef = useRef(null)
 
   const handleChange = useCallback((event, newValue) => {
     setValue(newValue)
   }, [])
 
-  const handleAddSignature = useCallback(() => {
-    let mainSignatureFile, shortSignatureFile
-    if (value === 0) {
-      mainSignatureFile =
-        mainSignatureRef.current.canvasContainer.childNodes[1].toDataURL()
-      shortSignatureFile =
-        shortSignatureRef.current.canvasContainer.childNodes[1].toDataURL()
+  const handleAddSignature = useCallback(async () => {
+    const userId = localStorage.getItem('uid')
+    const id = uuidv4()
+    const fileName = `${userId}_signature_${id}.png`
 
-      // Save images to local
-      //   const mainFileName = 'user_1_main.jpg'
-      //   const shortFileName = 'user_1_short.jpg'
-      //   saveAs(mainSignatureData, mainFileName)
-      //   saveAs(shortSignatureData, shortFileName)
+    let signatureFile
+    if (value === 0) {
+      const res = await fetch(
+        canvasSignatureRef.current.canvasContainer.childNodes[1].toDataURL()
+      )
+      const buff = await res.arrayBuffer()
+
+      signatureFile = new File([buff], fileName, {
+        type: 'image/png',
+      })
     } else {
-      mainSignatureFile = mainSignatureRef.current.getFiles()[0].file
-      shortSignatureFile = shortSignatureRef.current.getFiles()[0].file
+      signatureFile = new File(
+        [fileSignatureRef.current.getFiles()[0].file],
+        fileName,
+        {
+          type: 'image/png',
+        }
+      )
     }
-    const payload = Object.assign(
-      {},
-      { userId: '123' },
-      mainSignatureFile && { mainFile: mainSignatureFile },
-      shortSignatureFile && { shortFile: shortSignatureFile }
-    )
+
+    const payload = Object.assign({}, signatureFile && { file: signatureFile })
 
     const formData = new FormData()
-    formData.append('userId', payload.userId)
-    formData.append('mainFile', payload.mainFile)
-    formData.append('shortFile', payload.shortFile)
+    formData.append('file', payload.file)
 
-    // TODO: Integrate with BE
-    axios.post('http://localhost:4040/api/signature', formData).then(
+    axios.post('http://localhost:3001/upload', formData).then(
       (response) => {
         console.log(response)
       },
@@ -77,22 +77,12 @@ const CreateSignature = ({ open, handleClose }) => {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <DrawSignature
-          ref={{
-            mainCanvasRef: mainSignatureRef,
-            shortCanvasRef: shortSignatureRef,
-          }}
-        />
+        <DrawSignature ref={canvasSignatureRef} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <UploadSignature
-          ref={{
-            mainFileRef: mainSignatureRef,
-            shortFileRef: shortSignatureRef,
-          }}
-        />
+        <UploadSignature ref={fileSignatureRef} />
       </TabPanel>
-      <DialogActions>
+      <DialogActions sx={{ paddingRight: '2.5rem' }}>
         <Button variant="outlined" color="primary" onClick={handleClose}>
           Cancel
         </Button>

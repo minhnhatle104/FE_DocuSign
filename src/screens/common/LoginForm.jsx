@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   FormControl,
-  FormLabel,
   IconButton,
   InputAdornment,
   Link,
@@ -15,7 +14,7 @@ import LockIcon from '@mui/icons-material/Lock'
 import AppLogoCenter from '../../components/AppLogoCenter.jsx'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import {useLocation, useNavigate} from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { signInApi } from '../../../redux/thunk/authThunk.js'
 
@@ -175,7 +174,7 @@ export default function LoginForm() {
           component="button"
           variant="body2"
           onClick={() => {
-            navigate('/register')
+            navigate('/register', { state: { from: location.state?.from } })
           }}
         >
           Sign up

@@ -1,103 +1,148 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, { useCallback, useEffect, useState } from 'react'
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Paper,
-    TablePagination,
-    Typography, Button, Box, tableCellClasses
-} from "@mui/material";
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import {createTheme,ThemeProvider} from "@mui/material";
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Typography,
+  Button,
+  Box,
+} from '@mui/material'
+import PropTypes from 'prop-types'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
+import { createTheme, ThemeProvider } from '@mui/material'
 import Layout from '../../components/Layout/index.jsx'
-import {useNavigate} from "react-router-dom";
-import DeleteIcon from "@mui/icons-material/Delete.js";
-import DownloadIcon from '@mui/icons-material/Download';
+import { useNavigate } from 'react-router-dom'
+import DeleteIcon from '@mui/icons-material/Delete.js'
+import DownloadIcon from '@mui/icons-material/Download'
 import RemoveRedEyeRoundedIcon from '@mui/icons-material/RemoveRedEyeRounded';
-import {StyledIconButton, StyledTablePagination} from "../signature/ManageSignature/styles.js";
-import DeleteDocument from "./DeleteDocument/index.jsx";
-import {StyledTableCell} from "./css/style.js"
-import axios from "axios";
+import {
+  StyledIconButton,
+  StyledTablePagination,
+} from '../signature/ManageSignature/styles.js'
+import DeleteDocument from './DeleteDocument/index.jsx'
+import { StyledTableCell } from './css/style.js'
+import axios from 'axios'
 
 const theme = createTheme({
-    typography: {
-        subtitle1: {
-            fontSize: 12,
-            fontStyle: "italic"
-        },
+  typography: {
+    subtitle1: {
+      fontSize: 12,
+      fontStyle: 'italic',
     },
-});
+  },
+})
 
-function createData(id,name, status, date,time,fromUser,toUser,isSend) {
-    return { id,name, status, date,time,fromUser, toUser,isSend};
+function createData(id, name, status, date, time, fromUser, toUser, isSend) {
+  return { id, name, status, date, time, fromUser, toUser, isSend }
 }
 
 function TabPanel(props) {
-    const { children, value, index, ...other } = props;
+  const { children, value, index, ...other } = props
 
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
-            {...other}
-        >
-            {value === index && (
-                <Box sx={{ p: 3 }}>
-                    {children}
-                </Box>
-            )}
-        </div>
-    );
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+    </div>
+  )
 }
 
 TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.number.isRequired,
-    value: PropTypes.number.isRequired,
-};
-
-function a11yProps(index) {
-    return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
-    };
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
 }
 
-function ListDocs(){
-    const navigate = useNavigate()
-    const [value, setValue] = useState(0);
-    const [documentList, setDocumentList] = useState([])
-    const [page, setPage] = useState(0)
-    const [rowsPerPage, setRowsPerPage] = useState(3)
-    const [deleteId, setDeleteId] = useState()
-    const [openDeleteModal, setOpenDeleteModal] = useState(false)
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  }
+}
 
-    useEffect(() => {
-        setDocumentList([
-            createData(1,'Hop_Dong_Thue_Nha.pdf', "Not Completed", "2023-03-11","17:05:32","Nhan Nguyen","Khang Dang",true),
-            createData(2,'Hop_Dong_Ban_Nha.pdf', "Completed", "2023-03-08", "08:05:20","Nhan Nguyen","Khang Dang",true),
-            createData(3,'Hop_Dong_Thue.pdf', "Not Completed", "2023-02-21","18:05:49","Nhan Nguyen","Khuong Nguyen",false),
-            createData(4,'Hop_Dong_TTNCN.pdf', "Completed", "2023-02-11","11:05:30","Nhan Nguyen","Khang Dang",false),
-            createData(5,'Hop_Dong_Lao_Dong.pdf', "Not Completed", "2023-02-20","9:05:40","Nhan Nguyen","Minh Le",false),
-        ])
+function ListDocs() {
+  const navigate = useNavigate()
+  const [value, setValue] = useState(0)
+  const [documentList, setDocumentList] = useState([])
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(3)
+  const [deleteId, setDeleteId] = useState()
+  const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
-        // TODO: Integrate with BE
-        // axios.get('http://localhost:4040/api/signature').then(
-        //   (response) => {
-        //     console.log(response)
-        //   },
-        //   (error) => {
-        //     console.log(error)
-        //   }
-        // )
-    }, [])
+  useEffect(() => {
+    setDocumentList([
+      createData(
+        1,
+        'Hop_Dong_Thue_Nha.pdf',
+        'Not Completed',
+        '2023-03-11',
+        '17:05:32',
+        'Nhan Nguyen',
+        'Khang Dang',
+        true
+      ),
+      createData(
+        2,
+        'Hop_Dong_Ban_Nha.pdf',
+        'Completed',
+        '2023-03-08',
+        '08:05:20',
+        'Nhan Nguyen',
+        'Khang Dang',
+        true
+      ),
+      createData(
+        3,
+        'Hop_Dong_Thue.pdf',
+        'Not Completed',
+        '2023-02-21',
+        '18:05:49',
+        'Nhan Nguyen',
+        'Khuong Nguyen',
+        false
+      ),
+      createData(
+        4,
+        'Hop_Dong_TTNCN.pdf',
+        'Completed',
+        '2023-02-11',
+        '11:05:30',
+        'Nhan Nguyen',
+        'Khang Dang',
+        false
+      ),
+      createData(
+        5,
+        'Hop_Dong_Lao_Dong.pdf',
+        'Not Completed',
+        '2023-02-20',
+        '9:05:40',
+        'Nhan Nguyen',
+        'Minh Le',
+        false
+      ),
+    ])
+
+    // TODO: Integrate with BE
+    // axios.get('http://localhost:4040/api/signature').then(
+    //   (response) => {
+    //     console.log(response)
+    //   },
+    //   (error) => {
+    //     console.log(error)
+    //   }
+    // )
+  }, [])
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -295,8 +340,8 @@ function ListDocs(){
                     onClickConfirm={handleDeleteSignature}
                 />
             </Layout>
-        </>
-    )
+    </>
+  )
 }
 
 export default ListDocs
