@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import {
   BrowserRouter,
@@ -24,11 +24,23 @@ import { Provider } from 'react-redux'
 import store from '../redux/configStore.js'
 import Loading from './components/Loading/Loading.jsx'
 import OtherSign from './screens/document/OtherSign.jsx'
+import SetupInterceptors from './utils/SetupInterceptors.js'
+
+function NavigateFunctionComponent() {
+  const [ran, setRan] = useState(false)
+
+  if (!ran) {
+    SetupInterceptors()
+    setRan(true)
+  }
+  return <></>
+}
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <BrowserRouter>
       <Loading />
+      <NavigateFunctionComponent />
       <Routes>
         <Route
           path="/"
