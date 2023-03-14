@@ -1,8 +1,7 @@
-.MuiStepLabel-label {
-  font-family: Quicksand;
-}
-.MuiTypography-root {
-  font-family: Quicksand;
+.MuiStepLabel-label, .MuiDialogTitle-root, .MuiTableCell-head {
+  font-family: Quicksand!important;
+  font-weight: bold!important;
+  text-decoration: underline;
 }
 
 .app-logo {

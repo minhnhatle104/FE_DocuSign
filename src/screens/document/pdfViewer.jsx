@@ -10,8 +10,12 @@ import '@react-pdf-viewer/core/lib/styles/index.css'
 import '@react-pdf-viewer/default-layout/lib/styles/index.css'
 import './css/pdf.viewer.css'
 import axios from 'axios'
+import { useDispatch } from 'react-redux'
+import { closeLoading, displayLoading } from '../../../redux/slice/loadingSlice.js';
+
 
 function PdfViewer({ isShowChooseImage }) {
+
   const [currentPage, setCurrentPage] = useState(0)
   const [pdfFile, setPDFFile] = useState(false)
   const [viewPDF, setViewPDF] = useState(null)
@@ -29,15 +33,18 @@ function PdfViewer({ isShowChooseImage }) {
   const fullRef = useRef(null)
   const viewerContainerRef = useRef(null)
   const [position, setPosition] = useState({ x: 0, y: 0 })
+  const dispatch = useDispatch()
+
   const handleViewerLoad = () => {
     const viewerContainerRect =
       viewerContainerRef.current.getBoundingClientRect()
     // console.log(`Viewer position: (${viewerContainerRect.left}, ${viewerContainerRect.top})`);
   }
   useEffect(() => {
+    dispatch(displayLoading())
     const data = {
       fileName:
-        'https://firebasestorage.googleapis.com/v0/b/signatext.appspot.com/o/user%2FjGzIwPIXM7RGcvvbDpJ10JYewUw1%2Fdocuments%2F07.pdf?alt=media&token=535a60f3-93fb-4e9f-801c-2551c36eae62',
+          'user/jGzIwPIXM7RGcvvbDpJ10JYewUw1/documents/07.pdf',
       imageName: './assets/test/khuong.png',
     }
 
@@ -49,12 +56,13 @@ function PdfViewer({ isShowChooseImage }) {
         setIMGHeight(response.data.imageHeight)
         setIMGWidth(response.data.signatureImageWidth)
         setPDFFile(true)
+        dispatch(closeLoading())
       },
       (error) => {
         console.log(error)
       }
     )
-  })
+  }, [])
 
   const fileType = ['application/pdf']
 
@@ -121,10 +129,15 @@ function PdfViewer({ isShowChooseImage }) {
       x_coor: parseFloat(ratio.toFixed(3)),
       y_coor: parseFloat(bottomSize.toFixed(3)),
       current_page: currentPage,
+      fileName:
+          'user/jGzIwPIXM7RGcvvbDpJ10JYewUw1/documents/07.pdf',
     }
+    dispatch(displayLoading())
     await axios.post('http://localhost:4040/api/document/sign', data).then(
       (response) => {
-        console.log(response)
+        if (response.data.message == "Success"){
+          dispatch(closeLoading())
+        }
       },
       (error) => {
         console.log(error)
@@ -136,7 +149,7 @@ function PdfViewer({ isShowChooseImage }) {
     <div className="row" style={{ marginTop: '20px', marginBottom: '20px' }}>
       <div className="col-lg-12 d-flex justify-content-between">
         {isShowChooseImage && (
-          <div className="col-lg-4" style={{ fontFamily: 'Jost' }}>
+          <div className="col-lg-4" style={{ fontFamily: 'Quicksand', fontWeight: "bold"  }}>
             <input
               style={{ fontSize: '12px' }}
               type="file"
@@ -177,7 +190,7 @@ function PdfViewer({ isShowChooseImage }) {
         <div
           ref={fullRef}
           className="col-lg-8"
-          style={{ fontSize: '12px', fontFamily: 'Jost' }}
+          style={{ fontSize: '12px', fontFamily: 'Quicksand', fontWeight: "bold" }}
         >
           {pdfFile == true && (
             <div
