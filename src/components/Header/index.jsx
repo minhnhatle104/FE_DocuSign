@@ -32,7 +32,7 @@ const Header = () => {
             display="flex"
             justifyContent="space-between"
             alignItems="center"
-            className='app-logo'
+            className="app-logo"
             onClick={navigateToHomepage}
           >
             <Image
@@ -90,7 +90,7 @@ const Header = () => {
           >
             <AccountCircle />
           </IconButton>
-          <AccountMenu/>
+          <AccountMenu />
         </Box>
         <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
           <IconButton

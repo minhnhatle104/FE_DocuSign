@@ -51,7 +51,10 @@ export default function RegisterForm() {
         .min(6, 'Minimum 6 characters')
         .required('Required!'),
       email: Yup.string().email('Invalid email format').required('Required!'),
-      phone_number: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
+      phone_number: Yup.string().matches(
+        phoneRegExp,
+        'Phone number is not valid'
+      ),
       password: Yup.string()
         .min(6, 'Minimum 6 characters')
         .required('Required!'),
@@ -61,12 +64,17 @@ export default function RegisterForm() {
     }),
     onSubmit: async (values) => {
       await dispatch(signUpApi(values))
-      navigate("/")
+      navigate('/')
     },
   })
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" marginBottom={10}>
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      marginBottom={10}
+    >
       <AppLogoCenter />
       <Typography
         style={{ fontSize: 30, marginTop: 10, fontFamily: 'Quicksand' }}

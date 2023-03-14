@@ -4,7 +4,7 @@ import EastIcon from '@mui/icons-material/East'
 import { Link, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth'
 import Swal from 'sweetalert2'
 
 import AppLogoCenter from '../../components/AppLogoCenter.jsx'
@@ -21,27 +21,27 @@ const ForgotPasswordEmail = () => {
       email: Yup.string().email('Invalid email format').required('Required!'),
     }),
     onSubmit: (value) => {
-      const auth = getAuth();
+      const auth = getAuth()
       sendPasswordResetEmail(auth, value.email)
         .then(() => {
           Swal.fire({
             title: 'SUCCESS',
-            html:`<h3 class="text-success">Send email successfully !</h3>`,
+            html: `<h3 class="text-success">Send email successfully !</h3>`,
             icon: 'success',
-            confirmButtonText: 'OK'
+            confirmButtonText: 'OK',
           })
-          navigate("/login")
+          navigate('/login')
         })
         .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
+          const errorCode = error.code
+          const errorMessage = error.message
           Swal.fire({
             title: 'ERROR !',
             html: `<h3 class="text-danger">${errorMessage}</h3>`,
             icon: 'error',
-            confirmButtonText: 'OK'
+            confirmButtonText: 'OK',
           })
-        });
+        })
     },
   })
 
