@@ -2,8 +2,8 @@ import { Dialog, IconButton, styled, TablePagination } from '@mui/material'
 
 export const StyledDialog = styled(Dialog)`
   & .MuiPaper-root {
-    width: 50rem;
-    max-width: 50rem;
+    width: 20rem;
+    height: 20rem;
   }
 `
 
