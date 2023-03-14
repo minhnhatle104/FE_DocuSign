@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Button from '@mui/material/Button'
 import AppLogoCenter from '../../components/AppLogoCenter.jsx'
-import { Box, TextField, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import EastIcon from '@mui/icons-material/East.js'
 import { useNavigate } from 'react-router-dom'
 import { MuiOtpInput } from 'mui-one-time-password-input'
@@ -40,7 +40,7 @@ const ForgotPasswordOtp = () => {
       isBackSpace
     )
   }
-  const validateChar = (value, index) => {
+  const validateChar = (value) => {
     return matchIsNumeric(value, isBackSpace)
   }
 

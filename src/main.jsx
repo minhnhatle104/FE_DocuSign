@@ -23,6 +23,7 @@ import LoginForm from './screens/common/LoginForm.jsx'
 import { Provider } from 'react-redux'
 import store from '../redux/configStore.js'
 import Loading from './components/Loading/Loading.jsx'
+import OtherSign from './screens/document/OtherSign.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
@@ -70,6 +71,14 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             element={
               <RequiredAuth>
                 <ViewPdf_Sign />
+              </RequiredAuth>
+            }
+          />
+          <Route
+            path="other/signPDF"
+            element={
+              <RequiredAuth>
+                <OtherSign />
               </RequiredAuth>
             }
           />

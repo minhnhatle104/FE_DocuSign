@@ -40,7 +40,7 @@ function SignPdf() {
             </Box>
           </Box>
           <StepInit step={2} />
-          <PdfViewer />
+          <PdfViewer isShowChooseImage={true} />
         </Layout>
       </Box>
     </>
