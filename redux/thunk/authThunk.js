@@ -92,7 +92,9 @@ export const signInApi = (formValues) => {
       const result = await signInWithEmailAndPassword(auth, email, password)
       console.log(result)
       const { uid, stsTokenManager } = result.user
+      console.log("result user: ",result.user)
       const { accessToken, expirationTime } = stsTokenManager
+      console.log("stsTokenManager: ",stsTokenManager)
 
       const expiryDate = new Date(expirationTime)
       const timeNow = new Date()

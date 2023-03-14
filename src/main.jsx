@@ -121,9 +121,19 @@ function RequiredAuth({ children }) {
 
   if (
     !localStorage.signaText_accessToken ||
-    localStorage.signaText_accessToken === 'undefined'
+    localStorage.signaText_accessToken === 'undefined' ||
+    !localStorage.expiryDate ||
+    localStorage.expiryDate === 'undefined'
   ) {
     return <Navigate to="/login" state={{ from: location }} />
+  }
+
+  if (localStorage.expiryDate && localStorage.signaText_accessToken !== "undefined") {
+    const expiryDate = new Date(localStorage.getItem("expiryDate"))
+    const dateNow= new Date(Date.now())
+    if(expiryDate <= dateNow){
+      return <Navigate to="/login" state={{ from: location }} />
+    }
   }
 
   return children
