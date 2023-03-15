@@ -25,6 +25,9 @@ import store from '../redux/configStore.js'
 import Loading from './components/Loading/Loading.jsx'
 import OtherSign from './screens/document/OtherSign.jsx'
 import SetupInterceptors from './utils/SetupInterceptors.js'
+import Review from "./screens/document/Review";
+import ViewPDF from "./screens/document/ViewPdfOnly";
+import OtherSignV2 from "./screens/document/OtherSignV2";
 
 function NavigateFunctionComponent() {
   const [ran, setRan] = useState(false)
@@ -87,10 +90,26 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             }
           />
           <Route
+              path="Review"
+              element={
+                <RequiredAuth>
+                  <Review />
+                </RequiredAuth>
+              }
+          />
+            <Route
+                path="viewPDF"
+                element={
+                    <RequiredAuth>
+                        <ViewPDF />
+                    </RequiredAuth>
+                }
+            />
+          <Route
             path="other/signPDF"
             element={
               <RequiredAuth>
-                <OtherSign />
+                <OtherSignV2 isShowChooseImage={true} isOtherSign={true} />
               </RequiredAuth>
             }
           />

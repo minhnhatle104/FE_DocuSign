@@ -80,57 +80,60 @@ function ListDocs() {
   const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
   useEffect(() => {
+    const now = new Date()
+    now.setHours(now.getHours() + 7)
+    const convertNow = new Date(now).toISOString()
     setDocumentList([
       createData(
         1,
-        'Hop_Dong_Thue_Nha.pdf',
+        'TaiLieu01.pdf',
         'Not Completed',
-        '2023-03-11',
-        '17:05:32',
+          convertNow.slice(0, 10),
+          convertNow.slice(11, 19),
         'Nhan Nguyen',
-        'Khang Dang',
+        'Ba Khuong',
         true
       ),
-      createData(
-        2,
-        'Hop_Dong_Ban_Nha.pdf',
-        'Completed',
-        '2023-03-08',
-        '08:05:20',
-        'Nhan Nguyen',
-        'Khang Dang',
-        true
-      ),
-      createData(
-        3,
-        'Hop_Dong_Thue.pdf',
-        'Not Completed',
-        '2023-02-21',
-        '18:05:49',
-        'Nhan Nguyen',
-        'Khuong Nguyen',
-        false
-      ),
-      createData(
-        4,
-        'Hop_Dong_TTNCN.pdf',
-        'Completed',
-        '2023-02-11',
-        '11:05:30',
-        'Nhan Nguyen',
-        'Khang Dang',
-        false
-      ),
-      createData(
-        5,
-        'Hop_Dong_Lao_Dong.pdf',
-        'Not Completed',
-        '2023-02-20',
-        '9:05:40',
-        'Nhan Nguyen',
-        'Minh Le',
-        false
-      ),
+      // createData(
+      //   2,
+      //   'Hop_Dong_Ban_Nha.pdf',
+      //   'Completed',
+      //   '2023-03-08',
+      //   '08:05:20',
+      //   'Nhan Nguyen',
+      //   'Khang Dang',
+      //   true
+      // ),
+      // createData(
+      //   3,
+      //   'Hop_Dong_Thue.pdf',
+      //   'Not Completed',
+      //   '2023-02-21',
+      //   '18:05:49',
+      //   'Nhan Nguyen',
+      //   'Khuong Nguyen',
+      //   false
+      // ),
+      // createData(
+      //   4,
+      //   'Hop_Dong_TTNCN.pdf',
+      //   'Completed',
+      //   '2023-02-11',
+      //   '11:05:30',
+      //   'Nhan Nguyen',
+      //   'Khang Dang',
+      //   false
+      // ),
+      // createData(
+      //   5,
+      //   'Hop_Dong_Lao_Dong.pdf',
+      //   'Not Completed',
+      //   '2023-02-20',
+      //   '9:05:40',
+      //   'Nhan Nguyen',
+      //   'Minh Le',
+      //   false
+      // ),
     ])
 
     // TODO: Integrate with BE
@@ -148,7 +151,7 @@ function ListDocs() {
         setValue(newValue);
     };
     const navigateToViewPdf = ()=>{
-        navigate('/document/signPDF')
+        navigate('/document/viewPDF')
     }
     const navigateToCreateNewDocument = () => {
         navigate('/document/upload')
@@ -183,7 +186,7 @@ function ListDocs() {
                     justifyContent="space-between"
                     alignItems="center"
                 >
-                    <Typography component="h1" variant="h5">
+                    <Typography component="h1" variant="h5" style={{fontFamily: "Quicksand", fontWeight: "bold"}}>
                         Documents List
                     </Typography>
                     <Button

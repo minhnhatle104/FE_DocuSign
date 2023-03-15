@@ -7,11 +7,11 @@ import '/src/assets/css/style.css'
 import { useNavigate } from 'react-router-dom'
 import Layout from '../../components/Layout/index.jsx'
 
-function SignPdf() {
+function ViewPDF() {
   const navigate = useNavigate()
 
   const navigateToPrevStep = () => {
-    navigate('/document/recipientInfo')
+    navigate('/document/list')
   }
   return (
     <>
@@ -28,12 +28,13 @@ function SignPdf() {
               </Button>
             </Box>
           </Box>
-          <StepInit step={2} />
-          <PdfViewer isShowChooseImage={true} />
+          <div className="row d-flex justify-content-center">
+            <PdfViewer isShowChooseImage={false} />
+          </div>
         </Layout>
       </Box>
     </>
   )
 }
 
-export default SignPdf
+export default ViewPDF
