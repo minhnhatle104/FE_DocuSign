@@ -10,7 +10,7 @@ import {
   ListItemText,
 } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
-import {CheckCircle} from "@mui/icons-material";
+import { CheckCircle } from '@mui/icons-material'
 
 const HomePageFeature = ({
   imageSrc,

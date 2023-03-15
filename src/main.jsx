@@ -25,9 +25,9 @@ import store from '../redux/configStore.js'
 import Loading from './components/Loading/Loading.jsx'
 import OtherSign from './screens/document/OtherSign.jsx'
 import SetupInterceptors from './utils/SetupInterceptors.js'
-import Review from "./screens/document/Review";
-import ViewPDF from "./screens/document/ViewPdfOnly";
-import OtherSignV2 from "./screens/document/OtherSignV2";
+import Review from './screens/document/Review'
+import ViewPDF from './screens/document/ViewPdfOnly'
+import OtherSignV2 from './screens/document/OtherSignV2'
 
 function NavigateFunctionComponent() {
   const [ran, setRan] = useState(false)
@@ -90,21 +90,21 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             }
           />
           <Route
-              path="Review"
-              element={
-                <RequiredAuth>
-                  <Review />
-                </RequiredAuth>
-              }
+            path="Review"
+            element={
+              <RequiredAuth>
+                <Review />
+              </RequiredAuth>
+            }
           />
-            <Route
-                path="viewPDF"
-                element={
-                    <RequiredAuth>
-                        <ViewPDF />
-                    </RequiredAuth>
-                }
-            />
+          <Route
+            path="viewPDF"
+            element={
+              <RequiredAuth>
+                <ViewPDF />
+              </RequiredAuth>
+            }
+          />
           <Route
             path="other/signPDF"
             element={
@@ -147,10 +147,13 @@ function RequiredAuth({ children }) {
     return <Navigate to="/login" state={{ from: location }} />
   }
 
-  if (localStorage.expiryDate && localStorage.signaText_accessToken !== "undefined") {
-    const expiryDate = new Date(localStorage.getItem("expiryDate"))
-    const dateNow= new Date(Date.now())
-    if(expiryDate <= dateNow){
+  if (
+    localStorage.expiryDate &&
+    localStorage.signaText_accessToken !== 'undefined'
+  ) {
+    const expiryDate = new Date(localStorage.getItem('expiryDate'))
+    const dateNow = new Date(Date.now())
+    if (expiryDate <= dateNow) {
       return <Navigate to="/login" state={{ from: location }} />
     }
   }

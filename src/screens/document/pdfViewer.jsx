@@ -11,12 +11,13 @@ import '@react-pdf-viewer/default-layout/lib/styles/index.css'
 import './css/pdf.viewer.css'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
-import {closeLoading, displayLoading} from '../../../redux/slice/loadingSlice.js';
+import {
+  closeLoading,
+  displayLoading,
+} from '../../../redux/slice/loadingSlice.js'
 import AutoGraphIcon from '@mui/icons-material/AutoGraph'
 import { useNavigate } from 'react-router-dom'
-import {
-  Box,
-} from '@mui/material'
+import { Box } from '@mui/material'
 import PropTypes from 'prop-types'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
@@ -25,15 +26,15 @@ function TabPanel(props) {
   const { children, value, index, ...other } = props
 
   return (
-      <div
-          role="tabpanel"
-          hidden={value !== index}
-          id={`simple-tabpanel-${index}`}
-          aria-labelledby={`simple-tab-${index}`}
-          {...other}
-      >
-        {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-      </div>
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+    </div>
   )
 }
 
@@ -80,8 +81,7 @@ function PdfViewer({ isShowChooseImage }) {
   useEffect(() => {
     dispatch(displayLoading())
     const data = {
-      fileName:
-          'user/jGzIwPIXM7RGcvvbDpJ10JYewUw1/documents/07.pdf',
+      fileName: 'user/jGzIwPIXM7RGcvvbDpJ10JYewUw1/documents/07.pdf',
       imageName: './assets/test/khuong.png',
     }
 
@@ -161,15 +161,14 @@ function PdfViewer({ isShowChooseImage }) {
       x_coor: parseFloat(ratio.toFixed(3)),
       y_coor: parseFloat(bottomSize.toFixed(3)),
       current_page: currentPage,
-      fileName:
-          'user/jGzIwPIXM7RGcvvbDpJ10JYewUw1/documents/07.pdf',
+      fileName: 'user/jGzIwPIXM7RGcvvbDpJ10JYewUw1/documents/07.pdf',
     }
     dispatch(displayLoading())
     await axios.post('http://localhost:4040/api/document/sign', data).then(
       (response) => {
-        if (response.data.message == "Success"){
+        if (response.data.message == 'Success') {
           dispatch(closeLoading())
-            navigate('/document/review')
+          navigate('/document/review')
         }
       },
       (error) => {
@@ -179,8 +178,8 @@ function PdfViewer({ isShowChooseImage }) {
   }
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+    setValue(newValue)
+  }
 
   return (
     <div className="row" style={{ marginTop: '20px', marginBottom: '20px' }}>
@@ -188,50 +187,96 @@ function PdfViewer({ isShowChooseImage }) {
         {isShowChooseImage && (
           <div className="col-lg-4">
             <Box>
-              <Box sx={{ borderBottom: 1, borderColor: 'divider',marginBottom: 1 }}>
-                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                  <Tab label="Your Signature" {...a11yProps(0)} sx={{ '&.Mui-selected': { outline: 'none' } }}/>
-                  <Tab label="Import from computer" {...a11yProps(1)} sx={{ '&.Mui-selected': { outline: 'none'} }}/>
+              <Box
+                sx={{
+                  borderBottom: 1,
+                  borderColor: 'divider',
+                  marginBottom: 1,
+                }}
+              >
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  aria-label="basic tabs example"
+                >
+                  <Tab
+                    label="Your Signature"
+                    {...a11yProps(0)}
+                    sx={{ '&.Mui-selected': { outline: 'none' } }}
+                  />
+                  <Tab
+                    label="Import from computer"
+                    {...a11yProps(1)}
+                    sx={{ '&.Mui-selected': { outline: 'none' } }}
+                  />
                 </Tabs>
               </Box>
               <TabPanel value={value} index={0}>
-                <div style={{fontFamily: "Quicksand", fontSize: "15px", fontWeight: "bold"}}>Empty</div>
+                <div
+                  style={{
+                    fontFamily: 'Quicksand',
+                    fontSize: '15px',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  Empty
+                </div>
               </TabPanel>
               <TabPanel value={value} index={1}>
-                <div  style={{ fontFamily: 'Quicksand', fontWeight: "bold", justifyContent: "space-between", display: "flex" }} className="row">
+                <div
+                  style={{
+                    fontFamily: 'Quicksand',
+                    fontWeight: 'bold',
+                    justifyContent: 'space-between',
+                    display: 'flex',
+                  }}
+                  className="row"
+                >
                   <input
-                      style={{ fontSize: '12px', fontWeight: "bold", fontFamily: "Quicksand" }}
-                      type="file"
-                      accept="image/*"
-                      onChange={handleFileInputChange}
-                      id="signature"
+                    style={{
+                      fontSize: '12px',
+                      fontWeight: 'bold',
+                      fontFamily: 'Quicksand',
+                    }}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileInputChange}
+                    id="signature"
                   />
-                  <label className="custom-label btnPress" for="signature"><AutoGraphIcon/> <span className="ml-1 mr-1">Choose signature</span></label>
+                  <label className="custom-label btnPress" for="signature">
+                    <AutoGraphIcon />{' '}
+                    <span className="ml-1 mr-1">Choose signature</span>
+                  </label>
                   {image && (
-                      <img
-                          src={image}
-                          alt="image"
-                          ref={imageRef}
-                          style={{
-                            position: 'absolute',
-                            left: '0px',
-                            top: '0px',
-                            cursor: 'grab',
-                            maxWidth: imageWidth + 'px',
-                            maxHeight: imageHeight + 'px',
-                            zIndex: 10000,
-                          }}
-                          onMouseDown={handleMouseDown}
-                      />
+                    <img
+                      src={image}
+                      alt="image"
+                      ref={imageRef}
+                      style={{
+                        position: 'absolute',
+                        left: '0px',
+                        top: '0px',
+                        cursor: 'grab',
+                        maxWidth: imageWidth + 'px',
+                        maxHeight: imageHeight + 'px',
+                        zIndex: 10000,
+                      }}
+                      onMouseDown={handleMouseDown}
+                    />
                   )}
                   {image && (
-                      <button
-                          className="btn btnViewPdf btnPress"
-                          onClick={() => CalCoordinates()}
-                          style={{fontFamily: "Quicksand", fontWeight: "bold", height: "fit-content", width: "fit-content"}}
-                      >
-                        Apply Signature
-                      </button>
+                    <button
+                      className="btn btnViewPdf btnPress"
+                      onClick={() => CalCoordinates()}
+                      style={{
+                        fontFamily: 'Quicksand',
+                        fontWeight: 'bold',
+                        height: 'fit-content',
+                        width: 'fit-content',
+                      }}
+                    >
+                      Apply Signature
+                    </button>
                   )}
                 </div>
               </TabPanel>
@@ -241,7 +286,11 @@ function PdfViewer({ isShowChooseImage }) {
         <div
           ref={fullRef}
           className="col-lg-8"
-          style={{fontSize: '12px', fontFamily: 'Quicksand', fontWeight: "bold"}}
+          style={{
+            fontSize: '12px',
+            fontFamily: 'Quicksand',
+            fontWeight: 'bold',
+          }}
         >
           {pdfFile == true && (
             <div

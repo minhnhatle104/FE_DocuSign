@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import StepInit from './StepInit.jsx'
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import PdfViewer from './pdfViewer.jsx'
 import '/src/assets/css/style.css'
 import { useNavigate } from 'react-router-dom'

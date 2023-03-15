@@ -1,15 +1,18 @@
-.MuiStepLabel-label, .MuiDialogTitle-root, .MuiTableCell-head {
-  font-family: Quicksand!important;
-  font-weight: bold!important;
+.MuiStepLabel-label,
+.MuiDialogTitle-root,
+.MuiTableCell-head {
+  font-family: Quicksand !important;
+  font-weight: bold !important;
   text-decoration: underline;
 }
 
-.MuiTableCell-body, .MuiTablePagination-displayedRows{
-  font-family: Quicksand!important;
-  font-weight: bold!important;
+.MuiTableCell-body,
+.MuiTablePagination-displayedRows {
+  font-family: Quicksand !important;
+  font-weight: bold !important;
 }
-.MuiTab-root{
-  font-size: 12px!important;
+.MuiTab-root {
+  font-size: 12px !important;
 }
 
 .app-logo {
@@ -35,6 +38,10 @@
   display: flex;
 }
 
-input[type="file"] {
+input[type='file'] {
   display: none;
+}
+
+button:focus {
+  outline: none !important;
 }

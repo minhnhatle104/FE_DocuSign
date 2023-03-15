@@ -5,9 +5,9 @@ const SetupInterceptors = () => {
     (config) => {
       const accessToken = localStorage.signaText_accessToken
       const user_id = localStorage.uid
-      if (accessToken !== "undefined") {
-        config.headers["authorization"] = accessToken
-        config.headers["user_id"] = user_id
+      if (accessToken !== 'undefined') {
+        config.headers['authorization'] = accessToken
+        config.headers['user_id'] = user_id
       }
       return config
     },

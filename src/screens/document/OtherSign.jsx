@@ -33,7 +33,7 @@ const OtherSign = () => {
     if (!isExistedSignature) handleOpenAnnouncementModal()
     else {
       setImage(
-        'https://firebasestorage.googleapis.com/v0/b/signatext.appspot.com/o/user%2FjGzIwPIXM7RGcvvbDpJ10JYewUw1%2Fsignatures%2Fchu-ky-ten-khuong-rhesmanisa-otf-removebg-preview.png?alt=media&token=530cd775-f09d-40dd-b3c9-33f260c79091'
+        'https://firebasestorage.googleapis.com/v0/b/signatext.appspot.com/o/user%2FKN3MvooRQWZHYznKnEsASTnePwv2%2Fsignatures%2FVgVvsVEbKHOt9CTfTQiSpmhMUCm2_signature_0140d22b-0dd7-4a84-a896-6ee834f1157e.png?alt=media&token=2625eb1e-ab37-4d5b-a270-b63e948108c5'
       )
       setIMGWidth(157)
       setIMGHeight(120)

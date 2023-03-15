@@ -3,16 +3,18 @@
 }
 
 .css-1vyamtt-MuiStepLabel-labelContainer span {
-  font-weight: bold!important;
+  font-weight: bold !important;
 }
-.Mui-active{
-  color: #2261c7!important;
-  font-weight: bold!important;
+.Mui-active {
+  color: #2261c7 !important;
+  font-weight: bold !important;
 }
 
-.step-header-container, .MuiButtonBase-root, .MuiTypography-body1{
-  font-family: Quicksand!important;
-  font-weight: bold!important;
+.step-header-container,
+.MuiButtonBase-root,
+.MuiTypography-body1 {
+  font-family: Quicksand !important;
+  font-weight: bold !important;
 }
 
 .pdf-container {
@@ -22,14 +24,14 @@
   align-items: center;
   margin-top: 10px;
 }
-.rpv-page-navigation__current-page-input input{
-  font-family: Quicksand!important;
-  font-weight: bold!important;
+.rpv-page-navigation__current-page-input input {
+  font-family: Quicksand !important;
+  font-weight: bold !important;
 }
 
-.rpv-zoom__popover-target span{
-  font-family: Quicksand!important;
-  font-weight: bold!important;
+.rpv-zoom__popover-target span {
+  font-family: Quicksand !important;
+  font-weight: bold !important;
 }
 
 .rpv-core__icon {

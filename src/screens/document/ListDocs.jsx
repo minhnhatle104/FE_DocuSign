@@ -19,7 +19,7 @@ import Layout from '../../components/Layout/index.jsx'
 import { useNavigate } from 'react-router-dom'
 import DeleteIcon from '@mui/icons-material/Delete.js'
 import DownloadIcon from '@mui/icons-material/Download'
-import RemoveRedEyeRoundedIcon from '@mui/icons-material/RemoveRedEyeRounded';
+import RemoveRedEyeRoundedIcon from '@mui/icons-material/RemoveRedEyeRounded'
 import {
   StyledIconButton,
   StyledTablePagination,
@@ -88,8 +88,8 @@ function ListDocs() {
         1,
         'TaiLieu01.pdf',
         'Not Completed',
-          convertNow.slice(0, 10),
-          convertNow.slice(11, 19),
+        convertNow.slice(0, 10),
+        convertNow.slice(11, 19),
         'Nhan Nguyen',
         'Ba Khuong',
         true
@@ -147,202 +147,253 @@ function ListDocs() {
     // )
   }, [])
 
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
-    const navigateToViewPdf = ()=>{
-        navigate('/document/viewPDF')
-    }
-    const navigateToCreateNewDocument = () => {
-        navigate('/document/upload')
-    }
-    const handleChangePage = useCallback((event, newPage) => {
-        setPage(newPage)
-    }, [])
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
-    const handleDeleteSignature = useCallback(() => {
-        // TODO: Integrate with BE
-        // axios.delete(`api`).then(
-        //     (response) => {
-        //         console.log(response)
-        //     },
-        //     (error) => {
-        //         console.log(error)
-        //     }
-        // )
-    }, [deleteId])
-    const handleViewDetailDoc = useCallback(()=>{
-        navigate('/document/upload')
-    })
-    return(
-        <>
-            <Layout>
-                <Box
-                    marginTop={10}
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
-                >
-                    <Typography component="h1" variant="h5" style={{fontFamily: "Quicksand", fontWeight: "bold"}}>
-                        Documents List
-                    </Typography>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={navigateToCreateNewDocument}
-                    >
-                        Upload
-                    </Button>
-                </Box>
-                <Box sx={{ width: '100%' }}>
-                    <Box sx={{ borderBottom: 1, borderColor: 'divider',marginBottom: 1 }}>
-                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                            <Tab label="Self Made" {...a11yProps(0)} sx={{ '&.Mui-selected': { outline: 'none' } }}/>
-                            <Tab label="Other Made" {...a11yProps(1)} sx={{ '&.Mui-selected': { outline: 'none' } }}/>
-                        </Tabs>
-                    </Box>
-                    <TabPanel value={value} index={0}>
-                        <TableContainer component={Paper}>
-                            <Table aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>
-                                        <StyledTableCell>No.</StyledTableCell>
-                                        <StyledTableCell>Name file</StyledTableCell>
-                                        <StyledTableCell>Status</StyledTableCell>
-                                        <StyledTableCell>Updated At</StyledTableCell>
-                                        <StyledTableCell></StyledTableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {documentList
-                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                        .map((document) => (
-                                        <TableRow key={document.id}>
-                                            <TableCell component="th" scope="row">
-                                                {document.id}
-                                            </TableCell>
-                                            <TableCell>
-                                                <ThemeProvider theme={theme}>
-                                                    <Typography>{document.name}</Typography>
-                                                    <Typography variant="subtitle1">To: {document.toUser}</Typography>
-                                                </ThemeProvider>
-                                            </TableCell>
-                                            {document.status == 'Completed' ? <TableCell sx={{color:'#5D9C59'}}>{document.status}</TableCell> : <TableCell sx={{color:'#F96666'}}>{document.status}</TableCell>}
+  const handleChange = (event, newValue) => {
+    setValue(newValue)
+  }
+  const navigateToViewPdf = () => {
+    navigate('/document/viewPDF')
+  }
+  const navigateToCreateNewDocument = () => {
+    navigate('/document/upload')
+  }
+  const handleChangePage = useCallback((event, newPage) => {
+    setPage(newPage)
+  }, [])
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10))
+    setPage(0)
+  }
+  const handleDeleteSignature = useCallback(() => {
+    // TODO: Integrate with BE
+    // axios.delete(`api`).then(
+    //     (response) => {
+    //         console.log(response)
+    //     },
+    //     (error) => {
+    //         console.log(error)
+    //     }
+    // )
+  }, [deleteId])
+  const handleViewDetailDoc = useCallback(() => {
+    navigate('/document/upload')
+  })
+  return (
+    <>
+      <Layout>
+        <Box
+          marginTop={10}
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Typography
+            component="h1"
+            variant="h5"
+            style={{ fontFamily: 'Quicksand', fontWeight: 'bold' }}
+          >
+            Documents List
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={navigateToCreateNewDocument}
+          >
+            Upload
+          </Button>
+        </Box>
+        <Box sx={{ width: '100%' }}>
+          <Box
+            sx={{ borderBottom: 1, borderColor: 'divider', marginBottom: 1 }}
+          >
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+            >
+              <Tab
+                label="Self Made"
+                {...a11yProps(0)}
+                sx={{ '&.Mui-selected': { outline: 'none' } }}
+              />
+              <Tab
+                label="Other Made"
+                {...a11yProps(1)}
+                sx={{ '&.Mui-selected': { outline: 'none' } }}
+              />
+            </Tabs>
+          </Box>
+          <TabPanel value={value} index={0}>
+            <TableContainer component={Paper}>
+              <Table aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell>No.</StyledTableCell>
+                    <StyledTableCell>Name file</StyledTableCell>
+                    <StyledTableCell>Status</StyledTableCell>
+                    <StyledTableCell>Updated At</StyledTableCell>
+                    <StyledTableCell></StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {documentList
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((document) => (
+                      <TableRow key={document.id}>
+                        <TableCell component="th" scope="row">
+                          {document.id}
+                        </TableCell>
+                        <TableCell>
+                          <ThemeProvider theme={theme}>
+                            <Typography>{document.name}</Typography>
+                            <Typography variant="subtitle1">
+                              To: {document.toUser}
+                            </Typography>
+                          </ThemeProvider>
+                        </TableCell>
+                        {document.status == 'Completed' ? (
+                          <TableCell sx={{ color: '#5D9C59' }}>
+                            {document.status}
+                          </TableCell>
+                        ) : (
+                          <TableCell sx={{ color: '#F96666' }}>
+                            {document.status}
+                          </TableCell>
+                        )}
 
-                                            <TableCell>
-                                                <ThemeProvider theme={theme}>
-                                                    <Typography>{document.date}</Typography>
-                                                    <Typography variant="subtitle1">{document.time}</Typography>
-                                                </ThemeProvider>
-                                            </TableCell>
-                                            <TableCell align="right">
-                                                <StyledIconButton
-                                                    size="small"
-                                                    onClick={navigateToViewPdf}
-                                                >
-                                                    <RemoveRedEyeRoundedIcon fontSize="inherit" color="#dfdfdf" />
-                                                </StyledIconButton>
-                                                <StyledIconButton size="small">
-                                                    <DownloadIcon fontSize="inherit" color="success" />
-                                                </StyledIconButton>
-                                                <StyledIconButton
-                                                    size="small"
-                                                    onClick={() => {
-                                                        setDeleteId(document.id)
-                                                        setOpenDeleteModal(true)
-                                                    }}
-                                                >
-                                                    <DeleteIcon fontSize="inherit" color="error" />
-                                                </StyledIconButton>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                                <StyledTablePagination
-                                    rowsPerPageOptions={[]}
-                                    count={documentList.length}
-                                    rowsPerPage={3}
-                                    page={page}
-                                    onPageChange={handleChangePage}
-                                />
-                            </Table>
-                        </TableContainer>
-                    </TabPanel>
-                    <TabPanel value={value} index={1}>
-                        <TableContainer component={Paper}>
-                            <Table aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>
-                                        <StyledTableCell>No.</StyledTableCell>
-                                        <StyledTableCell>Name file</StyledTableCell>
-                                        <StyledTableCell>Status</StyledTableCell>
-                                        <StyledTableCell>Updated At</StyledTableCell>
-                                        <StyledTableCell></StyledTableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {documentList
-                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                        .map((document) => (
-                                        <TableRow key={document.id}>
-                                            <TableCell component="th" scope="row">
-                                                {document.id}
-                                            </TableCell>
-                                            <TableCell>
-                                                <ThemeProvider theme={theme}>
-                                                    <Typography>{document.name}</Typography>
-                                                    <Typography variant="subtitle1">From: {document.fromUser}</Typography>
-                                                </ThemeProvider>
-                                            </TableCell>
-                                            {document.status == 'Completed' ? <TableCell sx={{color:'#5D9C59'}}>{document.status}</TableCell> : <TableCell sx={{color:'#F96666'}}>{document.status}</TableCell>}
-                                            <TableCell>
-                                                <ThemeProvider theme={theme}>
-                                                    <Typography>{document.date}</Typography>
-                                                    <Typography variant="subtitle1">{document.time}</Typography>
-                                                </ThemeProvider>
-                                            </TableCell>
-                                            <TableCell align="right">
-                                                <StyledIconButton size="small" onClick={navigateToViewPdf}>
-                                                    <RemoveRedEyeRoundedIcon fontSize="inherit" color="#dfdfdf" />
-                                                </StyledIconButton>
-                                                <StyledIconButton size="small">
-                                                    <DownloadIcon fontSize="inherit" color="success" />
-                                                </StyledIconButton>
-                                                <StyledIconButton
-                                                    size="small"
-                                                    onClick={() => {
-                                                        setDeleteId(document.id)
-                                                        setOpenDeleteModal(true)
-                                                    }}
-                                                >
-                                                    <DeleteIcon fontSize="inherit" color="error" />
-                                                </StyledIconButton>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                                <StyledTablePagination
-                                    rowsPerPageOptions={[]}
-                                    count={documentList.length}
-                                    rowsPerPage={3}
-                                    page={page}
-                                    onPageChange={handleChangePage}
-                                />
-                            </Table>
-                        </TableContainer>
-                    </TabPanel>
-                </Box>
-
-                <DeleteDocument
-                    open={openDeleteModal}
-                    onClose={() => setOpenDeleteModal(false)}
-                    onClickCancel={() => setOpenDeleteModal(false)}
-                    onClickConfirm={handleDeleteSignature}
+                        <TableCell>
+                          <ThemeProvider theme={theme}>
+                            <Typography>{document.date}</Typography>
+                            <Typography variant="subtitle1">
+                              {document.time}
+                            </Typography>
+                          </ThemeProvider>
+                        </TableCell>
+                        <TableCell align="right">
+                          <StyledIconButton
+                            size="small"
+                            onClick={navigateToViewPdf}
+                          >
+                            <RemoveRedEyeRoundedIcon
+                              fontSize="inherit"
+                              color="#dfdfdf"
+                            />
+                          </StyledIconButton>
+                          <StyledIconButton size="small">
+                            <DownloadIcon fontSize="inherit" color="success" />
+                          </StyledIconButton>
+                          <StyledIconButton
+                            size="small"
+                            onClick={() => {
+                              setDeleteId(document.id)
+                              setOpenDeleteModal(true)
+                            }}
+                          >
+                            <DeleteIcon fontSize="inherit" color="error" />
+                          </StyledIconButton>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+                <StyledTablePagination
+                  rowsPerPageOptions={[]}
+                  count={documentList.length}
+                  rowsPerPage={3}
+                  page={page}
+                  onPageChange={handleChangePage}
                 />
-            </Layout>
+              </Table>
+            </TableContainer>
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <TableContainer component={Paper}>
+              <Table aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell>No.</StyledTableCell>
+                    <StyledTableCell>Name file</StyledTableCell>
+                    <StyledTableCell>Status</StyledTableCell>
+                    <StyledTableCell>Updated At</StyledTableCell>
+                    <StyledTableCell></StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {documentList
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((document) => (
+                      <TableRow key={document.id}>
+                        <TableCell component="th" scope="row">
+                          {document.id}
+                        </TableCell>
+                        <TableCell>
+                          <ThemeProvider theme={theme}>
+                            <Typography>{document.name}</Typography>
+                            <Typography variant="subtitle1">
+                              From: {document.fromUser}
+                            </Typography>
+                          </ThemeProvider>
+                        </TableCell>
+                        {document.status == 'Completed' ? (
+                          <TableCell sx={{ color: '#5D9C59' }}>
+                            {document.status}
+                          </TableCell>
+                        ) : (
+                          <TableCell sx={{ color: '#F96666' }}>
+                            {document.status}
+                          </TableCell>
+                        )}
+                        <TableCell>
+                          <ThemeProvider theme={theme}>
+                            <Typography>{document.date}</Typography>
+                            <Typography variant="subtitle1">
+                              {document.time}
+                            </Typography>
+                          </ThemeProvider>
+                        </TableCell>
+                        <TableCell align="right">
+                          <StyledIconButton
+                            size="small"
+                            onClick={navigateToViewPdf}
+                          >
+                            <RemoveRedEyeRoundedIcon
+                              fontSize="inherit"
+                              color="#dfdfdf"
+                            />
+                          </StyledIconButton>
+                          <StyledIconButton size="small">
+                            <DownloadIcon fontSize="inherit" color="success" />
+                          </StyledIconButton>
+                          <StyledIconButton
+                            size="small"
+                            onClick={() => {
+                              setDeleteId(document.id)
+                              setOpenDeleteModal(true)
+                            }}
+                          >
+                            <DeleteIcon fontSize="inherit" color="error" />
+                          </StyledIconButton>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+                <StyledTablePagination
+                  rowsPerPageOptions={[]}
+                  count={documentList.length}
+                  rowsPerPage={3}
+                  page={page}
+                  onPageChange={handleChangePage}
+                />
+              </Table>
+            </TableContainer>
+          </TabPanel>
+        </Box>
+
+        <DeleteDocument
+          open={openDeleteModal}
+          onClose={() => setOpenDeleteModal(false)}
+          onClickCancel={() => setOpenDeleteModal(false)}
+          onClickConfirm={handleDeleteSignature}
+        />
+      </Layout>
     </>
   )
 }
