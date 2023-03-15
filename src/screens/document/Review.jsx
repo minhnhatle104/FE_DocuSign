@@ -39,7 +39,7 @@ function Review() {
       name,
       documentId,
     }
-    axios.post('http://localhost:3030/api/notification/forward', data).then(
+    axios.post('https://group07-be-noti.onrender.com/api/notification/forward', data).then(
       (response) => {
         if (response.data.status == true) {
           dispatch(closeLoading())
