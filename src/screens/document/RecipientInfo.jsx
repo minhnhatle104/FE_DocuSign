@@ -99,8 +99,7 @@ function RecipientInfo() {
 
     if (isCompletedForm && !isError) {
       navigate('/document/signPDF')
-    }
-    else {
+    } else {
       alert('Please set up recipient info!')
     }
   }

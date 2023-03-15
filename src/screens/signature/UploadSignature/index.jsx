@@ -12,7 +12,11 @@ const UploadSignature = (props, ref) => {
   return (
     <Box sx={{ paddingRight: '1rem' }}>
       <Box>
-        <FilePond ref={ref} labelIdle="Drag or attach your file here" />
+        <FilePond
+          name="image"
+          ref={ref}
+          labelIdle="Drag or attach your file here"
+        />
       </Box>
     </Box>
   )

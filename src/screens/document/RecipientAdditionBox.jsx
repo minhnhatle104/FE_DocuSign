@@ -54,8 +54,7 @@ const RecipientAdditionBox = ({
   useEffect(() => {
     if (formik.errors.name || formik.errors.email) {
       handleChangeError(true)
-    }
-    else {
+    } else {
       handleChangeError(false)
     }
   }, [formik.errors.name, formik.errors.email])

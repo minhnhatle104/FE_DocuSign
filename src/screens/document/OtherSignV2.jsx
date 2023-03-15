@@ -247,7 +247,7 @@ function PdfViewer({ isShowChooseImage, isOtherSign }) {
                     onChange={handleFileInputChange}
                     id="signature"
                   />
-                  <label className="custom-label btnPress" for="signature">
+                  <label className="custom-label btnPress" htmlFor="signature">
                     <AutoGraphIcon />{' '}
                     <span className="ml-1 mr-1">Choose signature</span>
                   </label>
