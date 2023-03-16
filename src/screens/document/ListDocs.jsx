@@ -26,7 +26,9 @@ import {
 } from '../signature/ManageSignature/styles.js'
 import DeleteDocument from './DeleteDocument/index.jsx'
 import { StyledTableCell } from './css/style.js'
-import axios from 'axios'
+import axiosConfig from "../../utils/axiosConfig.js";
+import { useDispatch } from 'react-redux'
+import {closeLoading,displayLoading} from "../../../redux/slice/loadingSlice.js";
 
 const theme = createTheme({
   typography: {
@@ -77,7 +79,11 @@ function ListDocs() {
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(3)
   const [deleteId, setDeleteId] = useState()
-  const [openDeleteModal, setOpenDeleteModal] = useState(false)
+  const [openDeleteModal, setOpenDeleteModal] = useState({
+    isShow: false,
+    doc_id: null
+  })
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const now = new Date()
@@ -159,24 +165,51 @@ function ListDocs() {
   const handleChangePage = useCallback((event, newPage) => {
     setPage(newPage)
   }, [])
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10))
-    setPage(0)
+
+  const handleCloseDeleteModal = ()=>{
+    setOpenDeleteModal({
+      isShow: false,
+      debt_id: null
+    })
   }
-  const handleDeleteSignature = useCallback(() => {
-    // TODO: Integrate with BE
-    // axios.delete(`api`).then(
+  const handleFetchDocsList = useCallback(() => {
+    // dispatch(displayLoading())
+    // axiosConfig.get('https://group07-be-signature.onrender.com/api/document/list').then(
     //     (response) => {
-    //         console.log(response)
+    //       console.log(response)
+    //       dispatch(closeLoading())
+    //       setDocumentList(response.data.result.signatures || [])
     //     },
     //     (error) => {
-    //         console.log(error)
+    //       console.log(error)
+    //       dispatch(closeLoading())
     //     }
     // )
+  }, [dispatch])
+  const handleDeleteDoc = useCallback(() => {
+    setOpenDeleteModal({
+      isShow: false,
+      doc_id: null
+    })
+    //dispatch(displayLoading())
+
+    // axiosConfig
+    //     .delete('https://group07-be-signature.onrender.com/api/document/delete', {
+    //
+    //     })
+    //     .then(
+    //         (response) => {
+    //           dispatch(closeLoading())
+    //           setPage(0)
+    //           handleFetchDocsList()
+    //           console.log(response)
+    //         },
+    //         (error) => {
+    //           dispatch(closeLoading())
+    //           console.log(error)
+    //         }
+    //     )
   }, [deleteId])
-  const handleViewDetailDoc = useCallback(() => {
-    navigate('/document/upload')
-  })
   return (
     <>
       <Layout>
@@ -285,7 +318,10 @@ function ListDocs() {
                             size="small"
                             onClick={() => {
                               setDeleteId(document.id)
-                              setOpenDeleteModal(true)
+                              setOpenDeleteModal({
+                                isShow: true,
+                                doc_id: document.id
+                              })
                             }}
                           >
                             <DeleteIcon fontSize="inherit" color="error" />
@@ -366,7 +402,10 @@ function ListDocs() {
                             size="small"
                             onClick={() => {
                               setDeleteId(document.id)
-                              setOpenDeleteModal(true)
+                              setOpenDeleteModal({
+                                isShow: true,
+                                doc_id: document.id
+                              })
                             }}
                           >
                             <DeleteIcon fontSize="inherit" color="error" />
@@ -388,10 +427,10 @@ function ListDocs() {
         </Box>
 
         <DeleteDocument
-          open={openDeleteModal}
-          onClose={() => setOpenDeleteModal(false)}
-          onClickCancel={() => setOpenDeleteModal(false)}
-          onClickConfirm={handleDeleteSignature}
+          open={openDeleteModal.isShow}
+          onClose={handleCloseDeleteModal}
+          onClickCancel={handleCloseDeleteModal}
+          onClickConfirm={handleDeleteDoc}
         />
       </Layout>
     </>
