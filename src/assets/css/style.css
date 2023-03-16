@@ -7,9 +7,13 @@
 }
 
 .MuiTableCell-body,
-.MuiTablePagination-displayedRows {
+.MuiTablePagination-displayedRows, .MuiTypography-h5 {
   font-family: Quicksand !important;
   font-weight: bold !important;
+}
+
+.MuiAlert-message, .filepond--drop-label{
+  font-family: Quicksand!important;
 }
 .MuiTab-root {
   font-size: 12px !important;

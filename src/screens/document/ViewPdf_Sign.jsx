@@ -4,11 +4,13 @@ import StepInit from './StepInit.jsx'
 import React, { useState } from 'react'
 import PdfViewer from './pdfViewer.jsx'
 import '/src/assets/css/style.css'
-import { useNavigate } from 'react-router-dom'
+import {useLocation, useNavigate} from 'react-router-dom'
 import Layout from '../../components/Layout/index.jsx'
 
 function SignPdf() {
   const navigate = useNavigate()
+  const {state} = useLocation();
+  console.log(state)
 
   const navigateToPrevStep = () => {
     navigate('/document/recipientInfo')
@@ -29,7 +31,7 @@ function SignPdf() {
             </Box>
           </Box>
           <StepInit step={2} />
-          <PdfViewer isShowChooseImage={true} />
+          <PdfViewer isShowChooseImage={true} recipientList={state.recipientList}/>
         </Layout>
       </Box>
     </>
