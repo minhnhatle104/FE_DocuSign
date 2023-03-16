@@ -98,7 +98,9 @@ function RecipientInfo() {
     }
 
     if (isCompletedForm && !isError) {
-      navigate('/document/signPDF')
+      navigate('/document/signPDF',
+          { state: { recipientList } }
+    )
     } else {
       alert('Please set up recipient info!')
     }

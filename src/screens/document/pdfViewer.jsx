@@ -51,7 +51,7 @@ function a11yProps(index) {
   }
 }
 
-function PdfViewer({ isShowChooseImage }) {
+function PdfViewer({ isShowChooseImage, recipientList }) {
   const navigate = useNavigate()
   const [value, setValue] = useState(0)
 
@@ -168,7 +168,7 @@ function PdfViewer({ isShowChooseImage }) {
       (response) => {
         if (response.data.message == 'Success') {
           dispatch(closeLoading())
-          navigate('/document/review')
+          navigate('/document/review', {state: recipientList})
         }
       },
       (error) => {
