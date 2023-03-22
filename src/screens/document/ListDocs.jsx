@@ -26,9 +26,12 @@ import {
 } from '../signature/ManageSignature/styles.js'
 import DeleteDocument from './DeleteDocument/index.jsx'
 import { StyledTableCell } from './css/style.js'
-import axiosConfig from "../../utils/axiosConfig.js";
+import axiosConfig from '../../utils/axiosConfig.js'
 import { useDispatch } from 'react-redux'
-import {closeLoading,displayLoading} from "../../../redux/slice/loadingSlice.js";
+import {
+  closeLoading,
+  displayLoading,
+} from '../../../redux/slice/loadingSlice.js'
 
 const theme = createTheme({
   typography: {
@@ -81,7 +84,7 @@ function ListDocs() {
   const [deleteId, setDeleteId] = useState()
   const [openDeleteModal, setOpenDeleteModal] = useState({
     isShow: false,
-    doc_id: null
+    doc_id: null,
   })
   const dispatch = useDispatch()
 
@@ -166,10 +169,10 @@ function ListDocs() {
     setPage(newPage)
   }, [])
 
-  const handleCloseDeleteModal = ()=>{
+  const handleCloseDeleteModal = () => {
     setOpenDeleteModal({
       isShow: false,
-      debt_id: null
+      debt_id: null,
     })
   }
   const handleFetchDocsList = useCallback(() => {
@@ -189,7 +192,7 @@ function ListDocs() {
   const handleDeleteDoc = useCallback(() => {
     setOpenDeleteModal({
       isShow: false,
-      doc_id: null
+      doc_id: null,
     })
     //dispatch(displayLoading())
 
@@ -320,7 +323,7 @@ function ListDocs() {
                               setDeleteId(document.id)
                               setOpenDeleteModal({
                                 isShow: true,
-                                doc_id: document.id
+                                doc_id: document.id,
                               })
                             }}
                           >
@@ -404,7 +407,7 @@ function ListDocs() {
                               setDeleteId(document.id)
                               setOpenDeleteModal({
                                 isShow: true,
-                                doc_id: document.id
+                                doc_id: document.id,
                               })
                             }}
                           >

@@ -4,7 +4,7 @@ import StepInit from './StepInit.jsx'
 import React from 'react'
 import PdfViewer from './pdfViewer.jsx'
 import '/src/assets/css/style.css'
-import {useLocation, useNavigate} from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Layout from '../../components/Layout/index.jsx'
 import EmailIcon from '@mui/icons-material/Email'
 import AccountBoxIcon from '@mui/icons-material/AccountBox'
@@ -17,23 +17,32 @@ import {
   displayLoading,
 } from '../../../redux/slice/loadingSlice.js'
 import { useDispatch } from 'react-redux'
-import Carousel from 'react-material-ui-carousel';
-import {Paper} from "@mui/material";
-import BookmarkIcon from '@mui/icons-material/Bookmark';
-const Item = ({name, email, permission}) => {
+import Carousel from 'react-material-ui-carousel'
+import { Paper } from '@mui/material'
+import BookmarkIcon from '@mui/icons-material/Bookmark'
+const Item = ({ name, email, permission }) => {
   return (
-      <Paper>
-        <p style={{fontSize: "15px"}}> <AccountBoxIcon />: {name}</p>
-        <p style={{fontSize: "15px"}}> <EmailIcon />: {email}</p>
-        <p style={{fontSize: "15px", color: "#d10f29"}} > <BookmarkIcon/>: {permission}</p>
-      </Paper>
-  );
-};
+    <Paper>
+      <p style={{ fontSize: '15px' }}>
+        {' '}
+        <AccountBoxIcon />: {name}
+      </p>
+      <p style={{ fontSize: '15px' }}>
+        {' '}
+        <EmailIcon />: {email}
+      </p>
+      <p style={{ fontSize: '15px', color: '#d10f29' }}>
+        {' '}
+        <BookmarkIcon />: {permission}
+      </p>
+    </Paper>
+  )
+}
 
 function Review() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const {state} = useLocation();
+  const { state } = useLocation()
 
   const navigateToPrevStep = () => {
     navigate('/document/signPDF')
@@ -52,17 +61,22 @@ function Review() {
       name,
       documentId,
     }
-    axios.post('https://group07-be-noti.onrender.com/api/notification/forward', data).then(
-      (response) => {
-        if (response.data.status == true) {
-          dispatch(closeLoading())
-          navigate('/document/list')
+    axios
+      .post(
+        'https://group07-be-noti.onrender.com/api/notification/forward',
+        data
+      )
+      .then(
+        (response) => {
+          if (response.data.status == true) {
+            dispatch(closeLoading())
+            navigate('/document/list')
+          }
+        },
+        (error) => {
+          console.log(error)
         }
-      },
-      (error) => {
-        console.log(error)
-      }
-    )
+      )
   }
 
   return (
@@ -117,7 +131,7 @@ function Review() {
             <div className="mt-5">
               <Carousel>
                 {state.map((item, i) => (
-                    <Item key={i} {...item} />
+                  <Item key={i} {...item} />
                 ))}
               </Carousel>
             </div>

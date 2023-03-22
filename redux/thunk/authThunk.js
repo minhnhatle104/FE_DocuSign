@@ -4,7 +4,7 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth'
 // Add a second document with a generated ID.
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, collection, doc, setDoc } from 'firebase/firestore'
 import Swal from 'sweetalert2'
 
 import { fireStoreDB, getFirebaseApp } from '../../utils/firebase-config'
@@ -75,9 +75,12 @@ const createUser = async (email, full_name, phone_number, userId) => {
     signUpDate: new Date().toISOString(),
   }
 
-  console.log('User data: ', userData)
-
-  const docRef = await addDoc(collection(fireStoreDB, 'users'), userData)
+  try{
+    await setDoc(doc(fireStoreDB, "users", `${userId}`), userData)
+  }catch(err){
+    console.log(err)
+    throw new Error("Can't create user")
+  }
   return userData
 }
 
@@ -90,18 +93,18 @@ export const signInApi = (formValues) => {
     dispatch(displayLoading())
     try {
       const result = await signInWithEmailAndPassword(auth, email, password)
-      console.log(result)
       const { uid, stsTokenManager } = result.user
-      console.log("result user: ",result.user)
       const { accessToken, expirationTime } = stsTokenManager
-      console.log("stsTokenManager: ",stsTokenManager)
 
       const expiryDate = new Date(expirationTime)
       const timeNow = new Date()
       const millisecondsUntilExpiry = expiryDate - timeNow
 
       const userData = await getUserData(uid)
-      console.log(userData)
+      if (!userData) {
+        dispatch(closeLoading())
+        throw new Error("No such user exists")
+      }
 
       dispatch(authenticate({ token: accessToken, userData }))
 
@@ -109,11 +112,11 @@ export const signInApi = (formValues) => {
       localStorage.setItem('uid', uid)
       localStorage.setItem('expiryDate', expiryDate)
 
-      dispatch(closeLoading())
-
       timer = setTimeout(() => {
         dispatch(userLogout())
       }, millisecondsUntilExpiry)
+
+      dispatch(closeLoading())     
     } catch (error) {
       dispatch(closeLoading())
       console.log(error)
