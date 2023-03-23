@@ -85,21 +85,26 @@ function PdfViewer({ isShowChooseImage, isOtherSign }) {
       imageName: './assets/test/khuong.png',
     }
 
-    axios.post('https://group07-be-document.onrender.com/api/document/fileDimension', data).then(
-      (response) => {
-        console.log(response)
-        setFileHeight(response.data.fileHeight + 50)
-        setFileWidth(response.data.fileWidth + 30)
-        setIMGHeight(response.data.imageHeight)
-        setIMGWidth(response.data.imageWidth)
-        console.log(imageWidth)
-        setPDFFile(true)
-        dispatch(closeLoading())
-      },
-      (error) => {
-        console.log(error)
-      }
-    )
+    axios
+      .post(
+        'https://group07-be-document.onrender.com/api/document/fileDimension',
+        data
+      )
+      .then(
+        (response) => {
+          console.log(response)
+          setFileHeight(response.data.fileHeight + 50)
+          setFileWidth(response.data.fileWidth + 30)
+          setIMGHeight(response.data.imageHeight)
+          setIMGWidth(response.data.imageWidth)
+          console.log(imageWidth)
+          setPDFFile(true)
+          dispatch(closeLoading())
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
   }, [])
 
   const fileType = ['application/pdf']
@@ -164,21 +169,23 @@ function PdfViewer({ isShowChooseImage, isOtherSign }) {
       fileName: 'user/jGzIwPIXM7RGcvvbDpJ10JYewUw1/documents/07.pdf',
     }
     dispatch(displayLoading())
-    await axios.post('https://group07-be-document.onrender.com/api/document/sign', data).then(
-      (response) => {
-        if (response.data.message == 'Success') {
-          dispatch(closeLoading())
-          if (isOtherSign == true) {
-            navigate('/document/viewPDF')
-          } else {
-            navigate('/document/review')
+    await axios
+      .post('https://group07-be-document.onrender.com/api/document/sign', data)
+      .then(
+        (response) => {
+          if (response.data.message == 'Success') {
+            dispatch(closeLoading())
+            if (isOtherSign == true) {
+              navigate('/document/viewPDF')
+            } else {
+              navigate('/document/review')
+            }
           }
+        },
+        (error) => {
+          console.log(error)
         }
-      },
-      (error) => {
-        console.log(error)
-      }
-    )
+      )
   }
 
   const handleChange = (event, newValue) => {

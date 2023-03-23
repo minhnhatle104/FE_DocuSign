@@ -38,17 +38,19 @@ const ManageSignature = () => {
 
   const handleFetchSignatureList = useCallback(() => {
     dispatch(displayLoading())
-    axiosConfig.get('https://group07-be-signature.onrender.com/api/signature/all').then(
-      (response) => {
-        console.log(response)
-        dispatch(closeLoading())
-        setSignatureList(response.data.result.signatures || [])
-      },
-      (error) => {
-        console.log(error)
-        dispatch(closeLoading())
-      }
-    )
+    axiosConfig
+      .get('https://group07-be-signature.onrender.com/api/signature/all')
+      .then(
+        (response) => {
+          console.log(response)
+          dispatch(closeLoading())
+          setSignatureList(response.data.result.signatures || [])
+        },
+        (error) => {
+          console.log(error)
+          dispatch(closeLoading())
+        }
+      )
   }, [dispatch])
 
   useEffect(() => {
@@ -64,11 +66,14 @@ const ManageSignature = () => {
     dispatch(displayLoading())
 
     axiosConfig
-      .delete('https://group07-be-signature.onrender.com/api/signature/delete', {
-        data: {
-          file_name: deleteFileName,
-        },
-      })
+      .delete(
+        'https://group07-be-signature.onrender.com/api/signature/delete',
+        {
+          data: {
+            file_name: deleteFileName,
+          },
+        }
+      )
       .then(
         (response) => {
           dispatch(closeLoading())

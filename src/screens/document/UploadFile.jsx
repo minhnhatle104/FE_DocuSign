@@ -4,7 +4,7 @@ import Button from '@mui/material/Button'
 import StepInit from './StepInit.jsx'
 import Layout from '../../components/Layout/index.jsx'
 import { useNavigate } from 'react-router-dom'
-import UploadSignature from "../signature/UploadSignature/index.jsx";
+import UploadSignature from '../signature/UploadSignature/index.jsx'
 
 function UploadFile() {
   const navigate = useNavigate()
@@ -40,7 +40,6 @@ function UploadFile() {
           <StepInit step={0} />
         </Layout>
         <UploadSignature />
-
       </Box>
     </>
   )
