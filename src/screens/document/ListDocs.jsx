@@ -39,13 +39,8 @@ const theme = createTheme({
   },
 })
 
-function createData(id, name, status, date, time, fromUser, toUser, isSend) {
-  return { id, name, status, date, time, fromUser, toUser, isSend }
-}
-
 function TabPanel(props) {
   const { children, value, index, ...other } = props
-
   return (
     <div
       role="tabpanel"
@@ -76,6 +71,7 @@ function ListDocs() {
   const navigate = useNavigate()
   const [value, setValue] = useState(0)
   const [documentList, setDocumentList] = useState([])
+  const [documentListOther, setDocumentListOther] = useState([])
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(3)
   const [deleteId, setDeleteId] = useState()
@@ -83,75 +79,8 @@ function ListDocs() {
     isShow: false,
     doc_id: null
   })
+  const userId = localStorage.uid;
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    const now = new Date()
-    now.setHours(now.getHours() + 7)
-    const convertNow = new Date(now).toISOString()
-    setDocumentList([
-      createData(
-        1,
-        'TaiLieu01.pdf',
-        'Not Completed',
-        convertNow.slice(0, 10),
-        convertNow.slice(11, 19),
-        'Nhan Nguyen',
-        'Ba Khuong',
-        true
-      ),
-      // createData(
-      //   2,
-      //   'Hop_Dong_Ban_Nha.pdf',
-      //   'Completed',
-      //   '2023-03-08',
-      //   '08:05:20',
-      //   'Nhan Nguyen',
-      //   'Khang Dang',
-      //   true
-      // ),
-      // createData(
-      //   3,
-      //   'Hop_Dong_Thue.pdf',
-      //   'Not Completed',
-      //   '2023-02-21',
-      //   '18:05:49',
-      //   'Nhan Nguyen',
-      //   'Khuong Nguyen',
-      //   false
-      // ),
-      // createData(
-      //   4,
-      //   'Hop_Dong_TTNCN.pdf',
-      //   'Completed',
-      //   '2023-02-11',
-      //   '11:05:30',
-      //   'Nhan Nguyen',
-      //   'Khang Dang',
-      //   false
-      // ),
-      // createData(
-      //   5,
-      //   'Hop_Dong_Lao_Dong.pdf',
-      //   'Not Completed',
-      //   '2023-02-20',
-      //   '9:05:40',
-      //   'Nhan Nguyen',
-      //   'Minh Le',
-      //   false
-      // ),
-    ])
-
-    // TODO: Integrate with BE
-    // axios.get('http://localhost:4040/api/signature').then(
-    //   (response) => {
-    //     console.log(response)
-    //   },
-    //   (error) => {
-    //     console.log(error)
-    //   }
-    // )
-  }, [])
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -172,44 +101,64 @@ function ListDocs() {
       debt_id: null
     })
   }
-  const handleFetchDocsList = useCallback(() => {
-    // dispatch(displayLoading())
-    // axiosConfig.get('https://group07-be-signature.onrender.com/api/document/list').then(
-    //     (response) => {
-    //       console.log(response)
-    //       dispatch(closeLoading())
-    //       setDocumentList(response.data.result.signatures || [])
-    //     },
-    //     (error) => {
-    //       console.log(error)
-    //       dispatch(closeLoading())
-    //     }
-    // )
+  const handleFetchDocsListOwned = useCallback(() => {
+    dispatch(displayLoading())
+    axiosConfig.get('http://localhost:3030/api/document/owned/'+userId+'').then(
+        (response) => {
+          console.log(response)
+          dispatch(closeLoading())
+          setDocumentList(response.data.list)
+        },
+        (error) => {
+          console.log(error)
+          dispatch(closeLoading())
+        }
+    )
+  }, [dispatch])
+  const handleFetchDocsListOther = useCallback(() => {
+    dispatch(displayLoading())
+    axiosConfig.get('http://localhost:3030/api/document/other/'+userId+'').then(
+        (response) => {
+          console.log(response)
+          dispatch(closeLoading())
+          setDocumentListOther(response.data.list)
+        },
+        (error) => {
+          console.log(error)
+          dispatch(closeLoading())
+        }
+    )
   }, [dispatch])
   const handleDeleteDoc = useCallback(() => {
-    setOpenDeleteModal({
-      isShow: false,
-      doc_id: null
-    })
-    //dispatch(displayLoading())
+    dispatch(displayLoading())
+    axiosConfig
+        .delete('http://localhost:3030/api/document/'+openDeleteModal.doc_id+'', {
 
-    // axiosConfig
-    //     .delete('https://group07-be-signature.onrender.com/api/document/delete', {
-    //
-    //     })
-    //     .then(
-    //         (response) => {
-    //           dispatch(closeLoading())
-    //           setPage(0)
-    //           handleFetchDocsList()
-    //           console.log(response)
-    //         },
-    //         (error) => {
-    //           dispatch(closeLoading())
-    //           console.log(error)
-    //         }
-    //     )
-  }, [deleteId])
+        })
+        .then(
+            (response) => {
+              dispatch(closeLoading())
+              setPage(0)
+              handleFetchDocsListOwned()
+              handleFetchDocsListOther()
+              setOpenDeleteModal({
+                isShow: false,
+                doc_id: null
+              })
+            },
+            (error) => {
+              dispatch(closeLoading())
+              console.log(error)
+            }
+        )
+  }, [deleteId,dispatch,handleFetchDocsListOwned,handleFetchDocsListOther])
+
+  useEffect(() => {
+    handleFetchDocsListOwned();
+    handleFetchDocsListOther();
+
+  }, [dispatch, handleFetchDocsListOwned,handleFetchDocsListOther])
+
   return (
     <>
       <Layout>
@@ -270,34 +219,34 @@ function ListDocs() {
                 <TableBody>
                   {documentList
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((document) => (
-                      <TableRow key={document.id}>
+                    .map((document,index) => (
+                      <TableRow key={document.Id}>
                         <TableCell component="th" scope="row">
-                          {document.id}
+                          {page * 3 + index + 1}
                         </TableCell>
                         <TableCell>
                           <ThemeProvider theme={theme}>
-                            <Typography>{document.name}</Typography>
+                            <Typography>{document.namefile}</Typography>
                             <Typography variant="subtitle1">
-                              To: {document.toUser}
+                              To: {document.receiverName}
                             </Typography>
                           </ThemeProvider>
                         </TableCell>
-                        {document.status == 'Completed' ? (
+                        {document.status == 1 ? (
                           <TableCell sx={{ color: '#5D9C59' }}>
-                            {document.status}
+                            Completed
                           </TableCell>
                         ) : (
                           <TableCell sx={{ color: '#F96666' }}>
-                            {document.status}
+                            Note Completed
                           </TableCell>
                         )}
 
                         <TableCell>
                           <ThemeProvider theme={theme}>
-                            <Typography>{document.date}</Typography>
+                            <Typography>{document.formatDate}</Typography>
                             <Typography variant="subtitle1">
-                              {document.time}
+                              {document.formatHour}
                             </Typography>
                           </ThemeProvider>
                         </TableCell>
@@ -317,10 +266,10 @@ function ListDocs() {
                           <StyledIconButton
                             size="small"
                             onClick={() => {
-                              setDeleteId(document.id)
+                              setDeleteId(document.Id)
                               setOpenDeleteModal({
                                 isShow: true,
-                                doc_id: document.id
+                                doc_id: document.Id
                               })
                             }}
                           >
@@ -353,35 +302,35 @@ function ListDocs() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {documentList
+                  {documentListOther
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((document) => (
-                      <TableRow key={document.id}>
+                    .map((document,index) => (
+                      <TableRow key={document.Id}>
                         <TableCell component="th" scope="row">
-                          {document.id}
+                          {page * 3 + index + 1}
                         </TableCell>
                         <TableCell>
                           <ThemeProvider theme={theme}>
-                            <Typography>{document.name}</Typography>
+                            <Typography>{document.namefile}</Typography>
                             <Typography variant="subtitle1">
-                              From: {document.fromUser}
+                              From: {document.senderName}
                             </Typography>
                           </ThemeProvider>
                         </TableCell>
-                        {document.status == 'Completed' ? (
+                        {document.status == 1 ? (
                           <TableCell sx={{ color: '#5D9C59' }}>
-                            {document.status}
+                          Completed
                           </TableCell>
                         ) : (
                           <TableCell sx={{ color: '#F96666' }}>
-                            {document.status}
+                          Not Completed
                           </TableCell>
                         )}
                         <TableCell>
                           <ThemeProvider theme={theme}>
-                            <Typography>{document.date}</Typography>
+                            <Typography>{document.date.formatDate}</Typography>
                             <Typography variant="subtitle1">
-                              {document.time}
+                              {document.formatHour}
                             </Typography>
                           </ThemeProvider>
                         </TableCell>
@@ -401,10 +350,10 @@ function ListDocs() {
                           <StyledIconButton
                             size="small"
                             onClick={() => {
-                              setDeleteId(document.id)
+                              setDeleteId(document.Id)
                               setOpenDeleteModal({
                                 isShow: true,
-                                doc_id: document.id
+                                doc_id: document.Id
                               })
                             }}
                           >
