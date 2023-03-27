@@ -17,10 +17,15 @@ import {
 } from '../../../redux/slice/loadingSlice.js'
 import AutoGraphIcon from '@mui/icons-material/AutoGraph'
 import { useNavigate } from 'react-router-dom'
-import { Box } from '@mui/material'
+import {Alert, Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@mui/material'
 import PropTypes from 'prop-types'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
+import {useCallback} from "react";
+import axiosConfig from "../../utils/axiosConfig.js";
+import Image from "mui-image";
+import {StyledIconButton, StyledTablePagination} from "../signature/ManageSignature/styles.js";
+import DeleteIcon from "@mui/icons-material/Delete.js";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -53,7 +58,10 @@ function a11yProps(index) {
 
 function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
   const navigate = useNavigate()
+  const [signatureList, setSignatureList] = useState([])
   const [value, setValue] = useState(0)
+  const [url, setUrl] = useState('')
+  const [page, setPage] = useState(0)
 
   const [currentPage, setCurrentPage] = useState(0)
   const [pdfFile, setPDFFile] = useState(false)
@@ -107,6 +115,28 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
         }
       )
   }, [])
+
+
+  const handleFetchSignatureList = useCallback(() => {
+    dispatch(displayLoading())
+    axiosConfig
+        .get('https://group07-be-signature.onrender.com/api/signature/all')
+        .then(
+            (response) => {
+              console.log(response)
+              dispatch(closeLoading())
+              setSignatureList(response.data.result.signatures || [])
+            },
+            (error) => {
+              console.log(error)
+              dispatch(closeLoading())
+            }
+        )
+  }, [dispatch])
+
+  useEffect(() => {
+    handleFetchSignatureList()
+  }, [dispatch, handleFetchSignatureList])
 
   const fileType = ['application/pdf']
 
@@ -176,7 +206,7 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
         (response) => {
           if (response.data.message == 'Success') {
             dispatch(closeLoading())
-            navigate('/document/review', { state: recipientList })
+            navigate('/document/review', { state: {recipientList, fileNamePdf, urlPdf} })
           }
         },
         (error) => {
@@ -188,6 +218,11 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
+
+  const handleChangePage = useCallback((event, newPage) => {
+    setPage(newPage)
+  }, [])
+
 
   return (
     <div className="row" style={{ marginTop: '20px', marginBottom: '20px' }}>
@@ -220,15 +255,53 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
                 </Tabs>
               </Box>
               <TabPanel value={value} index={0}>
-                <div
-                  style={{
-                    fontFamily: 'Quicksand',
-                    fontSize: '15px',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  Empty
-                </div>
+                  {signatureList.length ? (
+                      <TableContainer
+                          component={Paper}
+                          sx={{ marginTop: '1rem', width: '100%' }}
+                      >
+                        <Table>
+                          <TableHead>
+                            <TableRow>
+                              <TableCell>No.</TableCell>
+                              <TableCell>Image</TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {signatureList
+                                .slice(page * 3, (page + 1) * 3)
+                                .map((signature, index) => (
+                                    <TableRow key={signature.file_name}>
+                                      <TableCell>{page * 3 + index + 1}</TableCell>
+                                      <TableCell
+                                          sx={{ cursor: 'pointer' }}
+                                          onClick={() => setUrl(signature.file_url)}
+                                      >
+                                        <Image
+                                            sx={{ objectFit: 'contain!important' }}
+                                            src={signature.file_url}
+                                            width={100}
+                                            height={100}
+                                            duration={0}
+                                        />
+                                      </TableCell>
+                                    </TableRow>
+                                ))}
+                          </TableBody>
+                          <StyledTablePagination
+                              rowsPerPageOptions={[]}
+                              count={signatureList.length}
+                              rowsPerPage={3}
+                              page={page}
+                              onPageChange={handleChangePage}
+                          />
+                        </Table>
+                      </TableContainer>
+                  ) : (
+                      <Alert sx={{ marginTop: '1rem' }} severity="info">
+                        You have not added any signatures yet
+                      </Alert>
+                  )}
               </TabPanel>
               <TabPanel value={value} index={1}>
                 <div
