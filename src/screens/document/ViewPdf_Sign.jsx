@@ -34,6 +34,8 @@ function SignPdf() {
           <PdfViewer
             isShowChooseImage={true}
             recipientList={state.recipientList}
+            fileNamePdf = {state.selectPdf}
+            urlPdf = {state.pdfURl}
           />
         </Layout>
       </Box>

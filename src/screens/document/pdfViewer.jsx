@@ -51,7 +51,7 @@ function a11yProps(index) {
   }
 }
 
-function PdfViewer({ isShowChooseImage, recipientList }) {
+function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
   const navigate = useNavigate()
   const [value, setValue] = useState(0)
 
@@ -72,6 +72,7 @@ function PdfViewer({ isShowChooseImage, recipientList }) {
   const viewerContainerRef = useRef(null)
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const dispatch = useDispatch()
+  const userId = localStorage.getItem('uid')
 
   const handleViewerLoad = () => {
     const viewerContainerRect =
@@ -81,7 +82,7 @@ function PdfViewer({ isShowChooseImage, recipientList }) {
   useEffect(() => {
     dispatch(displayLoading())
     const data = {
-      fileName: 'user/jGzIwPIXM7RGcvvbDpJ10JYewUw1/documents/07.pdf',
+      fileName: `user/${userId}/documents/${fileNamePdf}`,
       imageName: './assets/test/khuong.png',
     }
 
@@ -166,7 +167,7 @@ function PdfViewer({ isShowChooseImage, recipientList }) {
       x_coor: parseFloat(ratio.toFixed(3)),
       y_coor: parseFloat(bottomSize.toFixed(3)),
       current_page: currentPage,
-      fileName: 'user/jGzIwPIXM7RGcvvbDpJ10JYewUw1/documents/07.pdf',
+      fileName: `user/${userId}/documents/${fileNamePdf}`,
     }
     dispatch(displayLoading())
     await axios
@@ -316,7 +317,7 @@ function PdfViewer({ isShowChooseImage, recipientList }) {
                     scrollMode={ScrollMode.Page}
                     onPageChange={handlePageChange}
                     onDocumentLoad={handleViewerLoad}
-                    fileUrl="https://firebasestorage.googleapis.com/v0/b/signatext.appspot.com/o/user%2FjGzIwPIXM7RGcvvbDpJ10JYewUw1%2Fdocuments%2F07.pdf?alt=media&token=535a60f3-93fb-4e9f-801c-2551c36eae62"
+                    fileUrl={urlPdf}
                     plugins={[newplugin]}
                   />
                 </>
