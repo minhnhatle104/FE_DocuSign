@@ -3,7 +3,7 @@ import Button from '@mui/material/Button'
 import StepInit from './StepInit.jsx'
 import React, { useState } from 'react'
 import Layout from '../../components/Layout/index.jsx'
-import {useLocation, useNavigate} from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Checkbox, FormControlLabel, Typography } from '@mui/material'
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt'
 import RecipientAdditionBox from './RecipientAdditionBox.jsx'
@@ -11,7 +11,7 @@ import RecipientAdditionBox from './RecipientAdditionBox.jsx'
 function RecipientInfo() {
   const navigate = useNavigate()
   const [isChecked, setIsChecked] = useState(false)
-  const prevData = useLocation();
+  const prevData = useLocation()
   const selectPdf = prevData.state.file_name
   const pdfURl = prevData.state.file_url
   const [recipientList, setRecipientList] = useState([
@@ -101,7 +101,9 @@ function RecipientInfo() {
     }
 
     if (isCompletedForm && !isError) {
-      navigate('/document/signPDF', { state: { recipientList, selectPdf, pdfURl } })
+      navigate('/document/signPDF', {
+        state: { recipientList, selectPdf, pdfURl },
+      })
     } else {
       alert('Please set up recipient info!')
     }

@@ -82,7 +82,7 @@ function ListDocs() {
     isShow: false,
     doc_id: null,
   })
-  const userId = localStorage.uid;
+  const userId = localStorage.uid
   const dispatch = useDispatch()
 
   const handleChange = (event, newValue) => {
@@ -106,7 +106,9 @@ function ListDocs() {
   }
   const handleFetchDocsListOwned = useCallback(() => {
     dispatch(displayLoading())
-    axiosConfig.get('http://localhost:3030/api/document/owned/'+userId+'').then(
+    axiosConfig
+      .get('http://localhost:3030/api/document/owned/' + userId + '')
+      .then(
         (response) => {
           console.log(response)
           dispatch(closeLoading())
@@ -116,11 +118,13 @@ function ListDocs() {
           console.log(error)
           dispatch(closeLoading())
         }
-    )
+      )
   }, [dispatch])
   const handleFetchDocsListOther = useCallback(() => {
     dispatch(displayLoading())
-    axiosConfig.get('http://localhost:3030/api/document/other/'+userId+'').then(
+    axiosConfig
+      .get('http://localhost:3030/api/document/other/' + userId + '')
+      .then(
         (response) => {
           console.log(response)
           dispatch(closeLoading())
@@ -130,37 +134,37 @@ function ListDocs() {
           console.log(error)
           dispatch(closeLoading())
         }
-    )
+      )
   }, [dispatch])
   const handleDeleteDoc = useCallback(() => {
     dispatch(displayLoading())
     axiosConfig
-        .delete('http://localhost:3030/api/document/'+openDeleteModal.doc_id+'', {
-
-        })
-        .then(
-            (response) => {
-              dispatch(closeLoading())
-              setPage(0)
-              handleFetchDocsListOwned()
-              handleFetchDocsListOther()
-              setOpenDeleteModal({
-                isShow: false,
-                doc_id: null
-              })
-            },
-            (error) => {
-              dispatch(closeLoading())
-              console.log(error)
-            }
-        )
-  }, [deleteId,dispatch,handleFetchDocsListOwned,handleFetchDocsListOther])
+      .delete(
+        'http://localhost:3030/api/document/' + openDeleteModal.doc_id + '',
+        {}
+      )
+      .then(
+        (response) => {
+          dispatch(closeLoading())
+          setPage(0)
+          handleFetchDocsListOwned()
+          handleFetchDocsListOther()
+          setOpenDeleteModal({
+            isShow: false,
+            doc_id: null,
+          })
+        },
+        (error) => {
+          dispatch(closeLoading())
+          console.log(error)
+        }
+      )
+  }, [deleteId, dispatch, handleFetchDocsListOwned, handleFetchDocsListOther])
 
   useEffect(() => {
-    handleFetchDocsListOwned();
-    handleFetchDocsListOther();
-
-  }, [dispatch, handleFetchDocsListOwned,handleFetchDocsListOther])
+    handleFetchDocsListOwned()
+    handleFetchDocsListOther()
+  }, [dispatch, handleFetchDocsListOwned, handleFetchDocsListOther])
   return (
     <>
       <Layout>
@@ -221,7 +225,7 @@ function ListDocs() {
                 <TableBody>
                   {documentList
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((document,index) => (
+                    .map((document, index) => (
                       <TableRow key={document.Id}>
                         <TableCell component="th" scope="row">
                           {page * 3 + index + 1}
@@ -271,7 +275,7 @@ function ListDocs() {
                               setDeleteId(document.Id)
                               setOpenDeleteModal({
                                 isShow: true,
-                                doc_id: document.Id
+                                doc_id: document.Id,
                               })
                             }}
                           >
@@ -306,7 +310,7 @@ function ListDocs() {
                 <TableBody>
                   {documentListOther
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((document,index) => (
+                    .map((document, index) => (
                       <TableRow key={document.Id}>
                         <TableCell component="th" scope="row">
                           {page * 3 + index + 1}
@@ -321,11 +325,11 @@ function ListDocs() {
                         </TableCell>
                         {document.status == 1 ? (
                           <TableCell sx={{ color: '#5D9C59' }}>
-                          Completed
+                            Completed
                           </TableCell>
                         ) : (
                           <TableCell sx={{ color: '#F96666' }}>
-                          Not Completed
+                            Not Completed
                           </TableCell>
                         )}
                         <TableCell>
@@ -355,7 +359,7 @@ function ListDocs() {
                               setDeleteId(document.Id)
                               setOpenDeleteModal({
                                 isShow: true,
-                                doc_id: document.Id
+                                doc_id: document.Id,
                               })
                             }}
                           >
