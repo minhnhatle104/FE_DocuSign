@@ -64,7 +64,7 @@ const CreateSignature = ({ open, handleClose, handleFetchSignatureList }) => {
 
     axiosConfig
       .post(
-        'https://group07-be-signature.onrender.com/api/signature/upload',
+        'https://group07-be-signature-042m.onrender.com/api/signature/upload',
         formData,
         {
           headers: 'multipart/form-data',

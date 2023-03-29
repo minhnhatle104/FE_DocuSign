@@ -9,7 +9,6 @@ import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout'
 import '@react-pdf-viewer/core/lib/styles/index.css'
 import '@react-pdf-viewer/default-layout/lib/styles/index.css'
 import './css/pdf.viewer.css'
-import axios from 'axios'
 import { useDispatch } from 'react-redux'
 import {
     closeLoading,
@@ -73,7 +72,7 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
     const [signatureList, setSignatureList] = useState([])
     const [openCreateModal, setOpenCreateModal] = useState(false)
     const [value, setValue] = useState(0)
-    const [imageTab1, setImageTab1] = useState('')
+    const [imageTab1, setImageTab1] = useState(null)
     const [page, setPage] = useState(0)
 
     const [currentPage, setCurrentPage] = useState(0)
@@ -100,10 +99,10 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
         // console.log(`Viewer position: (${viewerContainerRect.left}, ${viewerContainerRect.top})`);
     }
 
-    const handleFetchSignatureList = useCallback(() => {
+    function handleFetchSignatureList (){
         dispatch(displayLoading())
         axiosConfig
-            .get('https://group07-be-signature.onrender.com/api/signature/all')
+            .get('https://group07-be-signature-042m.onrender.com/api/signature/all')
             .then(
                 (response) => {
                     dispatch(closeLoading())
@@ -114,35 +113,59 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
                     dispatch(closeLoading())
                 }
             )
-    }, [dispatch])
+    }
 
-    useEffect(() => {
-        handleFetchSignatureList()
-    }, [dispatch, handleFetchSignatureList])
+    function  fetchSizeData() {
+        if (fileHeight == 0){
+            dispatch(displayLoading())
+            if(signatureList.length>0) {
+                const data = {
+                    fileName: `user/${userId}/documents/${fileNamePdf}`,
+                    // imageName: imageTab1,
+                }
 
-
-    function fetchSizeData() {
+                axiosConfig
+                    .post(
+                        'https://group07-be-document-wcyr.onrender.com/api/document/fileDimension',
+                        data
+                    )
+                    .then(
+                        (response) => {
+                            console.log(response)
+                            setFileHeight(response.data.fileHeight + 50)
+                            setFileWidth(response.data.fileWidth + 30)
+                            // setIMGHeight(response.data.imageHeight)
+                            // setIMGWidth(response.data.imageWidth)
+                            // console.log(imageWidth)
+                            setPDFFile(true)
+                            dispatch(closeLoading())
+                        },
+                        (error) => {
+                            console.log(error)
+                        }
+                    )
+            }
+        }
+    }
+    function  fetchSizeImageData(url) {
         dispatch(displayLoading())
         if(signatureList.length>0) {
             const data = {
                 fileName: `user/${userId}/documents/${fileNamePdf}`,
-                imageName: signatureList[0].file_url,
+                imageName: url,
             }
 
-            axios
+            axiosConfig
                 .post(
-                    'http://localhost:6060/api/document/fileDimension',
+                    'https://group07-be-document-wcyr.onrender.com/api/document/imgDimension',
                     data
                 )
                 .then(
                     (response) => {
                         console.log(response)
-                        setFileHeight(response.data.fileHeight + 50)
-                        setFileWidth(response.data.fileWidth + 30)
                         setIMGHeight(response.data.imageHeight)
                         setIMGWidth(response.data.imageWidth)
-                        console.log(imageWidth)
-                        setPDFFile(true)
+                        setImageTab1(response.data.imgUrl)
                         dispatch(closeLoading())
                     },
                     (error) => {
@@ -151,7 +174,19 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
                 )
         }
     }
-    fetchSizeData();
+
+    useEffect(() => {
+        handleFetchSignatureList()
+    }, [])
+
+    fetchSizeData()
+
+
+    // useEffect(() => {
+    // }, [])
+    // if (signatureList.length > 0){
+    //     fetchSizeData()
+    // }
 
     // useEffect(() => {
     //   fetchSizeData()
@@ -163,16 +198,6 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
 
     const newplugin = defaultLayoutPlugin()
 
-    // const handleFileInputChange = (event) => {
-    //   const file = event.target.files[0]
-    //   console.log(file.width)
-    //   const reader = new FileReader()
-    //
-    //   reader.onload = (event) => {
-    //     setImage(event.target.result)
-    //   }
-    //   reader.readAsDataURL(file)
-    // }
 
     const handleMouseDown = (event) => {
         if (imageRef.current) {
@@ -201,7 +226,7 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
     }, [])
 
     //// cal position
-    async function CalCoordinates() {
+    function CalCoordinates() {
         const leftToBear =
             position.x - viewerContainerRef.current.getBoundingClientRect().left
         const page = parseInt(fileWidth)
@@ -218,8 +243,8 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
             imageFile: imageTab1,
         }
         dispatch(displayLoading())
-        await axios
-            .post('http://localhost:6060/api/document/sign', data)
+        axiosConfig
+            .post('https://group07-be-document-wcyr.onrender.com/api/document/sign', data)
             .then(
                 (response) => {
                     if (response.data.message == 'Success') {
@@ -293,7 +318,9 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
                                                             <TableCell>{page * 3 + index + 1}</TableCell>
                                                             <TableCell
                                                                 sx={{ cursor: 'pointer' }}
-                                                                onClick={() => setImageTab1(signature.file_url)}
+                                                                onClick={() => {
+                                                                    fetchSizeImageData(signature.file_url)
+                                                                }}
                                                             >
                                                                 <Image
                                                                     sx={{ objectFit: 'contain!important' }}
