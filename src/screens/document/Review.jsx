@@ -43,7 +43,7 @@ function Review() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { state } = useLocation()
-console.log(state)
+  console.log(state)
   const navigateToPrevStep = () => {
     navigate('/document/signPDF')
   }
@@ -111,10 +111,12 @@ console.log(state)
               <AutoGraph /> SIGNED DOCUMENT
             </div>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <PdfViewer isShowChooseImage={false}
-                         recipientList={state.recipientList}
-                         fileNamePdf = {state.fileNamePdf}
-                         urlPdf = {state.urlPdf}/>
+              <PdfViewer
+                isShowChooseImage={false}
+                recipientList={state.recipientList}
+                fileNamePdf={state.fileNamePdf}
+                urlPdf={state.urlPdf}
+              />
             </div>
           </div>
           <div
