@@ -32,6 +32,7 @@ import {
   closeLoading,
   displayLoading,
 } from '../../../redux/slice/loadingSlice.js'
+import Swal from 'sweetalert2'
 
 const theme = createTheme({
   typography: {
@@ -161,6 +162,36 @@ function ListDocs() {
       )
   }, [deleteId, dispatch, handleFetchDocsListOwned, handleFetchDocsListOther])
 
+  const handleDownloadDocument = useCallback((id) => {
+    dispatch(displayLoading())
+    axiosConfig
+      .get(
+        `http://localhost:3030/api/document/download/${id}`
+      )
+      .then(
+        (response) => {
+          console.log(response);
+          dispatch(closeLoading())
+          Swal.fire({
+            title: 'SUCCESS !',
+            html: `<h3 class="text-success">Download to D volume successfully!</h3>`,
+            icon: 'success',
+            confirmButtonText: 'OK',
+          })
+        },
+        (error) => {
+          dispatch(closeLoading())
+          Swal.fire({
+            title: 'ERROR !',
+            html: `<h3 class="text-danger">Can not download this document!</h3>`,
+            icon: 'error',
+            confirmButtonText: 'OK',
+          })
+          console.log(error)
+        }
+      )
+  }, [dispatch])
+
   useEffect(() => {
     handleFetchDocsListOwned()
     handleFetchDocsListOther()
@@ -266,7 +297,10 @@ function ListDocs() {
                               color="#dfdfdf"
                             />
                           </StyledIconButton>
-                          <StyledIconButton size="small">
+                          <StyledIconButton
+                            size="small"
+                            onClick={() => handleDownloadDocument(document.Id)}
+                          >
                             <DownloadIcon fontSize="inherit" color="success" />
                           </StyledIconButton>
                           <StyledIconButton
@@ -334,7 +368,7 @@ function ListDocs() {
                         )}
                         <TableCell>
                           <ThemeProvider theme={theme}>
-                            <Typography>{document.date.formatDate}</Typography>
+                            <Typography>{document.formatDate}</Typography>
                             <Typography variant="subtitle1">
                               {document.formatHour}
                             </Typography>
@@ -350,7 +384,10 @@ function ListDocs() {
                               color="#dfdfdf"
                             />
                           </StyledIconButton>
-                          <StyledIconButton size="small">
+                          <StyledIconButton
+                            size="small"
+                            onClick={() => handleDownloadDocument(document.Id)}
+                          >
                             <DownloadIcon fontSize="inherit" color="success" />
                           </StyledIconButton>
                           <StyledIconButton
