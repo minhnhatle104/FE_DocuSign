@@ -108,7 +108,7 @@ function ListDocs() {
   const handleFetchDocsListOwned = useCallback(() => {
     dispatch(displayLoading())
     axiosConfig
-      .get('http://localhost:3030/api/document/owned/' + userId + '')
+      .get('http://localhost:5050/api/document/owned/' + userId + '')
       .then(
         (response) => {
           console.log(response)
@@ -124,7 +124,7 @@ function ListDocs() {
   const handleFetchDocsListOther = useCallback(() => {
     dispatch(displayLoading())
     axiosConfig
-      .get('http://localhost:3030/api/document/other/' + userId + '')
+      .get('http://localhost:5050/api/document/other/' + userId + '')
       .then(
         (response) => {
           console.log(response)
@@ -141,7 +141,7 @@ function ListDocs() {
     dispatch(displayLoading())
     axiosConfig
       .delete(
-        'http://localhost:3030/api/document/' + openDeleteModal.doc_id + '',
+        'http://localhost:5050/api/document/' + openDeleteModal.doc_id + '',
         {}
       )
       .then(
@@ -166,7 +166,7 @@ function ListDocs() {
     dispatch(displayLoading())
     axiosConfig
       .get(
-        `http://localhost:3030/api/document/download/${id}`
+        `http://localhost:5050/api/document/download/${id}`
       )
       .then(
         (response) => {
@@ -174,7 +174,7 @@ function ListDocs() {
           dispatch(closeLoading())
           Swal.fire({
             title: 'SUCCESS !',
-            html: `<h3 class="text-success">Download to D volume successfully!</h3>`,
+            html: `<h3 class="text-success">Check your Downloads folder!</h3>`,
             icon: 'success',
             confirmButtonText: 'OK',
           })
@@ -263,9 +263,18 @@ function ListDocs() {
                         </TableCell>
                         <TableCell>
                           <ThemeProvider theme={theme}>
-                            <Typography>{document.namefile}</Typography>
-                            <Typography variant="subtitle1">
-                              To: {document.receiverName}
+                            <Typography>{document.filename}</Typography>
+                            <Typography variant="subtitle1" style={{marginTop: 10}}>
+                              To: {
+                              document.infoReceive.map((item)=>{
+                                return (
+                                    <div>
+                                      {item}
+                                    </div>
+
+                                )
+                              })
+                            }
                             </Typography>
                           </ThemeProvider>
                         </TableCell>
@@ -299,7 +308,7 @@ function ListDocs() {
                           </StyledIconButton>
                           <StyledIconButton
                             size="small"
-                            onClick={() => handleDownloadDocument(document.Id)}
+                            onClick={() => handleDownloadDocument(document.filename)}
                           >
                             <DownloadIcon fontSize="inherit" color="success" />
                           </StyledIconButton>

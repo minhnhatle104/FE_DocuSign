@@ -51,19 +51,15 @@ function Review() {
   function sendForward() {
     dispatch(displayLoading())
     const userID = localStorage.getItem('uid')
-    const email = 'khuong16lop9a6@gmail.com'
-    const name = 'Nguyen Ba Khuong'
-    const documentId = '07.pdf'
+
 
     const data = {
-      userID,
-      email,
-      name,
-      documentId,
+        userID,
+        state
     }
     axios
       .post(
-        'https://group07-be-noti.onrender.com/api/notification/forward',
+        'http://localhost:3030/api/notification/forward',
         data
       )
       .then(

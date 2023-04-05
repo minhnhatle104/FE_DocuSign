@@ -29,7 +29,7 @@ function ViewPDF() {
             </Box>
           </Box>
           <div className="row d-flex justify-content-center">
-            <PdfViewer isShowChooseImage={false} />
+            <PdfViewer isShowChooseImage={false}/>
           </div>
         </Layout>
       </Box>

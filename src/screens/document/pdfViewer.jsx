@@ -235,6 +235,14 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
         const bottomSize =
             (fileHeight - position.y - parseInt(imageHeight / 2) - 35) / fileHeight //60 là height ảnh / 2
         console.log(ratio + ' - ' + bottomSize)
+        if (ratio < 0 || bottomSize < 0){
+            alert('Please drag your signature to the pdf file!')
+            return
+        }
+        else if (ratio > 1 || bottomSize > 1){
+            alert('Please drag your signature to the pdf file!')
+            return
+        }
         const data = {
             x_coor: parseFloat(ratio.toFixed(3)),
             y_coor: parseFloat(bottomSize.toFixed(3)),
