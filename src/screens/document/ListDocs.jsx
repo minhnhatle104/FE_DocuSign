@@ -166,7 +166,7 @@ function ListDocs() {
     dispatch(displayLoading())
     axiosConfig
       .get(
-        `https://group07-be-noti.onrender.com/api/document/download/${id}`
+        `https://group07-be-document-wcyr.onrender.com/api/document//download/${id}`
       )
       .then(
         (response) => {
