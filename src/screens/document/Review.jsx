@@ -59,7 +59,7 @@ function Review() {
     }
     axios
       .post(
-        'http://localhost:3030/api/notification/forward',
+        'https://group07-be-noti.onrender.com/api/notification/forward',
         data
       )
       .then(
