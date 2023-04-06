@@ -39,7 +39,7 @@ const ManageSignature = () => {
   const handleFetchSignatureList = useCallback(() => {
     dispatch(displayLoading())
     axiosConfig
-      .get('https://group07-be-signature-042m.onrender.com/api/signature/all')
+      .get('http://localhost:80/api/signature/all')
       .then(
         (response) => {
           console.log(response)
@@ -67,7 +67,7 @@ const ManageSignature = () => {
 
     axiosConfig
       .delete(
-        'https://group07-be-signature-042m.onrender.com/api/signature/delete',
+        'http://localhost:80/api/signature/delete',
         {
           data: {
             file_name: deleteFileName,

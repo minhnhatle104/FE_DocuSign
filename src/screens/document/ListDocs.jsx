@@ -108,7 +108,7 @@ function ListDocs() {
   const handleFetchDocsListOwned = useCallback(() => {
     dispatch(displayLoading())
     axiosConfig
-      .get('https://group07-be-document-wcyr.onrender.com/api/document/owned/' + userId + '')
+      .get('http://localhost:80/api/document/owned/' + userId + '')
       .then(
         (response) => {
           console.log(response)
@@ -124,7 +124,7 @@ function ListDocs() {
   const handleFetchDocsListOther = useCallback(() => {
     dispatch(displayLoading())
     axiosConfig
-      .get('https://group07-be-document-wcyr.onrender.com/api/document/other/' + userId + '')
+      .get('http://localhost:80/api/document/other/' + userId + '')
       .then(
         (response) => {
           console.log(response)
@@ -141,7 +141,7 @@ function ListDocs() {
     dispatch(displayLoading())
     axiosConfig
       .delete(
-        'https://group07-be-document-wcyr.onrender.com/api/document/' + openDeleteModal.doc_id + '',
+        'http://localhost:80/api/document/' + openDeleteModal.doc_id + '',
         {}
       )
       .then(
@@ -166,7 +166,7 @@ function ListDocs() {
     dispatch(displayLoading())
     axiosConfig
       .get(
-        `https://group07-be-document-wcyr.onrender.com/api/document//download/${id}`
+        `http://localhost:80/api/document//download/${id}`
       )
       .then(
         (response) => {

@@ -42,7 +42,7 @@ function UploadFile() {
     formData.append('file', payload.file)
 
     axiosConfig
-      .post('https://group07-be-document-wcyr.onrender.com/api/document/upload', formData)
+      .post('http://localhost:80/api/document/upload', formData)
       .then(
         (response) => {
           dispatch(closeLoading())

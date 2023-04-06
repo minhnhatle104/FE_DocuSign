@@ -87,7 +87,7 @@ function PdfViewer({ isShowChooseImage, isOtherSign }) {
 
     axios
       .post(
-        'https://group07-be-document.onrender.com/api/document/fileDimension',
+        'http://localhost:80/api/document/fileDimension',
         data
       )
       .then(
@@ -170,7 +170,7 @@ function PdfViewer({ isShowChooseImage, isOtherSign }) {
     }
     dispatch(displayLoading())
     await axios
-      .post('https://group07-be-document.onrender.com/api/document/sign', data)
+      .post('http://localhost:80/api/document/sign', data)
       .then(
         (response) => {
           if (response.data.message == 'Success') {

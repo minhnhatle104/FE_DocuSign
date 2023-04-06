@@ -102,7 +102,7 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
     function handleFetchSignatureList (){
         dispatch(displayLoading())
         axiosConfig
-            .get('https://group07-be-signature-042m.onrender.com/api/signature/all')
+            .get('http://localhost:80/api/signature/all')
             .then(
                 (response) => {
                     dispatch(closeLoading())
@@ -126,7 +126,7 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
 
                 axiosConfig
                     .post(
-                        'https://group07-be-document-wcyr.onrender.com/api/document/fileDimension',
+                        'http://localhost:80/api/document/fileDimension',
                         data
                     )
                     .then(
@@ -157,7 +157,7 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
 
             axiosConfig
                 .post(
-                    'https://group07-be-document-wcyr.onrender.com/api/document/imgDimension',
+                    'http://localhost:80/api/document/imgDimension',
                     data
                 )
                 .then(
@@ -252,7 +252,7 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
         }
         dispatch(displayLoading())
         axiosConfig
-            .post('https://group07-be-document-wcyr.onrender.com/api/document/sign', data)
+            .post('http://localhost:80/api/document/sign', data)
             .then(
                 (response) => {
                     if (response.data.message == 'Success') {
