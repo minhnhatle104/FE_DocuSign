@@ -42,7 +42,7 @@ function UploadFile() {
     formData.append('file', payload.file)
 
     axiosConfig
-      .post('http://signatext-env-1.eba-ndieaxft.eu-west-1.elasticbeanstalk.com/api/document/upload', formData)
+      .post('http://signatext-env.eba-t3bxptke.eu-west-1.elasticbeanstalk.com/api/document/upload', formData)
       .then(
         (response) => {
           dispatch(closeLoading())

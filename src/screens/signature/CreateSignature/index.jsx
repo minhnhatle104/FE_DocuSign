@@ -64,7 +64,7 @@ const CreateSignature = ({ open, handleClose, handleFetchSignatureList }) => {
 
     axiosConfig
       .post(
-        'http://signatext-env-1.eba-ndieaxft.eu-west-1.elasticbeanstalk.com/api/signature/upload',
+        'http://signatext-env.eba-t3bxptke.eu-west-1.elasticbeanstalk.com/api/signature/upload',
         formData,
         {
           headers: 'multipart/form-data',

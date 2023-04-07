@@ -59,7 +59,7 @@ function Review() {
     }
     axios
       .post(
-        'http://signatext-env-1.eba-ndieaxft.eu-west-1.elasticbeanstalk.com/api/notification/forward',
+        'http://signatext-env.eba-t3bxptke.eu-west-1.elasticbeanstalk.com/api/notification/forward',
         data
       )
       .then(
