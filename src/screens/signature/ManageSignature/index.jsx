@@ -39,7 +39,7 @@ const ManageSignature = () => {
   const handleFetchSignatureList = useCallback(() => {
     dispatch(displayLoading())
     axiosConfig
-      .get('http://signatext-env.eba-t3bxptke.eu-west-1.elasticbeanstalk.com/api/signature/all')
+      .get('http://docusign-env.eba-3jh39c6r.eu-west-1.elasticbeanstalk.com/api/signature/all')
       .then(
         (response) => {
           console.log(response)
@@ -67,7 +67,7 @@ const ManageSignature = () => {
 
     axiosConfig
       .delete(
-        'http://signatext-env.eba-t3bxptke.eu-west-1.elasticbeanstalk.com/api/signature/delete',
+        'http://docusign-env.eba-3jh39c6r.eu-west-1.elasticbeanstalk.com/api/signature/delete',
         {
           data: {
             file_name: deleteFileName,
