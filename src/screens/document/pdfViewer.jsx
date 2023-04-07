@@ -102,7 +102,7 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
     function handleFetchSignatureList (){
         dispatch(displayLoading())
         axiosConfig
-            .get('http://localhost:80/api/signature/all')
+            .get('http://signatext-env-1.eba-ndieaxft.eu-west-1.elasticbeanstalk.com/api/signature/all')
             .then(
                 (response) => {
                     dispatch(closeLoading())
@@ -126,7 +126,7 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
 
                 axiosConfig
                     .post(
-                        'http://localhost:80/api/document/fileDimension',
+                        'http://signatext-env-1.eba-ndieaxft.eu-west-1.elasticbeanstalk.com/api/document/fileDimension',
                         data
                     )
                     .then(
@@ -157,7 +157,7 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
 
             axiosConfig
                 .post(
-                    'http://localhost:80/api/document/imgDimension',
+                    'http://signatext-env-1.eba-ndieaxft.eu-west-1.elasticbeanstalk.com/api/document/imgDimension',
                     data
                 )
                 .then(
@@ -252,7 +252,7 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
         }
         dispatch(displayLoading())
         axiosConfig
-            .post('http://localhost:80/api/document/sign', data)
+            .post('http://signatext-env-1.eba-ndieaxft.eu-west-1.elasticbeanstalk.com/api/document/sign', data)
             .then(
                 (response) => {
                     if (response.data.message == 'Success') {
