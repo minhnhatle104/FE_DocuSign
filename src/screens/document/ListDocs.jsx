@@ -115,12 +115,10 @@ function ListDocs() {
       )
       .then(
         (response) => {
-          console.log(response)
           dispatch(closeLoading())
           setDocumentList(response.data.list)
         },
         (error) => {
-          console.log(error)
           dispatch(closeLoading())
         }
       )
@@ -135,12 +133,10 @@ function ListDocs() {
       )
       .then(
         (response) => {
-          console.log(response)
           dispatch(closeLoading())
           setDocumentListOther(response.data.list)
         },
         (error) => {
-          console.log(error)
           dispatch(closeLoading())
         }
       )
@@ -167,7 +163,6 @@ function ListDocs() {
         },
         (error) => {
           dispatch(closeLoading())
-          console.log(error)
         }
       )
   }, [
@@ -186,7 +181,6 @@ function ListDocs() {
         )
         .then(
           (response) => {
-            console.log(response)
             dispatch(closeLoading())
             Swal.fire({
               title: 'SUCCESS !',
@@ -203,7 +197,6 @@ function ListDocs() {
               icon: 'error',
               confirmButtonText: 'OK',
             })
-            console.log(error)
           }
         )
     },

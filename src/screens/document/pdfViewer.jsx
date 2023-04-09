@@ -94,7 +94,6 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
   const handleViewerLoad = () => {
     const viewerContainerRect =
       viewerContainerRef.current.getBoundingClientRect()
-    // console.log(`Viewer position: (${viewerContainerRect.left}, ${viewerContainerRect.top})`);
   }
 
   function handleFetchSignatureList() {
@@ -109,7 +108,6 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
           setSignatureList(response.data.result.signatures || [])
         },
         (error) => {
-          console.log(error)
           dispatch(closeLoading())
         }
       )
@@ -131,18 +129,14 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
           )
           .then(
             (response) => {
-              console.log(response)
               setFileHeight(response.data.fileHeight + 50)
               setFileWidth(response.data.fileWidth + 30)
               // setIMGHeight(response.data.imageHeight)
               // setIMGWidth(response.data.imageWidth)
-              // console.log(imageWidth)
               setPDFFile(true)
               dispatch(closeLoading())
             },
-            (error) => {
-              console.log(error)
-            }
+            (error) => {}
           )
       }
     }
@@ -162,15 +156,12 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
         )
         .then(
           (response) => {
-            console.log(response)
             setIMGHeight(response.data.imageHeight)
             setIMGWidth(response.data.imageWidth)
             setImageTab1(response.data.imgUrl)
             dispatch(closeLoading())
           },
-          (error) => {
-            console.log(error)
-          }
+          (error) => {}
         )
     }
   }
@@ -232,7 +223,6 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
 
     const bottomSize =
       (fileHeight - position.y - parseInt(imageHeight / 2) - 35) / fileHeight //60 là height ảnh / 2
-    console.log(ratio + ' - ' + bottomSize)
     if (ratio < 0 || bottomSize < 0) {
       alert('Please drag your signature to the pdf file!')
       return
@@ -262,9 +252,7 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
             })
           }
         },
-        (error) => {
-          console.log(error)
-        }
+        (error) => {}
       )
   }
 

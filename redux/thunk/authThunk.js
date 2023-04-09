@@ -16,7 +16,6 @@ let timer
 
 export const signUpApi = (formValues) => {
   return async (dispatch) => {
-    console.log(formValues)
     const app = getFirebaseApp
     const auth = getAuth(app)
 
@@ -47,7 +46,6 @@ export const signUpApi = (formValues) => {
       }, millisecondsUntilExpiry)
     } catch (error) {
       dispatch(closeLoading())
-      console.log(error)
       const errorCode = error.code
 
       let message = 'Something went wrong.'
@@ -75,10 +73,9 @@ const createUser = async (email, full_name, phone_number, userId) => {
     signUpDate: new Date().toISOString(),
   }
 
-  try{
-    await setDoc(doc(fireStoreDB, "users", `${userId}`), userData)
-  }catch(err){
-    console.log(err)
+  try {
+    await setDoc(doc(fireStoreDB, 'users', `${userId}`), userData)
+  } catch (err) {
     throw new Error("Can't create user")
   }
   return userData
@@ -103,7 +100,7 @@ export const signInApi = (formValues) => {
       const userData = await getUserData(uid)
       if (!userData) {
         dispatch(closeLoading())
-        throw new Error("No such user exists")
+        throw new Error('No such user exists')
       }
 
       dispatch(authenticate({ token: accessToken, userData }))
@@ -116,10 +113,9 @@ export const signInApi = (formValues) => {
         dispatch(userLogout())
       }, millisecondsUntilExpiry)
 
-      dispatch(closeLoading())     
+      dispatch(closeLoading())
     } catch (error) {
       dispatch(closeLoading())
-      console.log(error)
       const errorCode = error.code
 
       let message = 'Something went wrong.'

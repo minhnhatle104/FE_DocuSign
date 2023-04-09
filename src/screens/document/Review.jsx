@@ -43,7 +43,6 @@ function Review() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { state } = useLocation()
-  console.log(state)
   const navigateToPrevStep = () => {
     navigate('/document/signPDF')
   }
@@ -68,9 +67,7 @@ function Review() {
             navigate('/document/list')
           }
         },
-        (error) => {
-          console.log(error)
-        }
+        (error) => {}
       )
   }
 

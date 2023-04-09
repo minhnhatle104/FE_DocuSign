@@ -76,7 +76,6 @@ function PdfViewer({ isShowChooseImage, isOtherSign }) {
   const handleViewerLoad = () => {
     const viewerContainerRect =
       viewerContainerRef.current.getBoundingClientRect()
-    // console.log(`Viewer position: (${viewerContainerRect.left}, ${viewerContainerRect.top})`);
   }
   useEffect(() => {
     dispatch(displayLoading())
@@ -92,20 +91,16 @@ function PdfViewer({ isShowChooseImage, isOtherSign }) {
       )
       .then(
         (response) => {
-          console.log(response)
           setFileHeight(response.data.fileHeight + 50)
           setFileWidth(response.data.fileWidth + 30)
           setIMGHeight(response.data.imageHeight)
           setIMGWidth(response.data.imageWidth)
-          console.log(imageWidth)
           setPDFFile(true)
           dispatch(closeLoading())
         },
-        (error) => {
-          console.log(error)
-        }
+        (error) => {}
       )
-  }, [])
+  }, [dispatch])
 
   const fileType = ['application/pdf']
 
@@ -117,7 +112,6 @@ function PdfViewer({ isShowChooseImage, isOtherSign }) {
 
   const handleFileInputChange = (event) => {
     const file = event.target.files[0]
-    console.log(file.width)
     const reader = new FileReader()
 
     reader.onload = (event) => {
@@ -161,7 +155,6 @@ function PdfViewer({ isShowChooseImage, isOtherSign }) {
 
     const bottomSize =
       (fileHeight - position.y - parseInt(imageHeight / 2) - 35) / fileHeight //60 là height ảnh / 2
-    console.log(ratio + ' - ' + bottomSize)
     const data = {
       x_coor: parseFloat(ratio.toFixed(3)),
       y_coor: parseFloat(bottomSize.toFixed(3)),
@@ -185,9 +178,7 @@ function PdfViewer({ isShowChooseImage, isOtherSign }) {
             }
           }
         },
-        (error) => {
-          console.log(error)
-        }
+        (error) => {}
       )
   }
 

@@ -49,7 +49,6 @@ function UploadFile() {
       .then(
         (response) => {
           dispatch(closeLoading())
-          console.log(response)
           // navigate('/document/recipientInfo')
           const file_name = response.data.result.document.file_name
           const file_url = response.data.result.document.file_url
@@ -59,7 +58,6 @@ function UploadFile() {
         },
         (error) => {
           dispatch(closeLoading())
-          console.log(error)
         }
       )
   }, [dispatch, navigate])

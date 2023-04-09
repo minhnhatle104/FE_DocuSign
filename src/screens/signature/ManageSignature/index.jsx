@@ -44,12 +44,10 @@ const ManageSignature = () => {
       )
       .then(
         (response) => {
-          console.log(response)
           dispatch(closeLoading())
           setSignatureList(response.data.result.signatures || [])
         },
         (error) => {
-          console.log(error)
           dispatch(closeLoading())
         }
       )
@@ -81,11 +79,9 @@ const ManageSignature = () => {
           dispatch(closeLoading())
           setPage(0)
           handleFetchSignatureList()
-          console.log(response)
         },
         (error) => {
           dispatch(closeLoading())
-          console.log(error)
         }
       )
   }, [deleteFileName, dispatch, handleFetchSignatureList])

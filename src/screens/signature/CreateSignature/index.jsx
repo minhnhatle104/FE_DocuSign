@@ -74,11 +74,9 @@ const CreateSignature = ({ open, handleClose, handleFetchSignatureList }) => {
         (response) => {
           dispatch(closeLoading())
           handleFetchSignatureList()
-          console.log(response)
         },
         (error) => {
           dispatch(closeLoading())
-          console.log(error)
         }
       )
   }, [dispatch, handleClose, handleFetchSignatureList, value])

@@ -10,7 +10,6 @@ import Layout from '../../components/Layout/index.jsx'
 function SignPdf() {
   const navigate = useNavigate()
   const { state } = useLocation()
-  console.log(state)
 
   const navigateToPrevStep = () => {
     navigate('/document/recipientInfo')

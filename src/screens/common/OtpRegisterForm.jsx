@@ -36,11 +36,7 @@ export default function OtpRegisterForm() {
   }
 
   const handleKeyDown = (event) => {
-    // console.log('User pressed: ', event.key);
-    // console.log(message);
     if (event.key === 'Backspace') {
-      // 👇️ your logic here
-      // console.log('Backspace key pressed ✅');
       setIsBackSpace(true)
     } else {
       setIsBackSpace(false)
