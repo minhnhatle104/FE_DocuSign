@@ -2,7 +2,6 @@ import React from 'react'
 import Box from '@mui/material/Box'
 import HomePageFeature from '../../components/HomePageFeature.jsx'
 import Layout from '../../components/Layout/index.jsx'
-import Loading from '../../components/Loading/Loading.jsx'
 import { useNavigate } from 'react-router-dom'
 
 const HomePage = () => {

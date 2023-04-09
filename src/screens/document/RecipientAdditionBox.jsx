@@ -57,7 +57,7 @@ const RecipientAdditionBox = ({
     } else {
       handleChangeError(false)
     }
-  }, [formik.errors.name, formik.errors.email])
+  }, [formik.errors.name, formik.errors.email, handleChangeError])
 
   return (
     <Box

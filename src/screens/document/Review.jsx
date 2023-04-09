@@ -52,10 +52,9 @@ function Review() {
     dispatch(displayLoading())
     const userID = localStorage.getItem('uid')
 
-
     const data = {
-        userID,
-        state
+      userID,
+      state,
     }
     axios
       .post(

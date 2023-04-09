@@ -44,43 +44,43 @@ function RecipientInfo() {
 
   const handleDeleteItem = (index) => {
     setRecipientList(
-        recipientList.filter((recipient, recipientIdx) => index !== recipientIdx)
+      recipientList.filter((recipient, recipientIdx) => index !== recipientIdx)
     )
   }
 
   const handleChangeRecipientName = (index, name) => {
     setRecipientList(
-        recipientList.map((recipient, recipientIdx) => {
-          if (recipientIdx !== index) return recipient
-          return {
-            ...recipient,
-            name,
-          }
-        })
+      recipientList.map((recipient, recipientIdx) => {
+        if (recipientIdx !== index) return recipient
+        return {
+          ...recipient,
+          name,
+        }
+      })
     )
   }
 
   const handleChangeRecipientEmail = (index, email) => {
     setRecipientList(
-        recipientList.map((recipient, recipientIdx) => {
-          if (recipientIdx !== index) return recipient
-          return {
-            ...recipient,
-            email,
-          }
-        })
+      recipientList.map((recipient, recipientIdx) => {
+        if (recipientIdx !== index) return recipient
+        return {
+          ...recipient,
+          email,
+        }
+      })
     )
   }
 
   const handleChangeRecipientPermission = (index, permission) => {
     setRecipientList(
-        recipientList.map((recipient, recipientIdx) => {
-          if (recipientIdx !== index) return recipient
-          return {
-            ...recipient,
-            permission,
-          }
-        })
+      recipientList.map((recipient, recipientIdx) => {
+        if (recipientIdx !== index) return recipient
+        return {
+          ...recipient,
+          permission,
+        }
+      })
     )
   }
 
@@ -110,88 +110,88 @@ function RecipientInfo() {
   }
 
   return (
-      <>
-        <Box sx={{ flexGrow: 1 }} fontFamily="Quicksand">
-          <Layout>
-            <Box
-                sx={{ display: 'flex', justifyContent: 'space-between' }}
-                marginTop={10}
-                fontFamily="Roboto"
-            >
-              <Box>
-                <Button variant="contained" onClick={navigateToPrevStep}>
-                  Back
-                </Button>
-              </Box>
-              <Box>
-                <Button variant="contained" onClick={navigateToNextStep}>
-                  Next
-                </Button>
-              </Box>
+    <>
+      <Box sx={{ flexGrow: 1 }} fontFamily="Quicksand">
+        <Layout>
+          <Box
+            sx={{ display: 'flex', justifyContent: 'space-between' }}
+            marginTop={10}
+            fontFamily="Roboto"
+          >
+            <Box>
+              <Button variant="contained" onClick={navigateToPrevStep}>
+                Back
+              </Button>
             </Box>
-            <StepInit step={1} />
-            <Box
-                sx={{ display: 'flex', flexDirection: 'column' }}
-                border={1}
-                borderRadius={1}
-                marginTop={5}
-                padding={4}
-                bgcolor="#f7f5f5"
-            >
-              <Typography fontSize={20}>Add Recipients</Typography>
-              <Box>
-                <FormControlLabel
+            <Box>
+              <Button variant="contained" onClick={navigateToNextStep}>
+                Next
+              </Button>
+            </Box>
+          </Box>
+          <StepInit step={1} />
+          <Box
+            sx={{ display: 'flex', flexDirection: 'column' }}
+            border={1}
+            borderRadius={1}
+            marginTop={5}
+            padding={4}
+            bgcolor="#f7f5f5"
+          >
+            <Typography fontSize={20}>Add Recipients</Typography>
+            <Box>
+              <FormControlLabel
+                style={{
+                  marginTop: 5,
+                }}
+                control={
+                  <Checkbox
+                    checked={isChecked}
+                    onChange={handleChangeCheckBox}
+                  />
+                }
+                label={
+                  <Typography
                     style={{
-                      marginTop: 5,
+                      fontSize: 14,
+                      color: '#646464',
                     }}
-                    control={
-                      <Checkbox
-                          checked={isChecked}
-                          onChange={handleChangeCheckBox}
-                      />
-                    }
-                    label={
-                      <Typography
-                          style={{
-                            fontSize: 14,
-                            color: '#646464',
-                          }}
-                      >
-                        I'm the only signer
-                      </Typography>
-                    }
-                />
-              </Box>
-              <Box display={isChecked ? 'none' : 'block'}>
-                {recipientList.map((recipient, index) => (
-                    <RecipientAdditionBox
-                        key={`{recipient-${index}`}
-                        recipient={recipient}
-                        index={index}
-                        handleDeleteItem={handleDeleteItem}
-                        handleChangeRecipientName={handleChangeRecipientName}
-                        handleChangeRecipientEmail={handleChangeRecipientEmail}
-                        handleChangeRecipientPermission={
-                          handleChangeRecipientPermission
-                        }
-                        handleChangeError={handleChangeError}
-                    />
-                ))}
-                <Box>
-                  <Button
-                      variant="outlined"
-                      color="primary"
-                      startIcon={<PersonAddAltIcon />}
-                      onClick={handleClickAddButton}
                   >
-                    Add recipient
-                  </Button>
-                </Box>
+                    I'm the only signer
+                  </Typography>
+                }
+              />
+            </Box>
+            <Box display={isChecked ? 'none' : 'block'}>
+              {recipientList.map((recipient, index) => (
+                <RecipientAdditionBox
+                  key={`{recipient-${index}`}
+                  recipient={recipient}
+                  index={index}
+                  handleDeleteItem={handleDeleteItem}
+                  handleChangeRecipientName={handleChangeRecipientName}
+                  handleChangeRecipientEmail={handleChangeRecipientEmail}
+                  handleChangeRecipientPermission={
+                    handleChangeRecipientPermission
+                  }
+                  handleChangeError={handleChangeError}
+                />
+              ))}
+              <Box>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  startIcon={<PersonAddAltIcon />}
+                  onClick={handleClickAddButton}
+                >
+                  Add recipient
+                </Button>
               </Box>
             </Box>
-          </Layout>
-        </Box>
-      </>
+          </Box>
+        </Layout>
+      </Box>
+    </>
   )
 }
 export default RecipientInfo

@@ -63,7 +63,7 @@ const ForgotPasswordOtp = () => {
     return () => {
       clearInterval(interval)
     }
-  }, [seconds])
+  }, [minutes, seconds])
 
   return (
     <>

@@ -39,7 +39,9 @@ const ManageSignature = () => {
   const handleFetchSignatureList = useCallback(() => {
     dispatch(displayLoading())
     axiosConfig
-      .get('http://docusign-env.eba-3jh39c6r.eu-west-1.elasticbeanstalk.com/api/signature/all')
+      .get(
+        'http://docusign-env.eba-3jh39c6r.eu-west-1.elasticbeanstalk.com/api/signature/all'
+      )
       .then(
         (response) => {
           console.log(response)

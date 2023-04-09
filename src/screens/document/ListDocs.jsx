@@ -108,7 +108,11 @@ function ListDocs() {
   const handleFetchDocsListOwned = useCallback(() => {
     dispatch(displayLoading())
     axiosConfig
-      .get('http://docusign-env.eba-3jh39c6r.eu-west-1.elasticbeanstalk.com/api/document/owned/' + userId + '')
+      .get(
+        'http://docusign-env.eba-3jh39c6r.eu-west-1.elasticbeanstalk.com/api/document/owned/' +
+          userId +
+          ''
+      )
       .then(
         (response) => {
           console.log(response)
@@ -120,11 +124,15 @@ function ListDocs() {
           dispatch(closeLoading())
         }
       )
-  }, [dispatch])
+  }, [dispatch, userId])
   const handleFetchDocsListOther = useCallback(() => {
     dispatch(displayLoading())
     axiosConfig
-      .get('http://docusign-env.eba-3jh39c6r.eu-west-1.elasticbeanstalk.com/api/document/other/' + userId + '')
+      .get(
+        'http://docusign-env.eba-3jh39c6r.eu-west-1.elasticbeanstalk.com/api/document/other/' +
+          userId +
+          ''
+      )
       .then(
         (response) => {
           console.log(response)
@@ -136,12 +144,14 @@ function ListDocs() {
           dispatch(closeLoading())
         }
       )
-  }, [dispatch])
+  }, [dispatch, userId])
   const handleDeleteDoc = useCallback(() => {
     dispatch(displayLoading())
     axiosConfig
       .delete(
-        'http://docusign-env.eba-3jh39c6r.eu-west-1.elasticbeanstalk.com/api/document/' + openDeleteModal.doc_id + '',
+        'http://docusign-env.eba-3jh39c6r.eu-west-1.elasticbeanstalk.com/api/document/' +
+          openDeleteModal.doc_id +
+          '',
         {}
       )
       .then(
@@ -160,37 +170,45 @@ function ListDocs() {
           console.log(error)
         }
       )
-  }, [deleteId, dispatch, handleFetchDocsListOwned, handleFetchDocsListOther])
+  }, [
+    dispatch,
+    openDeleteModal.doc_id,
+    handleFetchDocsListOwned,
+    handleFetchDocsListOther,
+  ])
 
-  const handleDownloadDocument = useCallback((id) => {
-    dispatch(displayLoading())
-    axiosConfig
-      .get(
-        `http://docusign-env.eba-3jh39c6r.eu-west-1.elasticbeanstalk.com/api/document//download/${id}`
-      )
-      .then(
-        (response) => {
-          console.log(response);
-          dispatch(closeLoading())
-          Swal.fire({
-            title: 'SUCCESS !',
-            html: `<h3 class="text-success">Check your Downloads folder!</h3>`,
-            icon: 'success',
-            confirmButtonText: 'OK',
-          })
-        },
-        (error) => {
-          dispatch(closeLoading())
-          Swal.fire({
-            title: 'ERROR !',
-            html: `<h3 class="text-danger">Can not download this document!</h3>`,
-            icon: 'error',
-            confirmButtonText: 'OK',
-          })
-          console.log(error)
-        }
-      )
-  }, [dispatch])
+  const handleDownloadDocument = useCallback(
+    (id) => {
+      dispatch(displayLoading())
+      axiosConfig
+        .get(
+          `http://docusign-env.eba-3jh39c6r.eu-west-1.elasticbeanstalk.com/api/document//download/${id}`
+        )
+        .then(
+          (response) => {
+            console.log(response)
+            dispatch(closeLoading())
+            Swal.fire({
+              title: 'SUCCESS !',
+              html: `<h3 class="text-success">Check your Downloads folder!</h3>`,
+              icon: 'success',
+              confirmButtonText: 'OK',
+            })
+          },
+          (error) => {
+            dispatch(closeLoading())
+            Swal.fire({
+              title: 'ERROR !',
+              html: `<h3 class="text-danger">Can not download this document!</h3>`,
+              icon: 'error',
+              confirmButtonText: 'OK',
+            })
+            console.log(error)
+          }
+        )
+    },
+    [dispatch]
+  )
 
   useEffect(() => {
     handleFetchDocsListOwned()
@@ -264,17 +282,14 @@ function ListDocs() {
                         <TableCell>
                           <ThemeProvider theme={theme}>
                             <Typography>{document.filename}</Typography>
-                            <Typography variant="subtitle1" style={{marginTop: 10}}>
-                              To: {
-                              document.infoReceive.map((item)=>{
-                                return (
-                                    <div>
-                                      {item}
-                                    </div>
-
-                                )
-                              })
-                            }
+                            <Typography
+                              variant="subtitle1"
+                              style={{ marginTop: 10 }}
+                            >
+                              To:{' '}
+                              {document.infoReceive.map((item) => {
+                                return <div>{item}</div>
+                              })}
                             </Typography>
                           </ThemeProvider>
                         </TableCell>
@@ -308,7 +323,9 @@ function ListDocs() {
                           </StyledIconButton>
                           <StyledIconButton
                             size="small"
-                            onClick={() => handleDownloadDocument(document.filename)}
+                            onClick={() =>
+                              handleDownloadDocument(document.filename)
+                            }
                           >
                             <DownloadIcon fontSize="inherit" color="success" />
                           </StyledIconButton>
