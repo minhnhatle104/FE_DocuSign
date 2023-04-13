@@ -152,6 +152,7 @@ export default function LoginForm() {
       </Box>
       <FormControl sx={{ width: 400 }}>
         <Button
+            id="btnLogin"
           type="submit"
           variant="contained"
           style={{

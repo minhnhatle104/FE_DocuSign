@@ -138,6 +138,7 @@ const ManageSignature = () => {
                     </TableCell>
                     <TableCell>
                       <StyledIconButton
+                          id={index + "_signature"}
                         size="medium"
                         onClick={() => {
                           setDeleteFileName(signature.file_name)

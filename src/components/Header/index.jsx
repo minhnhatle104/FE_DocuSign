@@ -53,13 +53,14 @@ const Header = () => {
           </Box>
           <Box ml={2}>
             <Button
+                id="mySignaturesBtn"
               sx={{ textTransform: 'capitalize', color: 'white' }}
               variant="outlined"
               onClick={() => navigate('/signature-management')}
             >
               <AutoGraphIcon />
               <Typography ml={1} component="span">
-                My signature
+                My signatures
               </Typography>
             </Button>
           </Box>
