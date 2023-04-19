@@ -135,7 +135,6 @@ function ListDocs() {
       )
       .then(
         (response) => {
-          console.log(response.data)
           dispatch(closeLoading())
           setDocumentListOther(response.data.list)
         },
