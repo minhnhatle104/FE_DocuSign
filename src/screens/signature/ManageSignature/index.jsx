@@ -40,7 +40,7 @@ const ManageSignature = () => {
     dispatch(displayLoading())
     axiosConfig
       .get(
-        'http://docusign-env.eba-3jh39c6r.eu-west-1.elasticbeanstalk.com/api/signature/all'
+        'http://localhost:80/api/signature/all'
       )
       .then(
         (response) => {
@@ -67,7 +67,7 @@ const ManageSignature = () => {
 
     axiosConfig
       .delete(
-        'http://docusign-env.eba-3jh39c6r.eu-west-1.elasticbeanstalk.com/api/signature/delete',
+        'http://localhost:80/api/signature/delete',
         {
           data: {
             file_name: deleteFileName,

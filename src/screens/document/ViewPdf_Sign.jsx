@@ -14,6 +14,8 @@ function SignPdf() {
   const navigateToPrevStep = () => {
     navigate('/document/recipientInfo')
   }
+  const userId = localStorage.getItem('uid')
+
   return (
     <>
       <Box sx={{ flexGrow: 1 }} fontFamily="Quicksand">
@@ -35,6 +37,7 @@ function SignPdf() {
             recipientList={state.recipientList}
             fileNamePdf={state.selectPdf}
             urlPdf={state.pdfURl}
+            uid={userId}
           />
         </Layout>
       </Box>

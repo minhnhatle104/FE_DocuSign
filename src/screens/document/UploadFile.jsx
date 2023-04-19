@@ -43,7 +43,7 @@ function UploadFile() {
 
     axiosConfig
       .post(
-        'http://docusign-env.eba-3jh39c6r.eu-west-1.elasticbeanstalk.com/api/document/upload',
+        'http://localhost:80/api/document/upload',
         formData
       )
       .then(

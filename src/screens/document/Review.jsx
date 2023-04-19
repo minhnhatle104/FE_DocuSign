@@ -43,7 +43,9 @@ function Review() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { state } = useLocation()
-  const navigateToPrevStep = () => {
+  const userId = localStorage.getItem('uid')
+
+    const navigateToPrevStep = () => {
     navigate('/document/signPDF')
   }
 
@@ -57,7 +59,7 @@ function Review() {
     }
     axios
       .post(
-        'http://docusign-env.eba-3jh39c6r.eu-west-1.elasticbeanstalk.com/api/notification/forward',
+        'http://localhost:80/api/notification/forward',
         data
       )
       .then(
@@ -108,6 +110,7 @@ function Review() {
                 recipientList={state.recipientList}
                 fileNamePdf={state.fileNamePdf}
                 urlPdf={state.urlPdf}
+                uid={userId}
               />
             </div>
           </div>

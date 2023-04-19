@@ -89,8 +89,10 @@ function ListDocs() {
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
-  const navigateToViewPdf = () => {
-    navigate('/document/viewPDF')
+  const navigateToViewPdf = (filename, createdID) => {
+    navigate('/document/viewPDF', {
+      state: { filename, uid:createdID },}
+    )
   }
   const navigateToCreateNewDocument = () => {
     navigate('/document/upload')
@@ -109,7 +111,7 @@ function ListDocs() {
     dispatch(displayLoading())
     axiosConfig
       .get(
-        'http://docusign-env.eba-3jh39c6r.eu-west-1.elasticbeanstalk.com/api/document/owned/' +
+        'http://localhost:80/api/document/owned/' +
           userId +
           ''
       )
@@ -127,12 +129,13 @@ function ListDocs() {
     dispatch(displayLoading())
     axiosConfig
       .get(
-        'http://docusign-env.eba-3jh39c6r.eu-west-1.elasticbeanstalk.com/api/document/other/' +
+        'http://localhost:80/api/document/other/' +
           userId +
           ''
       )
       .then(
         (response) => {
+          console.log(response.data)
           dispatch(closeLoading())
           setDocumentListOther(response.data.list)
         },
@@ -145,7 +148,7 @@ function ListDocs() {
     dispatch(displayLoading())
     axiosConfig
       .delete(
-        'http://docusign-env.eba-3jh39c6r.eu-west-1.elasticbeanstalk.com/api/document/' +
+        'http://localhost:80/api/document/' +
           openDeleteModal.doc_id +
           '',
         {}
@@ -177,7 +180,7 @@ function ListDocs() {
       dispatch(displayLoading())
       axiosConfig
         .get(
-          `http://docusign-env.eba-3jh39c6r.eu-west-1.elasticbeanstalk.com/api/document//download/${id}`
+          `http://localhost:80/api/document/download/${id}`
         )
         .then(
           (response) => {
@@ -248,7 +251,7 @@ function ListDocs() {
               <Tab
                 label="Other Made"
                 {...a11yProps(1)}
-                sx={{ '&.Mui-selected': { outline: 'none' } }}
+                sx={{ '&.Mui-selected': {outline: 'none' }}}
               />
             </Tabs>
           </Box>
@@ -268,7 +271,7 @@ function ListDocs() {
                   {documentList
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((document, index) => (
-                      <TableRow key={document.Id}>
+                      <TableRow key={document.filename}>
                         <TableCell component="th" scope="row">
                           {page * 3 + index + 1}
                         </TableCell>
@@ -307,7 +310,7 @@ function ListDocs() {
                         <TableCell align="right">
                           <StyledIconButton
                             size="small"
-                            onClick={navigateToViewPdf}
+                            onClick={()=>{navigateToViewPdf(document.filename, document.userCreateID)}}
                           >
                             <RemoveRedEyeRoundedIcon
                               fontSize="inherit"
@@ -325,10 +328,10 @@ function ListDocs() {
                           <StyledIconButton
                             size="small"
                             onClick={() => {
-                              setDeleteId(document.Id)
+                              setDeleteId(document.filename)
                               setOpenDeleteModal({
                                 isShow: true,
-                                doc_id: document.Id,
+                                doc_id: document.filename,
                               })
                             }}
                           >
@@ -364,16 +367,20 @@ function ListDocs() {
                   {documentListOther
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((document, index) => (
-                      <TableRow key={document.Id}>
+                      <TableRow key={document.filename}>
                         <TableCell component="th" scope="row">
                           {page * 3 + index + 1}
                         </TableCell>
                         <TableCell>
                           <ThemeProvider theme={theme}>
-                            <Typography>{document.namefile}</Typography>
+                            <Typography>{document.filename}</Typography>
                             <Typography variant="subtitle1">
-                              From: {document.senderName}
+                              From: {document.createrName}
+                              {document.infoReceive.map((item) => {
+                                return <div>{item}</div>
+                              })}
                             </Typography>
+
                           </ThemeProvider>
                         </TableCell>
                         {document.status == 1 ? (
@@ -396,7 +403,7 @@ function ListDocs() {
                         <TableCell align="right">
                           <StyledIconButton
                             size="small"
-                            onClick={navigateToViewPdf}
+                            onClick={()=>{navigateToViewPdf(document.filename, document.userCreateID)}}
                           >
                             <RemoveRedEyeRoundedIcon
                               fontSize="inherit"
@@ -405,21 +412,9 @@ function ListDocs() {
                           </StyledIconButton>
                           <StyledIconButton
                             size="small"
-                            onClick={() => handleDownloadDocument(document.Id)}
+                            onClick={() => handleDownloadDocument(document.filename)}
                           >
                             <DownloadIcon fontSize="inherit" color="success" />
-                          </StyledIconButton>
-                          <StyledIconButton
-                            size="small"
-                            onClick={() => {
-                              setDeleteId(document.Id)
-                              setOpenDeleteModal({
-                                isShow: true,
-                                doc_id: document.Id,
-                              })
-                            }}
-                          >
-                            <DeleteIcon fontSize="inherit" color="error" />
                           </StyledIconButton>
                         </TableCell>
                       </TableRow>

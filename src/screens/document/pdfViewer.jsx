@@ -65,7 +65,7 @@ function a11yProps(index) {
   }
 }
 
-function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
+function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf, uid }) {
   const navigate = useNavigate()
   const [signatureList, setSignatureList] = useState([])
   const [openCreateModal, setOpenCreateModal] = useState(false)
@@ -100,7 +100,7 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
     dispatch(displayLoading())
     axiosConfig
       .get(
-        'http://docusign-env.eba-3jh39c6r.eu-west-1.elasticbeanstalk.com/api/signature/all'
+        'http://localhost:80/api/signature/all'
       )
       .then(
         (response) => {
@@ -118,13 +118,12 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
       dispatch(displayLoading())
       if (signatureList.length > 0) {
         const data = {
-          fileName: `user/${userId}/documents/${fileNamePdf}`,
-          // imageName: imageTab1,
+          fileName: `user/${uid}/documents/${fileNamePdf}`,
         }
 
         axiosConfig
           .post(
-            'http://docusign-env.eba-3jh39c6r.eu-west-1.elasticbeanstalk.com/api/document/fileDimension',
+            'http://localhost:80/api/document/fileDimension',
             data
           )
           .then(
@@ -151,7 +150,7 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
 
       axiosConfig
         .post(
-          'http://docusign-env.eba-3jh39c6r.eu-west-1.elasticbeanstalk.com/api/document/imgDimension',
+          'http://localhost:80/api/document/imgDimension',
           data
         )
         .then(
@@ -168,19 +167,10 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
 
   useEffect(() => {
     handleFetchSignatureList()
-  }, [handleFetchSignatureList])
+  }, [])
 
   fetchSizeData()
 
-  // useEffect(() => {
-  // }, [])
-  // if (signatureList.length > 0){
-  //     fetchSizeData()
-  // }
-
-  // useEffect(() => {
-  //   fetchSizeData()
-  // }, [dispatch, fetchSizeData])
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber.currentPage)
@@ -240,7 +230,7 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf }) {
     dispatch(displayLoading())
     axiosConfig
       .post(
-        'http://docusign-env.eba-3jh39c6r.eu-west-1.elasticbeanstalk.com/api/document/sign',
+        'http://localhost:80/api/document/sign',
         data
       )
       .then(

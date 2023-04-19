@@ -86,7 +86,7 @@ function PdfViewer({ isShowChooseImage, isOtherSign }) {
 
     axios
       .post(
-        'http://docusign-env.eba-3jh39c6r.eu-west-1.elasticbeanstalk.com/api/document/fileDimension',
+        'http://localhost:80/api/document/fileDimension',
         data
       )
       .then(
@@ -164,7 +164,7 @@ function PdfViewer({ isShowChooseImage, isOtherSign }) {
     dispatch(displayLoading())
     await axios
       .post(
-        'http://docusign-env.eba-3jh39c6r.eu-west-1.elasticbeanstalk.com/api/document/sign',
+        'http://localhost:80/api/document/sign',
         data
       )
       .then(
