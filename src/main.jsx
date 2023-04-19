@@ -27,6 +27,7 @@ import SetupInterceptors from './utils/SetupInterceptors.js'
 import Review from './screens/document/Review'
 import ViewPDF from './screens/document/ViewPdfOnly'
 import OtherSignV2 from './screens/document/OtherSignV2'
+import OtherSignPdf from "./screens/document/OtherSignV2";
 
 function NavigateFunctionComponent() {
   const [ran, setRan] = useState(false)
@@ -108,7 +109,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             path="other/signPDF"
             element={
               <RequiredAuth>
-                <OtherSignV2 isShowChooseImage={true} isOtherSign={true} />
+                <OtherSignPdf/>
               </RequiredAuth>
             }
           />
@@ -135,7 +136,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 )
 
 function RequiredAuth({ children }) {
-  const location = useLocation()
+  const location = window.location.href
+  console.log(location)
+
 
   if (
     !localStorage.signaText_accessToken ||
@@ -143,7 +146,8 @@ function RequiredAuth({ children }) {
     !localStorage.expiryDate ||
     localStorage.expiryDate === 'undefined'
   ) {
-    return <Navigate to="/login" state={{ from: location }} />
+    return <Navigate to="/login" state={{ from: location
+    }} />
   }
 
   if (
@@ -153,7 +157,8 @@ function RequiredAuth({ children }) {
     const expiryDate = new Date(localStorage.getItem('expiryDate'))
     const dateNow = new Date(Date.now())
     if (expiryDate <= dateNow) {
-      return <Navigate to="/login" state={{ from: location }} />
+      return <Navigate to="/login" state={{ from: location
+      }} />
     }
   }
 

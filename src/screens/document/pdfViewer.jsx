@@ -89,7 +89,6 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf, uid 
   const viewerContainerRef = useRef(null)
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const dispatch = useDispatch()
-  const userId = localStorage.getItem('uid')
 
   const handleViewerLoad = () => {
     const viewerContainerRect =
@@ -144,7 +143,7 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf, uid 
     dispatch(displayLoading())
     if (signatureList.length > 0) {
       const data = {
-        fileName: `user/${userId}/documents/${fileNamePdf}`,
+        fileName: `user/${uid}/documents/${fileNamePdf}`,
         imageName: url,
       }
 
@@ -224,7 +223,7 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf, uid 
       x_coor: parseFloat(ratio.toFixed(3)),
       y_coor: parseFloat(bottomSize.toFixed(3)),
       current_page: currentPage,
-      fileName: `user/${userId}/documents/${fileNamePdf}`,
+      fileName: `user/${uid}/documents/${fileNamePdf}`,
       imageFile: imageTab1,
     }
     dispatch(displayLoading())
@@ -236,10 +235,15 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf, uid 
       .then(
         (response) => {
           if (response.data.message == 'Success') {
+            console.log(recipientList)
             dispatch(closeLoading())
-            navigate('/document/review', {
-              state: { recipientList, fileNamePdf, urlPdf },
-            })
+            if (!recipientList){
+              navigate('/document/list')
+            }else{
+              navigate('/document/review', {
+                state: { recipientList, fileNamePdf, urlPdf },
+              })
+            }
           }
         },
         (error) => {}
