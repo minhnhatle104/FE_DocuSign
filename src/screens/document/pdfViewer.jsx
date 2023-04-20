@@ -225,6 +225,7 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf, uid,
       current_page: currentPage,
       fileName: `user/${uid}/documents/${fileNamePdf}`,
       imageFile: imageTab1,
+      isSignKey,
     }
     dispatch(displayLoading())
     axiosConfig

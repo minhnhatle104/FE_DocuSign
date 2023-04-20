@@ -4,20 +4,23 @@ import StepInit from './StepInit.jsx'
 import React, {useState} from 'react'
 import PdfViewer from './pdfViewer.jsx'
 import '/src/assets/css/style.css'
-import { useLocation, useNavigate } from 'react-router-dom'
+import {useLocation, useNavigate, useSearchParams} from 'react-router-dom'
 import Layout from '../../components/Layout/index.jsx'
 import {useEffect} from "react";
 import axiosConfig from "../../utils/axiosConfig.js";
 
 function OtherSignPdf() {
   const [signedURL, setSignedURL] = useState('')
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const navigate = useNavigate()
   const navigateToPrevStep = () => {
     navigate('/document/recipientInfo')
   }
   // const userId = localStorage.getItem('uid')
-  const filename = window.location.href.toString().split("filename=")[1]
-  const owner = window.location.href.toString().split("owner=")[1].split("&")[0]
+  const filename = searchParams.get("filename")
+  const owner = searchParams.get("owner")
+  const isSignKey = searchParams.get("isSignKey") == 'true'?true:false
   const revID =  localStorage.getItem('uid')
 
   useEffect(()=>{
@@ -58,8 +61,7 @@ function OtherSignPdf() {
                 fileNamePdf={filename}
                 urlPdf={signedURL}
                 uid={owner}
-                isSignKey
-                // revID={revID}
+                isSignKey={isSignKey}
             />
           </Layout>
         </Box>
