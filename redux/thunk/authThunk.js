@@ -11,6 +11,8 @@ import { fireStoreDB, getFirebaseApp } from '../../utils/firebase-config'
 import { getUserData } from '../../utils/userActions'
 import { authenticate, logout } from '../slice/authSlice'
 import { closeLoading, displayLoading } from '../slice/loadingSlice'
+import axiosConfig from "../../src/utils/axiosConfig.js";
+import SetupInterceptors from "../../src/utils/SetupInterceptors.js";
 
 let timer
 
@@ -33,12 +35,29 @@ export const signUpApi = (formValues) => {
 
       const userData = await createUser(email, full_name, phone_number, uid)
 
-      dispatch(authenticate({ token: accessToken, userData }))
-
+      const newUser = {
+        _id: uid,
+        email,
+        phone: phone_number,
+        fullname: full_name,
+        //Vy có thể thêm attribute liên quan tới Key ở đây nha
+        // private_key
+        //publick_key,
+      }
+      const data = {
+        newUser
+      }
       localStorage.setItem('signaText_accessToken', accessToken)
       localStorage.setItem('uid', uid)
       localStorage.setItem('expiryDate', expiryDate)
+      SetupInterceptors()
+      axiosConfig.post('http://localhost:80/api/authentication/addUser', data).then((response)=>{
+        if(response.status == 200 && response.data.isSuccess == true){
+          console.log("Success")
+        }
+      })
 
+      dispatch(authenticate({ token: accessToken, userData }))
       dispatch(closeLoading())
 
       timer = setTimeout(() => {
