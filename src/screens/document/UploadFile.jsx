@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box'
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import Button from '@mui/material/Button'
 import StepInit from './StepInit.jsx'
 import Layout from '../../components/Layout/index.jsx'
@@ -13,10 +13,16 @@ import {
 import { v4 as uuidv4 } from 'uuid'
 import axiosConfig from '../../utils/axiosConfig.js'
 import { useDispatch } from 'react-redux'
+import {Checkbox, FormControlLabel, Typography} from "@mui/material";
 function UploadFile() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const fileDocumentRef = useRef(null)
+  const [isSignKey, setSignKey] = useState(true)
+
+  useEffect(() => {
+    console.log(isSignKey);
+  }, [isSignKey])
 
   const navigateToHomepage = () => {
     navigate('/')
@@ -49,18 +55,23 @@ function UploadFile() {
       .then(
         (response) => {
           dispatch(closeLoading())
-          // navigate('/document/recipientInfo')
           const file_name = response.data.result.document.file_name
           const file_url = response.data.result.document.file_url
           navigate('/document/recipientInfo', {
-            state: { file_name, file_url },
+            state: { file_name, file_url, isSignKey },
           })
         },
         (error) => {
           dispatch(closeLoading())
         }
       )
-  }, [dispatch, navigate])
+  }, [dispatch, navigate, isSignKey])
+
+  const handleChangeCheckBox = (event) => {
+    const status = event.target.checked
+    setSignKey(status)
+  }
+
 
   return (
     <>
@@ -85,6 +96,31 @@ function UploadFile() {
           <StepInit step={0} />
         </Layout>
         <UploadSignature ref={fileDocumentRef} />
+        <div className="d-flex float-right">
+          <Box>
+            <FormControlLabel
+                style={{
+                  marginTop: 5,
+                }}
+                control={
+                  <Checkbox
+                      checked={isSignKey}
+                      onChange={handleChangeCheckBox}
+                  />
+                }
+                label={
+                  <Typography
+                      style={{
+                        fontSize: 14,
+                        color: '#646464',
+                      }}
+                  >
+                    Sign With Pair Of Keys
+                  </Typography>
+                }
+            />
+          </Box>
+        </div>
       </Box>
     </>
   )

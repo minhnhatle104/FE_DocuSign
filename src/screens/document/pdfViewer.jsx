@@ -65,7 +65,7 @@ function a11yProps(index) {
   }
 }
 
-function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf, uid }) {
+function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf, uid, isSignKey }) {
   const navigate = useNavigate()
   const [signatureList, setSignatureList] = useState([])
   const [openCreateModal, setOpenCreateModal] = useState(false)
@@ -241,7 +241,7 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf, uid 
               navigate('/document/list')
             }else{
               navigate('/document/review', {
-                state: { recipientList, fileNamePdf, urlPdf },
+                state: { recipientList, fileNamePdf, urlPdf, isSignKey },
               })
             }
           }

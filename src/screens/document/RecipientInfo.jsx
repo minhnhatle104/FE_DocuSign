@@ -14,6 +14,7 @@ function RecipientInfo() {
   const prevData = useLocation()
   const selectPdf = prevData.state.file_name
   const pdfURl = prevData.state.file_url
+  const isSignKey = prevData.state.isSignKey
   const [recipientList, setRecipientList] = useState([
     {
       name: '',
@@ -102,7 +103,7 @@ function RecipientInfo() {
 
     if (isCompletedForm && !isError) {
       navigate('/document/signPDF', {
-        state: { recipientList, selectPdf, pdfURl },
+        state: { recipientList, selectPdf, pdfURl, isSignKey },
       })
     } else {
       alert('Please set up recipient info!')

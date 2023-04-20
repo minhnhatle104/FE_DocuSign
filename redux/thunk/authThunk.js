@@ -40,9 +40,6 @@ export const signUpApi = (formValues) => {
         email,
         phone: phone_number,
         fullname: full_name,
-        //Vy có thể thêm attribute liên quan tới Key ở đây nha
-        // private_key
-        //publick_key,
       }
       const data = {
         newUser

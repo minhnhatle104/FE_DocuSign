@@ -58,6 +58,7 @@ function OtherSignPdf() {
                 fileNamePdf={filename}
                 urlPdf={signedURL}
                 uid={owner}
+                isSignKey
                 // revID={revID}
             />
           </Layout>

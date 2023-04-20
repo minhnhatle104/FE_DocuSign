@@ -43,6 +43,7 @@ function Review() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { state } = useLocation()
+  console.log(state)
   const userId = localStorage.getItem('uid')
 
     const navigateToPrevStep = () => {
@@ -111,6 +112,7 @@ function Review() {
                 fileNamePdf={state.fileNamePdf}
                 urlPdf={state.urlPdf}
                 uid={userId}
+                isSignKey={state.isSignKey}
               />
             </div>
           </div>
