@@ -36,8 +36,6 @@ export const signUpApi = (formValues) => {
       const userData = await createUser(email, full_name, phone_number, uid)
 
       const newUser = {
-        _id: uid,
-        email,
         phone: phone_number,
         fullname: full_name,
       }
