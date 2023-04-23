@@ -31,7 +31,12 @@ const DeleteSignature = ({ open, onClose, onClickCancel, onClickConfirm }) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={onClickCancel}>Cancel</Button>
-        <Button id="btnDeleteSignature" color="error" variant="contained" onClick={onClickConfirm}>
+        <Button
+          id="btnDeleteSignature"
+          color="error"
+          variant="contained"
+          onClick={onClickConfirm}
+        >
           Delete
         </Button>
       </DialogActions>

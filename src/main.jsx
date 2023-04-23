@@ -1,12 +1,7 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom/client'
-import {
-  BrowserRouter,
-  Navigate,
-  Route,
-  Routes,
-  useLocation,
-} from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { ApolloProvider } from '@apollo/client'
 
 import ForgotPasswordEmail from './screens/common/ForgotPasswordEmail.jsx'
 import ForgotPasswordOtp from './screens/common/ForgotPasswordOtp.jsx'
@@ -26,8 +21,8 @@ import Loading from './components/Loading/Loading.jsx'
 import SetupInterceptors from './utils/SetupInterceptors.js'
 import Review from './screens/document/Review'
 import ViewPDF from './screens/document/ViewPdfOnly'
-import OtherSignV2 from './screens/document/OtherSignV2'
-import OtherSignPdf from "./screens/document/OtherSignV2";
+import OtherSignPdf from './screens/document/OtherSignV2'
+import { client } from './ApolloClient.js'
 
 function NavigateFunctionComponent() {
   const [ran, setRan] = useState(false)
@@ -40,105 +35,109 @@ function NavigateFunctionComponent() {
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <Loading />
-      <NavigateFunctionComponent />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <RequiredAuth>
-              <HomePage />
-            </RequiredAuth>
-          }
-        />
+  <ApolloProvider client={client}>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Loading />
+        <NavigateFunctionComponent />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <RequiredAuth>
+                <HomePage />
+              </RequiredAuth>
+            }
+          />
 
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="/register" element={<RegisterForm />} />
-        <Route path="/register/otp" element={<OtpRegisterForm />} />
-        <Route path="/forgotPassword/email" element={<ForgotPasswordEmail />} />
-        <Route path="/forgotPassword/otp" element={<ForgotPasswordOtp />} />
-        <Route
-          path="/forgotPassword/confirm"
-          element={<ForgotPasswordMain />}
-        />
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/register" element={<RegisterForm />} />
+          <Route path="/register/otp" element={<OtpRegisterForm />} />
+          <Route
+            path="/forgotPassword/email"
+            element={<ForgotPasswordEmail />}
+          />
+          <Route path="/forgotPassword/otp" element={<ForgotPasswordOtp />} />
+          <Route
+            path="/forgotPassword/confirm"
+            element={<ForgotPasswordMain />}
+          />
 
-        <Route path="document">
+          <Route path="document">
+            <Route
+              path="upload"
+              element={
+                <RequiredAuth>
+                  <UploadFile />
+                </RequiredAuth>
+              }
+            />
+            <Route
+              path="recipientInfo"
+              element={
+                <RequiredAuth>
+                  <RecipientInfo />
+                </RequiredAuth>
+              }
+            />
+            <Route
+              path="signPDF"
+              element={
+                <RequiredAuth>
+                  <ViewPdf_Sign />
+                </RequiredAuth>
+              }
+            />
+            <Route
+              path="Review"
+              element={
+                <RequiredAuth>
+                  <Review />
+                </RequiredAuth>
+              }
+            />
+            <Route
+              path="viewPDF"
+              element={
+                <RequiredAuth>
+                  <ViewPDF />
+                </RequiredAuth>
+              }
+            />
+            <Route
+              path="other/signPDF"
+              element={
+                <RequiredAuth>
+                  <OtherSignPdf />
+                </RequiredAuth>
+              }
+            />
+            <Route
+              path="list"
+              element={
+                <RequiredAuth>
+                  <ListDocs />
+                </RequiredAuth>
+              }
+            />
+          </Route>
           <Route
-            path="upload"
+            path="/signature-management"
             element={
               <RequiredAuth>
-                <UploadFile />
+                <ManageSignature />
               </RequiredAuth>
             }
           />
-          <Route
-            path="recipientInfo"
-            element={
-              <RequiredAuth>
-                <RecipientInfo />
-              </RequiredAuth>
-            }
-          />
-          <Route
-            path="signPDF"
-            element={
-              <RequiredAuth>
-                <ViewPdf_Sign />
-              </RequiredAuth>
-            }
-          />
-          <Route
-            path="Review"
-            element={
-              <RequiredAuth>
-                <Review />
-              </RequiredAuth>
-            }
-          />
-          <Route
-            path="viewPDF"
-            element={
-              <RequiredAuth>
-                <ViewPDF />
-              </RequiredAuth>
-            }
-          />
-          <Route
-            path="other/signPDF"
-            element={
-              <RequiredAuth>
-                <OtherSignPdf/>
-              </RequiredAuth>
-            }
-          />
-          <Route
-            path="list"
-            element={
-              <RequiredAuth>
-                <ListDocs />
-              </RequiredAuth>
-            }
-          />
-        </Route>
-        <Route
-          path="/signature-management"
-          element={
-            <RequiredAuth>
-              <ManageSignature />
-            </RequiredAuth>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
-  </Provider>
+        </Routes>
+      </BrowserRouter>
+    </Provider>
+  </ApolloProvider>
 )
 
 function RequiredAuth({ children }) {
   const location = window.location.href
   console.log(location)
-
 
   if (
     !localStorage.signaText_accessToken ||
@@ -146,8 +145,7 @@ function RequiredAuth({ children }) {
     !localStorage.expiryDate ||
     localStorage.expiryDate === 'undefined'
   ) {
-    return <Navigate to="/login" state={{ from: location
-    }} />
+    return <Navigate to="/login" state={{ from: location }} />
   }
 
   if (
@@ -157,8 +155,7 @@ function RequiredAuth({ children }) {
     const expiryDate = new Date(localStorage.getItem('expiryDate'))
     const dateNow = new Date(Date.now())
     if (expiryDate <= dateNow) {
-      return <Navigate to="/login" state={{ from: location
-      }} />
+      return <Navigate to="/login" state={{ from: location }} />
     }
   }
 
