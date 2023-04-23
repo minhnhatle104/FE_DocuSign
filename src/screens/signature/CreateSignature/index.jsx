@@ -9,17 +9,11 @@ import {
 import React, { useCallback, useRef, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import TabPanel from '../../../components/TabPanel'
-import axiosConfig from '../../../utils/axiosConfig'
 import DrawSignature from '../DrawSignature'
 import { StyledDialog } from './styles'
 import UploadSignature from '../UploadSignature'
-import { useDispatch } from 'react-redux'
-import {
-  closeLoading,
-  displayLoading,
-} from '../../../../redux/slice/loadingSlice'
 
-const CreateSignature = ({ open, handleClose, handleFetchSignatureList }) => {
+const CreateSignature = ({ open, handleClose, addSignature }) => {
   const [value, setValue] = useState(0)
   const canvasSignatureRef = useRef(null)
   const fileSignatureRef = useRef(null)
@@ -28,11 +22,8 @@ const CreateSignature = ({ open, handleClose, handleFetchSignatureList }) => {
     setValue(newValue)
   }, [])
 
-  const dispatch = useDispatch()
-
   const handleAddSignature = useCallback(async () => {
     handleClose()
-    dispatch(displayLoading())
     const userId = localStorage.getItem('uid')
     const id = uuidv4()
     const fileName = `${userId}_signature_${id}.png`
@@ -57,29 +48,12 @@ const CreateSignature = ({ open, handleClose, handleFetchSignatureList }) => {
       )
     }
 
-    const payload = Object.assign({}, signatureFile && { file: signatureFile })
+    if (!signatureFile) {
+      return
+    }
 
-    const formData = new FormData()
-    formData.append('file', payload.file)
-
-    axiosConfig
-      .post(
-        'http://localhost:80/api/signature/upload',
-        formData,
-        {
-          headers: 'multipart/form-data',
-        }
-      )
-      .then(
-        (response) => {
-          dispatch(closeLoading())
-          handleFetchSignatureList()
-        },
-        (error) => {
-          dispatch(closeLoading())
-        }
-      )
-  }, [dispatch, handleClose, handleFetchSignatureList, value])
+    addSignature(signatureFile)
+  }, [addSignature, handleClose, value])
 
   return (
     <StyledDialog open={open} onClose={handleClose}>

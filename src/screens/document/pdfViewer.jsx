@@ -1,4 +1,10 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import {
   Viewer,
   Worker,
@@ -35,6 +41,9 @@ import axiosConfig from '../../utils/axiosConfig.js'
 import Image from 'mui-image'
 import { StyledTablePagination } from '../signature/ManageSignature/styles.js'
 import CreateSignature from '../signature/CreateSignature/index.jsx'
+import { useLazyQuery, useMutation } from '@apollo/client'
+import { GET_SIGNATURE_LIST } from '../../data/queries/get-signature-list'
+import { ADD_SIGNATURE } from '../../data/mutations/add-signature'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -65,9 +74,15 @@ function a11yProps(index) {
   }
 }
 
-function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf, uid, isSignKey }) {
+function PdfViewer({
+  isShowChooseImage,
+  recipientList,
+  fileNamePdf,
+  urlPdf,
+  uid,
+  isSignKey,
+}) {
   const navigate = useNavigate()
-  const [signatureList, setSignatureList] = useState([])
   const [openCreateModal, setOpenCreateModal] = useState(false)
   const [value, setValue] = useState(0)
   const [imageTab1, setImageTab1] = useState(null)
@@ -95,22 +110,54 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf, uid,
       viewerContainerRef.current.getBoundingClientRect()
   }
 
-  function handleFetchSignatureList() {
-    dispatch(displayLoading())
-    axiosConfig
-      .get(
-        'http://localhost:80/api/signature/all'
-      )
-      .then(
-        (response) => {
-          dispatch(closeLoading())
-          setSignatureList(response.data.result.signatures || [])
+  const [getSignatureList, { loading: signatureListLoading, data }] =
+    useLazyQuery(GET_SIGNATURE_LIST)
+
+  const signatureList = useMemo(
+    () => (data && data.signatureList.result) || [],
+    [data]
+  )
+
+  const handleFetchSignatureList = useCallback(() => {
+    getSignatureList({ fetchPolicy: 'no-cache' })
+  }, [getSignatureList])
+
+  const [
+    addSignature,
+    { loading: addSignatureLoading, data: addSignatureData },
+  ] = useMutation(ADD_SIGNATURE)
+
+  const handleAddSignature = useCallback(
+    (file) => {
+      addSignature({
+        variables: {
+          file,
         },
-        (error) => {
-          dispatch(closeLoading())
-        }
-      )
-  }
+      })
+    },
+    [addSignature]
+  )
+
+  useEffect(() => {
+    handleFetchSignatureList()
+  }, [handleFetchSignatureList])
+
+  useEffect(() => {
+    if (addSignatureData) {
+      setTimeout(() => {
+        handleFetchSignatureList()
+      }, 500)
+    }
+  }, [addSignatureData, handleFetchSignatureList])
+
+  useEffect(() => {
+    if (signatureListLoading || addSignatureLoading) {
+      dispatch(displayLoading())
+      return
+    }
+
+    dispatch(closeLoading())
+  }, [addSignatureLoading, dispatch, signatureListLoading])
 
   function fetchSizeData() {
     if (fileHeight == 0) {
@@ -121,10 +168,7 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf, uid,
         }
 
         axiosConfig
-          .post(
-            'http://localhost:80/api/document/fileDimension',
-            data
-          )
+          .post('http://localhost:80/api/document/fileDimension', data)
           .then(
             (response) => {
               setFileHeight(response.data.fileHeight + 50)
@@ -148,10 +192,7 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf, uid,
       }
 
       axiosConfig
-        .post(
-          'http://localhost:80/api/document/imgDimension',
-          data
-        )
+        .post('http://localhost:80/api/document/imgDimension', data)
         .then(
           (response) => {
             setIMGHeight(response.data.imageHeight)
@@ -164,12 +205,7 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf, uid,
     }
   }
 
-  useEffect(() => {
-    handleFetchSignatureList()
-  }, [])
-
   fetchSizeData()
-
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber.currentPage)
@@ -228,27 +264,22 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf, uid,
       isSignKey,
     }
     dispatch(displayLoading())
-    axiosConfig
-      .post(
-        'http://localhost:80/api/document/sign',
-        data
-      )
-      .then(
-        (response) => {
-          if (response.data.message == 'Success') {
-            console.log(recipientList)
-            dispatch(closeLoading())
-            if (!recipientList){
-              navigate('/document/list')
-            }else{
-              navigate('/document/review', {
-                state: { recipientList, fileNamePdf, urlPdf, isSignKey },
-              })
-            }
+    axiosConfig.post('http://localhost:80/api/document/sign', data).then(
+      (response) => {
+        if (response.data.message == 'Success') {
+          console.log(recipientList)
+          dispatch(closeLoading())
+          if (!recipientList) {
+            navigate('/document/list')
+          } else {
+            navigate('/document/review', {
+              state: { recipientList, fileNamePdf, urlPdf, isSignKey },
+            })
           }
-        },
-        (error) => {}
-      )
+        }
+      },
+      (error) => {}
+    )
   }
 
   const handleChange = (event, newValue) => {
@@ -392,7 +423,7 @@ function PdfViewer({ isShowChooseImage, recipientList, fileNamePdf, urlPdf, uid,
                   <CreateSignature
                     open={openCreateModal}
                     handleClose={() => setOpenCreateModal(false)}
-                    handleFetchSignatureList={handleFetchSignatureList}
+                    addSignature={handleAddSignature}
                   />
                 </div>
               </TabPanel>

@@ -14,9 +14,8 @@ import {
 } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import Image from 'mui-image'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState, useMemo } from 'react'
 import Layout from '../../../components/Layout'
-import axiosConfig from '../../../utils/axiosConfig'
 import CreateSignature from '../CreateSignature'
 import { StyledIconButton, StyledTablePagination } from './styles'
 import DeleteSignature from '../DeleteSignature'
@@ -25,9 +24,12 @@ import {
   closeLoading,
   displayLoading,
 } from '../../../../redux/slice/loadingSlice'
+import { useMutation, useLazyQuery } from '@apollo/client'
+import { GET_SIGNATURE_LIST } from '../../../data/queries/get-signature-list'
+import { DELETE_SIGNATURE } from '../../../data/mutations/delete-signature'
+import { ADD_SIGNATURE } from '../../../data/mutations/add-signature'
 
 const ManageSignature = () => {
-  const [signatureList, setSignatureList] = useState([])
   const [openCreateModal, setOpenCreateModal] = useState(false)
   const [deleteFileName, setDeleteFileName] = useState()
   const [openDeleteModal, setOpenDeleteModal] = useState(false)
@@ -36,26 +38,54 @@ const ManageSignature = () => {
 
   const dispatch = useDispatch()
 
+  const [getSignatureList, { loading: signatureListLoading, data }] =
+    useLazyQuery(GET_SIGNATURE_LIST)
+
+  const signatureList = useMemo(
+    () => (data && data.signatureList.result) || [],
+    [data]
+  )
+
   const handleFetchSignatureList = useCallback(() => {
-    dispatch(displayLoading())
-    axiosConfig
-      .get(
-        'http://localhost:80/api/signature/all'
-      )
-      .then(
-        (response) => {
-          dispatch(closeLoading())
-          setSignatureList(response.data.result.signatures || [])
-        },
-        (error) => {
-          dispatch(closeLoading())
-        }
-      )
-  }, [dispatch])
+    getSignatureList({ fetchPolicy: 'no-cache' })
+  }, [getSignatureList])
+
+  const [
+    deleteSignature,
+    { loading: deleteSignatureLoading, data: deleteSignatureData },
+  ] = useMutation(DELETE_SIGNATURE)
+
+  const [
+    addSignature,
+    { loading: addSignatureLoading, data: addSignatureData },
+  ] = useMutation(ADD_SIGNATURE)
 
   useEffect(() => {
     handleFetchSignatureList()
-  }, [dispatch, handleFetchSignatureList])
+  }, [handleFetchSignatureList])
+
+  useEffect(() => {
+    if (deleteSignatureData || addSignatureData) {
+      setTimeout(() => {
+        handleFetchSignatureList()
+      }, 500)
+    }
+  }, [addSignatureData, deleteSignatureData, handleFetchSignatureList])
+
+  useEffect(() => {
+    if (signatureListLoading || deleteSignatureLoading || addSignatureLoading) {
+      dispatch(displayLoading())
+      return
+    }
+
+    dispatch(closeLoading())
+  }, [
+    addSignatureLoading,
+    data,
+    deleteSignatureLoading,
+    dispatch,
+    signatureListLoading,
+  ])
 
   const handleChangePage = useCallback((event, newPage) => {
     setPage(newPage)
@@ -63,28 +93,24 @@ const ManageSignature = () => {
 
   const handleDeleteSignature = useCallback(() => {
     setOpenDeleteModal(false)
-    dispatch(displayLoading())
+    setPage(0)
+    deleteSignature({
+      variables: {
+        fileName: deleteFileName,
+      },
+    })
+  }, [deleteFileName, deleteSignature])
 
-    axiosConfig
-      .delete(
-        'http://localhost:80/api/signature/delete',
-        {
-          data: {
-            file_name: deleteFileName,
-          },
-        }
-      )
-      .then(
-        (response) => {
-          dispatch(closeLoading())
-          setPage(0)
-          handleFetchSignatureList()
+  const handleAddSignature = useCallback(
+    (file) => {
+      addSignature({
+        variables: {
+          file,
         },
-        (error) => {
-          dispatch(closeLoading())
-        }
-      )
-  }, [deleteFileName, dispatch, handleFetchSignatureList])
+      })
+    },
+    [addSignature]
+  )
 
   return (
     <Layout>
@@ -138,7 +164,7 @@ const ManageSignature = () => {
                     </TableCell>
                     <TableCell>
                       <StyledIconButton
-                          id={index + "_signature"}
+                        id={index + '_signature'}
                         size="medium"
                         onClick={() => {
                           setDeleteFileName(signature.file_name)
@@ -174,7 +200,7 @@ const ManageSignature = () => {
       <CreateSignature
         open={openCreateModal}
         handleClose={() => setOpenCreateModal(false)}
-        handleFetchSignatureList={handleFetchSignatureList}
+        addSignature={handleAddSignature}
       />
       <DeleteSignature
         open={openDeleteModal}
