@@ -4,7 +4,7 @@ import { setContext } from '@apollo/client/link/context'
 
 const httpLink = createUploadLink({
   headers: { 'Apollo-Require-Preflight': 'true' },
-  uri: `http://localhost:4000/graphql`,
+  uri: `http://localhost:80/graphql`,
 })
 
 const authLink = setContext((_, { headers }) => {
