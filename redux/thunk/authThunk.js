@@ -4,15 +4,14 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth'
 // Add a second document with a generated ID.
-import { addDoc, collection, doc, setDoc } from 'firebase/firestore'
+import { doc, setDoc } from 'firebase/firestore'
 import Swal from 'sweetalert2'
-
 import { fireStoreDB, getFirebaseApp } from '../../utils/firebase-config'
 import { getUserData } from '../../utils/userActions'
 import { authenticate, logout } from '../slice/authSlice'
 import { closeLoading, displayLoading } from '../slice/loadingSlice'
-import axiosConfig from "../../src/utils/axiosConfig.js";
-import SetupInterceptors from "../../src/utils/SetupInterceptors.js";
+import SetupInterceptors from '../../src/utils/SetupInterceptors.js'
+import grpcClient from '../../src/grpc/client.js'
 
 let timer
 
@@ -35,22 +34,25 @@ export const signUpApi = (formValues) => {
 
       const userData = await createUser(email, full_name, phone_number, uid)
 
-      const newUser = {
-        phone: phone_number,
-        fullname: full_name,
-      }
-      const data = {
-        newUser
-      }
+      // const newUser = {
+      //   phone: phone_number,
+      //   fullname: full_name,
+      // }
+      // const data = {
+      //   newUser,
+      // }
       localStorage.setItem('signaText_accessToken', accessToken)
       localStorage.setItem('uid', uid)
       localStorage.setItem('expiryDate', expiryDate)
       SetupInterceptors()
-      axiosConfig.post('http://localhost:80/api/authentication/addUser', data).then((response)=>{
-        if(response.status == 200 && response.data.isSuccess == true){
-          console.log("Success")
-        }
-      })
+      grpcClient(email, uid, phone_number, full_name)
+      // axiosConfig
+      //   .post('http://localhost:80/api/authentication/addUser', data)
+      //   .then((response) => {
+      //     if (response.status == 200 && response.data.isSuccess == true) {
+      //       console.log('Success')
+      //     }
+      //   })
 
       dispatch(authenticate({ token: accessToken, userData }))
       dispatch(closeLoading())
