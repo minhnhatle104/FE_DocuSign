@@ -76,6 +76,10 @@ function ListDocs() {
   const [value, setValue] = useState(0)
   const [documentList, setDocumentList] = useState([])
   const [documentListOther, setDocumentListOther] = useState([])
+
+  const [documentListMongo, setDocumentListMongo] = useState([])
+  const [documentListOtherMongo, setDocumentListOtherMongo] = useState([])
+
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(3)
   const [deleteId, setDeleteId] = useState()
@@ -128,21 +132,64 @@ function ListDocs() {
   const handleFetchDocsListOther = useCallback(() => {
     dispatch(displayLoading())
     axiosConfig
+        .get(
+            'http://localhost:80/api/document/other/' +
+            userId +
+            ''
+        )
+        .then(
+            (response) => {
+              dispatch(closeLoading())
+              setDocumentListOther(response.data.list)
+            },
+            (error) => {
+              dispatch(closeLoading())
+            }
+        )
+  }, [dispatch, userId])
+
+
+  const handleFetchDocsListOwnedMongo = useCallback(() => {
+    dispatch(displayLoading())
+    axiosConfig
       .get(
-        'http://localhost:80/api/document/other/' +
+        'http://localhost:80/api/document/ownedByKey/' +
           userId +
           ''
       )
       .then(
         (response) => {
           dispatch(closeLoading())
-          setDocumentListOther(response.data.list)
+          setDocumentListMongo(response.data.list)
+        // setTimeout(()=>{
+          //     console.log(documentList)
+          // }, 2000)
         },
         (error) => {
           dispatch(closeLoading())
         }
       )
   }, [dispatch, userId])
+  const handleFetchDocsListOtherMongo = useCallback(() => {
+    dispatch(displayLoading())
+    axiosConfig
+      .get(
+        'http://localhost:80/api/document/otherByKey/' +
+          userId +
+          ''
+      )
+      .then(
+        (response) => {
+          dispatch(closeLoading())
+          setDocumentListOtherMongo(response.data.list)
+        },
+        (error) => {
+          dispatch(closeLoading())
+        }
+      )
+  }, [dispatch, userId])
+
+
   const handleDeleteDoc = useCallback(() => {
     dispatch(displayLoading())
     axiosConfig
@@ -208,7 +255,10 @@ function ListDocs() {
   useEffect(() => {
     handleFetchDocsListOwned()
     handleFetchDocsListOther()
-  }, [dispatch, handleFetchDocsListOwned, handleFetchDocsListOther])
+    handleFetchDocsListOwnedMongo()
+    handleFetchDocsListOtherMongo()
+
+  }, [dispatch, handleFetchDocsListOwned, handleFetchDocsListOther, handleFetchDocsListOwnedMongo, handleFetchDocsListOtherMongo])
   return (
     <>
       <Layout>
@@ -247,11 +297,21 @@ function ListDocs() {
                 {...a11yProps(0)}
                 sx={{ '&.Mui-selected': { outline: 'none' } }}
               />
+            <Tab
+                label="Self Made With Keys"
+                {...a11yProps(1)}
+                sx={{ '&.Mui-selected': { outline: 'none' } }}
+            />
               <Tab
                 label="Other Made"
-                {...a11yProps(1)}
+                {...a11yProps(2)}
                 sx={{ '&.Mui-selected': {outline: 'none' }}}
               />
+            <Tab
+                label="Other Made With Keys"
+                {...a11yProps(3)}
+                sx={{ '&.Mui-selected': {outline: 'none' }}}
+            />
             </Tabs>
           </Box>
           <TabPanel value={value} index={0}>
@@ -261,6 +321,7 @@ function ListDocs() {
                   <TableRow>
                     <StyledTableCell>No.</StyledTableCell>
                     <StyledTableCell>Name file</StyledTableCell>
+                    <StyledTableCell>Sign Type</StyledTableCell>
                     <StyledTableCell>Status</StyledTableCell>
                     <StyledTableCell>Updated At</StyledTableCell>
                     <StyledTableCell></StyledTableCell>
@@ -286,6 +347,11 @@ function ListDocs() {
                                 return <div>{item}</div>
                               })}
                             </Typography>
+                          </ThemeProvider>
+                        </TableCell>
+                        <TableCell>
+                          <ThemeProvider theme={theme}>
+                            <Typography>{document.isSignKey == true?"Sign With Keys": "Basic Sign"}</Typography>
                           </ThemeProvider>
                         </TableCell>
                         {document.status == 1 ? (
@@ -357,6 +423,109 @@ function ListDocs() {
                   <TableRow>
                     <StyledTableCell>No.</StyledTableCell>
                     <StyledTableCell>Name file</StyledTableCell>
+                    <StyledTableCell>Sign Type</StyledTableCell>
+                    <StyledTableCell>Status</StyledTableCell>
+                    <StyledTableCell>Updated At</StyledTableCell>
+                    <StyledTableCell></StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {documentListMongo
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((document, index) => (
+                      <TableRow key={document.filename}>
+                        <TableCell component="th" scope="row">
+                          {page * 3 + index + 1}
+                        </TableCell>
+                        <TableCell>
+                          <ThemeProvider theme={theme}>
+                            <Typography>{document.filename}</Typography>
+                            <Typography
+                              variant="subtitle1"
+                              style={{ marginTop: 10 }}
+                            >
+                              To:{' '}
+                              {document.infoReceive.map((item) => {
+                                return <div>{item}</div>
+                              })}
+                            </Typography>
+                          </ThemeProvider>
+                        </TableCell>
+                        <TableCell>
+                          <ThemeProvider theme={theme}>
+                            <Typography>{document.isSignKey == true?"Sign With Keys": "Basic Sign"}</Typography>
+                          </ThemeProvider>
+                        </TableCell>
+                        {document.status == 1 ? (
+                          <TableCell sx={{ color: '#5D9C59' }}>
+                            Completed
+                          </TableCell>
+                        ) : (
+                          <TableCell sx={{ color: '#F96666' }}>
+                            Note Completed
+                          </TableCell>
+                        )}
+
+                        <TableCell>
+                          <ThemeProvider theme={theme}>
+                            <Typography>{document.formatDate}</Typography>
+                            <Typography variant="subtitle1">
+                              {document.formatHour}
+                            </Typography>
+                          </ThemeProvider>
+                        </TableCell>
+                        <TableCell align="right">
+                          <StyledIconButton
+                            size="small"
+                            onClick={()=>{navigateToViewPdf(document.filename, document.userCreateID)}}
+                          >
+                            <RemoveRedEyeRoundedIcon
+                              fontSize="inherit"
+                              color="#dfdfdf"
+                            />
+                          </StyledIconButton>
+                          <StyledIconButton
+                            size="small"
+                            onClick={() =>
+                              handleDownloadDocument(document.filename)
+                            }
+                          >
+                            <DownloadIcon fontSize="inherit" color="success" />
+                          </StyledIconButton>
+                          <StyledIconButton
+                            size="small"
+                            onClick={() => {
+                              setDeleteId(document.filename)
+                              setOpenDeleteModal({
+                                isShow: true,
+                                doc_id: document.filename,
+                              })
+                            }}
+                          >
+                            <DeleteIcon fontSize="inherit" color="error" />
+                          </StyledIconButton>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+                <StyledTablePagination
+                  rowsPerPageOptions={[]}
+                  count={documentListMongo.length}
+                  rowsPerPage={3}
+                  page={page}
+                  onPageChange={handleChangePage}
+                />
+              </Table>
+            </TableContainer>
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <TableContainer component={Paper}>
+              <Table aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell>No.</StyledTableCell>
+                    <StyledTableCell>Name file</StyledTableCell>
+                    <StyledTableCell>Sign Type</StyledTableCell>
                     <StyledTableCell>Status</StyledTableCell>
                     <StyledTableCell>Updated At</StyledTableCell>
                     <StyledTableCell></StyledTableCell>
@@ -380,6 +549,11 @@ function ListDocs() {
                               })}
                             </Typography>
 
+                          </ThemeProvider>
+                        </TableCell>
+                        <TableCell>
+                          <ThemeProvider theme={theme}>
+                            <Typography>{document.isSignKey == true?"Sign With Keys": "Basic Sign"}</Typography>
                           </ThemeProvider>
                         </TableCell>
                         {document.status == 1 ? (
@@ -422,6 +596,91 @@ function ListDocs() {
                 <StyledTablePagination
                   rowsPerPageOptions={[]}
                   count={documentList.length}
+                  rowsPerPage={3}
+                  page={page}
+                  onPageChange={handleChangePage}
+                />
+              </Table>
+            </TableContainer>
+          </TabPanel>
+          <TabPanel value={value} index={3}>
+            <TableContainer component={Paper}>
+              <Table aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell>No.</StyledTableCell>
+                    <StyledTableCell>Name file</StyledTableCell>
+                    <StyledTableCell>Sign Type</StyledTableCell>
+                    <StyledTableCell>Status</StyledTableCell>
+                    <StyledTableCell>Updated At</StyledTableCell>
+                    <StyledTableCell></StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {documentListOtherMongo
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((document, index) => (
+                      <TableRow key={document.filename}>
+                        <TableCell component="th" scope="row">
+                          {page * 3 + index + 1}
+                        </TableCell>
+                        <TableCell>
+                          <ThemeProvider theme={theme}>
+                            <Typography>{document.filename}</Typography>
+                            <Typography variant="subtitle1">
+                              From: {document.createrName}
+                              {document.infoReceive.map((item) => {
+                                return <div>{item}</div>
+                              })}
+                            </Typography>
+
+                          </ThemeProvider>
+                        </TableCell>
+                        <TableCell>
+                          <ThemeProvider theme={theme}>
+                            <Typography>{document.isSignKey == true?"Sign With Keys": "Basic Sign"}</Typography>
+                          </ThemeProvider>
+                        </TableCell>
+                        {document.status == 1 ? (
+                          <TableCell sx={{ color: '#5D9C59' }}>
+                            Completed
+                          </TableCell>
+                        ) : (
+                          <TableCell sx={{ color: '#F96666' }}>
+                            Not Completed
+                          </TableCell>
+                        )}
+                        <TableCell>
+                          <ThemeProvider theme={theme}>
+                            <Typography>{document.formatDate}</Typography>
+                            <Typography variant="subtitle1">
+                              {document.formatHour}
+                            </Typography>
+                          </ThemeProvider>
+                        </TableCell>
+                        <TableCell align="right">
+                          <StyledIconButton
+                            size="small"
+                            onClick={()=>{navigateToViewPdf(document.filename, document.userCreateID)}}
+                          >
+                            <RemoveRedEyeRoundedIcon
+                              fontSize="inherit"
+                              color="#dfdfdf"
+                            />
+                          </StyledIconButton>
+                          <StyledIconButton
+                            size="small"
+                            onClick={() => handleDownloadDocument(document.filename)}
+                          >
+                            <DownloadIcon fontSize="inherit" color="success" />
+                          </StyledIconButton>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+                <StyledTablePagination
+                  rowsPerPageOptions={[]}
+                  count={documentListOtherMongo.length}
                   rowsPerPage={3}
                   page={page}
                   onPageChange={handleChangePage}
