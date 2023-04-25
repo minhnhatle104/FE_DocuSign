@@ -35,14 +35,6 @@ const HomePage = () => {
             featureDetails={['Classify document', 'Support quickly']}
             navigate={navigateToManageDocument}
           />
-          <HomePageFeature
-            imageSrc="/img/template_management.png"
-            featureTitle="Manage Template"
-            featureDetails={[
-              'Create, edit, delete your template',
-              'Support quickly',
-            ]}
-          />
         </Box>
       </Box>
     </Layout>
