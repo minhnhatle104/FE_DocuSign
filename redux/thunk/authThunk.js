@@ -12,7 +12,7 @@ import { authenticate, logout } from '../slice/authSlice'
 import { closeLoading, displayLoading } from '../slice/loadingSlice'
 import SetupInterceptors from '../../src/utils/SetupInterceptors.js'
 import grpcClient from '../../src/grpc/client.js'
-
+// import axiosConfig from "../../src/utils/axiosConfig";
 let timer
 
 export const signUpApi = (formValues) => {
