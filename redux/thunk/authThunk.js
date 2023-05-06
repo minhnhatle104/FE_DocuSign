@@ -1,7 +1,9 @@
 import {
+  GoogleAuthProvider,
   createUserWithEmailAndPassword,
   getAuth,
   signInWithEmailAndPassword,
+  signInWithPopup,
 } from 'firebase/auth'
 // Add a second document with a generated ID.
 import { doc, setDoc } from 'firebase/firestore'
@@ -158,5 +160,42 @@ export const userLogout = () => {
     localStorage.clear()
     clearTimeout(timer)
     dispatch(logout())
+  }
+}
+
+export const SignInWithGoogleApi = () => {
+  return async dispatch => {
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+
+        localStorage.setItem('signaText_accessToken', token)
+        localStorage.setItem('uid', user.uid)
+        localStorage.setItem('expiryDate', user.stsTokenManager.expirationTime)
+        SetupInterceptors()
+        grpcClient(user.email, user.uid, user.phoneNumber, user.displayName)
+      }).catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+        Swal.fire({
+          title: 'ERROR !',
+          html: `<h3 class="text-danger">${errorMessage}</h3>`,
+          icon: 'error',
+          confirmButtonText: 'OK',
+        })
+        throw new Error(message)
+      });
   }
 }

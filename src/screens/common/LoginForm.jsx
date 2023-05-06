@@ -16,7 +16,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { signInApi } from '../../../redux/thunk/authThunk.js'
+import { SignInWithGoogleApi, signInApi } from '../../../redux/thunk/authThunk.js'
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
@@ -42,6 +42,7 @@ export default function LoginForm() {
     onSubmit: async (values) => {
       await dispatch(signInApi(values))
       const retUrl = location.state?.from?.pathname || '/'
+      console.log("state: ", retUrl)
       navigate(retUrl)
     },
   })
@@ -152,7 +153,28 @@ export default function LoginForm() {
       </Box>
       <FormControl sx={{ width: 400 }}>
         <Button
-            id="btnLogin"
+          id="btnLogin"
+          type="submit"
+          variant="contained"
+          style={{
+            marginTop: 15,
+            fontSize: 16,
+            fontFamily: 'Quicksand',
+            fontWeight: 'bold',
+          }}
+          onClick={async () => {
+            await dispatch(SignInWithGoogleApi())
+            const retUrl = location.state?.from?.pathname || '/'
+            console.log("state in google: ", retUrl)
+            navigate("/")
+          }}
+        >
+          LOGIN WITH GOOGLE
+        </Button>
+      </FormControl>
+      <FormControl sx={{ width: 400 }}>
+        <Button
+          id="btnLogin"
           type="submit"
           variant="contained"
           style={{
